@@ -71,7 +71,7 @@
 	</menu>
 
 	<menu name="多媒体" icon="gnome-media-player-icon">
-		<app name="影音播放 (gxine)" cmd="gxine" icon="/usr/local/share/icons/xmms.png"/>
+		<app name="影音播放 (vlc)" cmd="vlc" icon="/usr/local/share/icons/xmms.png"/>
 		<app name="音乐播放 (beep-media-player)" cmd="beep-media-player" icon="/usr/local/share/icons/xmms.png"/>
 		<app name="图片浏览 (gqview)" cmd="gqview" icon="/usr/local/share/icons/xmms.png"/>
 	</menu>

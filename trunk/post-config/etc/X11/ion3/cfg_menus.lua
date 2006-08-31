@@ -38,7 +38,7 @@ defmenu("netmenu", {
 -- Multimedia application menu
 defmenu("mediamenu", {
     menuentry("音樂播放 (beep-media-player)",          "ioncore.exec_on(_, 'beep-media-player')"), 
-    menuentry("影音播放 (gxine)",          "ioncore.exec_on(_, 'gxine')"), 
+    menuentry("影音播放 (vlc)",          "ioncore.exec_on(_, 'vlc')"), 
     menuentry("圖片瀏覽 (gqview)",          "ioncore.exec_on(_, 'gqview')"),
 })
 
