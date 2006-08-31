@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="urn:mozilla:install-manifest"
+                   em:id="videodowloader@videodownloader.net"
+                   em:version="1.0"
+                   em:type="2"
+                   em:name="VideoDownloader"
+                   em:description="Download videos from Youtube, Google, Metacafe, iFilm, Dailymotion... and other 60+ video sites ! And all embedded objects on a webpage (movies, mp3s, flash, quicktime, etc)."
+                   em:creator="Javi Moya"
+                   em:homepageURL="http://videodownloader.net/">
+    <em:targetApplication RDF:resource="rdf:#$oJvSz1"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$oJvSz1"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="1.0"
+                   em:maxVersion="1.5.0.*" />
+</RDF:RDF>

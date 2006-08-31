@@ -1,0 +1,5 @@
+content     viddown    chrome/content/
+skin    viddown classic/1.0 chrome/skin/classic/
+style	chrome://global/content/customizeToolbar.xul	chrome://viddown/skin/viddown.css
+
+overlay chrome://browser/content/browser.xul chrome://viddown/content/viddown.xul

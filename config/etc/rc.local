@@ -1,0 +1,57 @@
+#!/usr/bin/perl 
+
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+!system("mv /etc/X11/xorg.conf /etc/X11/xorg.conf.bak") or die "$!\n";
+
+open(XORG_BAK, "</etc/X11/xorg.conf.bak") or die "$!";
+open(XORG, ">/etc/X11/xorg.conf") or die "$!";
+
+for (<XORG_BAK>){
+s!"/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType"!"/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType"\n\tFontPath\t"/usr/share/fonts/truetype/arphic/"!;
+print XORG $_;
+}
+
+close(XORG_BAK); close(XORG); 
+
+!system("sudo chmod a+rwx -R /etc/X11/xinit/") or die "$!\n";
+my $cmdline = `cat /proc/cmdline`;
+if ($cmdline =~ /xfce4/) {
+!system("sudo mv -f /etc/X11/xinit/xinitrc.xfce4 /etc/X11/xinit/xinitrc") or die "$!\n";
+!system("rm -rf /home/ubuntu/.ion3/") or die "$!\n";
+} elsif ($cmdline =~ /simp/) {
+!system("sudo mv -f /etc/X11/xinit/xinitrc.simp /etc/X11/xinit/xinitrc") or die "$!\n";
+!system("rm -rf /home/ubuntu/.ion3/") or die "$!\n";
+!system("sudo mv -f /home/ubuntu/.config/xfce4/desktop/menu.xml.zh_CN /home/ubuntu/.config/xfce4/desktop/menu.xml") or die "$!\n";
+!system("perl -pi -e 's!traditional!simplified!g' /home/ubuntu/.mozilla/firefox/k89vrm68.default/prefs.js") or die "$!\n";
+!system("rm -rf /home/ubuntu/.ion3/") or die "$!\n";
+!system("perl -pi -e 's!Exec=firefox!Exec=firefox -UILocale zh-CN -contentLocale zh-CN!g' /home/ubuntu/.config/xfce4/panel/launcher-11524750113.rc") or die "$!\n";
+!system("perl -pi -e 's!碟!盘!g' /usr/local/bin/mount-partition.pl") or die "$!\n";
+} else {
+#!system("sudo mv -f /etc/X11/xinit/xinitrc.ion3 /etc/X11/xinit/xinitrc") or die "$!\n";
+!system("rm -rf /home/ubuntu/.config/") or die "$!\n";
+}
+
+open(GROUP, "/etc/group") or die "$!";
+
+my $f;
+for (<GROUP>) {
+$f = 1 if /devplug/;
+}
+unless ($f) {
+!system("addgroup devplug") or die "$!\n";
+}
+!system("adduser ubuntu devplug") or die "$!\n";
+
+close(GROUP);
+exit 0
