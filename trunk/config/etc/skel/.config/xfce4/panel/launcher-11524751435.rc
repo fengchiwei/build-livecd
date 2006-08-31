@@ -1,0 +1,7 @@
+[Entry 0]
+Name=影音播放 (gxine)\ 
+Exec=gxine
+Terminal=false
+StartupNotify=false
+Icon=/usr/local/share/icons/xmms.png
+

@@ -1,0 +1,100 @@
+#!/usr/bin/perl
+# opt-get - command line apt interface
+# Copyright 2006 by Pin-Shiun Chen (penkia) <penkia@gmail.com>
+# This program is free software; 
+# you can redistribute it and/or modify it under the same terms as Perl itself.
+# See http://www.perl.com/perl/misc/Artistic.html
+
+our($pkg_name, $list, $snap_id, $snap_dir);
+
+if ($ARGV[0] eq 'moo') {
+
+print 	'         (__) '."\n".
+	'         (oo) '."\n".
+	'   /------\/ '."\n".
+	'  / |    ||   '."\n".
+	' *  /\---/\ '."\n".
+	'    ~~   ~~   '."\n".
+	'...."Have you mooed today?"...'."\n";
+
+}
+
+elsif ($ARGV[0] eq 'install' && $ARGV[1]=~/\.opt$/) {
+
+# get the plugin name
+my $pkg_name = $1 if `basename $ARGV[1]` =~ /(.*)\.opt$/;
+!system("mkdir /opt/$pkg_name") or die "$!\n";
+!system("mount -o loop $ARGV[1] /opt/$pkg_name") or die "$!\n";
+
+# copy read-write part to /cow
+!system("cp -a /opt/$pkg_name/ramdisk/etc/* /etc/") or die "$!\n";
+!system("cp -a /opt/$pkg_name/ramdisk/var/* /var/") or die "$!\n";
+
+# insert read-only part into unionfs
+!system("unionctl / --add --mode ro /opt/$pkg_name/branch") or die "$!\n";
+
+print "Plugin $ARGV[1] now can be used.\n";
+	if (-e "/opt/$pkg_name/install.sh") {
+		!system("sh /opt/$pkg_name/install.sh") or die "$!\n";
+	}
+} 
+
+elsif ($ARGV[0] eq 'make') {
+
+print "Make sure you have enough free memory and a clean file system.\n";
+
+	for (1..$#ARGV) { 
+	chomp; 	$list .=" $ARGV[$_]"; 
+	}
+
+!system("apt-get clean; apt-get update") or die "$!\n";
+
+# make snapshot directory
+$snap_id = 0; $snap_dir = "/tmp/snapshot-$snap_id";
+while(-e "$snap_dir") {
+	!system("unionctl / --mode ro $snap_dir") or die "$!\n";
+	$snap_id++;
+}
+!system("mkdir -p $snap_dir") or die "$!\n";
+
+# take a snapshot and start to install packages
+!system("unionctl / --add $snap_dir") or die "$!\n";
+!system("unionctl / --mode ro /cow") or die "$!\n";
+print "Add snapshot directory to system.\n";
+
+!system("apt-get install $list --yes --force-yes") or die "$!\n";
+print "Clean up snapshot.\n";
+
+# clean some directories
+!system("apt-get clean") or die "$!\n";
+!system("rm -rf /var/log; rm -rf /usr/share/doc/; rm -rf /usr/share/man/") or die "$!\n";
+
+print "Merge the snapshot into plugin.\n";
+!system("unionctl / --mode rw /cow") or die "$!\n";
+
+!system("mkdir -p /tmp/$ARGV[1]/ramdisk; mkdir -p /tmp/$ARGV[1]/branch") or die "$!\n";
+!system("mv $snap_dir/usr/ /tmp/$ARGV[1]/branch/") or die "$!\n";
+!system("mv $snap_dir/* /tmp/$ARGV[1]/ramdisk/") or die "$!\n";
+
+# remove "white out" files
+!system("find /tmp/$ARGV[1]/ -name .wh.* -exec rm {} \\;");
+
+print "Compress plugin to /tmp/$ARGV[1].opt .\n";
+!system("mksquashfs /tmp/$ARGV[1]/ /tmp/$ARGV[1].opt") or die "$!\n";
+
+print "Plugin /tmp/$ARGV[1].opt now can be used.\n";
+
+} else {
+
+print	"Usage: opt-get install plugin\n".
+      	"       opt-get make pkg1 [pkg2 ...]\n".
+      	"\nopt-get is a simple command line apt interface\n".
+	"for making and using plugins from PUD GNU/Linux.\n\n".
+	"Commands: \n".
+	"make - download and make a squashfs compressed plugin\n".
+	"install - mount plugins and add to unionfs\n\n".
+	"See the apt-get(8), sources.list(5) and apt.conf(5) manual\n".
+	"pages for more information and options.\n".
+	"(Don't forget to use the source!) \n".
+	"               This APT has Super Cow Powers.\n";
+}

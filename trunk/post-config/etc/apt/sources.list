@@ -1,0 +1,23 @@
+####
+# Dapper
+####
+
+# apt.ubtw
+
+ deb http://apt.ubuntu.org.tw/ubuntu dapper-updates main restricted universe multiverse
+# deb-src http://apt.ubuntu.org.tw/ubuntu dapper-updates main restricted universe multiverse
+ deb http://apt.ubuntu.org.tw/ubuntu dapper main universe multiverse restricted
+# deb-src http://apt.ubuntu.org.tw/ubuntu dapper main universe multiverse restricted
+
+ deb http://apt.ubuntu.org.tw/ubuntu dapper-backports main universe multiverse restricted
+# deb-src http://apt.ubuntu.org.tw/ubuntu dapper-backports main universe multiverse restricted
+
+ deb http://apt.ubuntu.org.tw/ubuntu dapper-security main restricted universe multiverse
+# deb-src http://apt.ubuntu.org.tw/ubuntu dapper-security main restricted universe multiverse
+
+
+# ubtw
+deb http://apt.ubuntu.org.tw ubtw/
+#deb http://apt.ubuntu.org.tw ubtw-dapper/
+#deb http://apt.ubuntu.org.tw ubtw-testing/
+

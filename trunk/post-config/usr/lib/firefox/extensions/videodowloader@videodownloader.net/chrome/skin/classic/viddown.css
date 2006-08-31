@@ -1,0 +1,17 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#viddown-button  {
+  list-style-image: url("chrome://viddown/skin/video_24x24.png");
+}
+
+
+toolbar[iconsize="small"] #viddown-button {
+  list-style-image: url("chrome://viddown/skin/video_16x16.png");
+}
+
+statusbarpanel#my-panel {
+	list-style-image: url("chrome://viddown/skin/video_16x16.png");
+} 
+
+
+
