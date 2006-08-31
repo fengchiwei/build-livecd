@@ -2,7 +2,7 @@
 # PUD GNU/Linux package list for build script
 
 # main component
-casper linux-image-2.6.15-23-386 x-window-system-core 
+casper linux-image-2.6.15-26-386 x-window-system-core 
 
 # window manager
 ion3 
