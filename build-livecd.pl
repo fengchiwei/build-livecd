@@ -127,7 +127,7 @@ sub pud_lize {
 # pud-lize
 print "[$0] PUD-lize the Live CD system...\n";
 &do_chroot('update-alternatives --install /usr/lib/usplash/usplash-artwork.so usplash-artwork.so /usr/lib/usplash/usplash-fixed.so 55');
-&do_chroot('dpkg-reconfigure linux-image-2.6.15-23-386');
+&do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
 &do_chroot('rm -f /etc/skel/.bashrc');
 &do_chroot('rm -rf /etc/X11/ion3/');
 &do_chroot('rm -f /usr/share/ubuntu-artwork/home/index.html');
