@@ -33,8 +33,8 @@ beep-media-player bmp-alarm
 mozilla-plugin-pcmanx pcmanx-gtk2 mozilla-firefox 
 mozilla-firefox-locale-zh-tw mozilla-firefox-locale-zh-cn
 gftp-gtk
-thunar 
-xarchiver
+# pcmanfm
+thunar xarchiver
 epdfview
 xchm
 ndisgtk
@@ -57,7 +57,7 @@ scrot
 numlockx
 ntfsprogs fuse-utils
 rxvt-unicode-lite
-unrar-free unzip p7zip
+unrar-free unzip p7zip lha unp
 tree
 lokkit
 libjpeg-progs
