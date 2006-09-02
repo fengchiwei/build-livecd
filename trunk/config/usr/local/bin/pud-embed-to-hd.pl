@@ -35,7 +35,7 @@ print "Make new initrd ...";
 chdir '/tmp/new_initrd';
 !system("cat /cdrom/initrd.gz | gzip -d | cpio -i") or die "$!\n";
 !system("cp -f /usr/local/share/embed/casper scripts/") or die "$!\n";
-!system("cp -rf /lib/modules/2.6.15-23-386/kernel/fs/ntfs/ lib/modules/2.6.15-23-386/kernel/fs/") or die "$!\n";
+!system("cp -rf /lib/modules/2.6.15-26-386/kernel/fs/ntfs/ lib/modules/2.6.15-26-386/kernel/fs/") or die "$!\n";
 !system("find | cpio -H newc -o | gzip > $target/initrd.gz") or die "$!\n";
 print "OK.\n";
 !system("rm -rf /tmp/new_initrd") or die "$!\n";
