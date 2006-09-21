@@ -18,8 +18,8 @@ exec ivman-launch &
 
 exec scim &
 exec numlockx on &
-exec nm-applet &
-exec startxfce4
+exec startxfce4 &
+exec sudo nm-applet &
 
 # invoke global X session script
 . /etc/X11/Xsession
