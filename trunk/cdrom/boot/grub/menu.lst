@@ -14,18 +14,18 @@ splashimage=(cd)/boot/grub/ubuntu.xpm.gz
 # For booting GNU/Linux
 title  PUD GNU/Linux Home Edition (xfce4)
 root (cd)
-kernel /vmlinuz root=/ quiet splash vga=792 boot=casper show-cow xfce4
+kernel /vmlinuz root=/ quiet splash vga=792 boot=casper show-cow wm=xfce4
 initrd /initrd.gz
 
 # For booting GNU/Linux
 title  PUD GNU/Linux Professional Edition (ion3)
 root (cd)
-kernel /vmlinuz root=/ quiet splash vga=792 boot=casper show-cow ion3
+kernel /vmlinuz root=/ quiet splash vga=792 boot=casper show-cow wm=ion3
 initrd /initrd.gz
 
 title  PUD GNU/Linux Simplified Chinese Edition (xfce4)
 root (cd)
-kernel /vmlinuz root=/ quiet splash vga=792 boot=casper show-cow simp
+kernel /vmlinuz root=/ quiet splash vga=792 boot=casper show-cow wm=simp
 initrd /initrd.gz
 
 # For booting Windows NT or Windows95

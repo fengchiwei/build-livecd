@@ -80,7 +80,7 @@ print "Merge the snapshot into plugin.\n";
 !system("find /tmp/$ARGV[1]/ -name .wh.* -exec rm {} \\;");
 
 print "Compress plugin to /tmp/$ARGV[1].opt .\n";
-!system("mksquashfs /tmp/$ARGV[1]/ /tmp/$ARGV[1].opt") or die "$!\n";
+!system("mksquashfs-lzma /tmp/$ARGV[1]/ /tmp/$ARGV[1].opt") or die "$!\n";
 
 print "Plugin /tmp/$ARGV[1].opt now can be used.\n";
 

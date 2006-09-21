@@ -24,3 +24,8 @@ deb http://apt.ubuntu.org.tw ubtw/
 # aMule 2.1.3 for Ubuntu Dapper i386
 deb http://twemu.no-ip.org/apt/amule-testing/dapper/ ./
 #deb-src http://twemu.no-ip.org/apt/amule-testing/dapper/ ./
+
+#Givre's repository (ntfs-3g & fuse 2.5.3)
+#deb http://givre.cabspace.com/ubuntu/ dapper main
+deb http://ntfs-3g.sitesweetsite.info/ubuntu/ dapper main
+# deb-src http://givre.cabspace.com/ubuntu/ dapper main

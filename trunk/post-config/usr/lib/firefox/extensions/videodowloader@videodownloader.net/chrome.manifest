@@ -1,5 +1,8 @@
-content     viddown    chrome/content/
-skin    viddown classic/1.0 chrome/skin/classic/
-style	chrome://global/content/customizeToolbar.xul	chrome://viddown/skin/viddown.css
+content videodownloader jar:chrome/videodownloader.jar!/content/
+locale videodownloader en-US jar:chrome/videodownloader.jar!/locale/en-US/
+locale videodownloader es-ES jar:chrome/videodownloader.jar!/locale/es-ES/
+locale videodownloader es-AR jar:chrome/videodownloader.jar!/locale/es-ES/
 
-overlay chrome://browser/content/browser.xul chrome://viddown/content/viddown.xul
+skin videodownloader classic/1.0 jar:chrome/videodownloader.jar!/skin/
+overlay	chrome://browser/content/browser.xul	chrome://videodownloader/content/firefoxOverlay.xul
+style	chrome://global/content/customizeToolbar.xul	chrome://videodownloader/skin/overlay.css

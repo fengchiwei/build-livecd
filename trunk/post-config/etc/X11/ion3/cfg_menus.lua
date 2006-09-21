@@ -22,6 +22,7 @@ defmenu("appmenu", {
     submenu("網路應用",         "netmenu"),
     submenu("多媒體",         "mediamenu"),
     submenu("系統工具",         "adminmenu"),
+    submenu("設定",         "settingmenu"),
     menuentry("執行...",         "mod_query.query_exec(_)"),
 })
 
@@ -32,7 +33,7 @@ defmenu("netmenu", {
     menuentry("BBS 連線 (pcmanx)",          "ioncore.exec_on(_, 'pcmanx')"),
     menuentry("P2P 下載 (amule)",          "ioncore.exec_on(_, 'amule')"),
     menuentry("FTP 連線 (gftp)",          "ioncore.exec_on(_, 'gftp')"),
-    menuentry("無線網卡驅動 (ndisgtk)", "ioncore.exec_on(_, 'sudo ndisgtk')"),
+    menuentry("下載管理員 (aria)", "ioncore.exec_on(_, 'aria')"),
 })
 
 -- Multimedia application menu
@@ -51,6 +52,16 @@ defmenu("adminmenu", {
     menuentry("解壓縮程式 (xarchiver)",          "ioncore.exec_on(_, 'xarchiver')"),
     menuentry("記事本 (leafpad)",          "ioncore.exec_on(_, 'leafpad')"),
 })
+
+-- Admin application menu
+defmenu("settingmenu", {
+    menuentry("ADSL 連線 (pppoeconf)",          "ioncore.exec_on(_, 'sudo pppoeconf')"),
+    menuentry("網卡設定 (netcardconfig)",          "ioncore.exec_on(_, 'sudo netcardconfig')"),
+    menuentry("無線網路設定 (wlcardconfig)",          "ioncore.exec_on(_, 'sudo wlcardconfig')"),
+    menuentry("無線網卡驅動 (ndisgtk)", "ioncore.exec_on(_, 'sudo ndisgtk')"),
+    menuentry("網路芳鄰 (LinNeighborhood)", "ioncore.exec_on(_, '/usr/local/bin/linneighborhood.sh')"),
+})
+
 
 -- Session control menu
 defmenu("sessionmenu", {
