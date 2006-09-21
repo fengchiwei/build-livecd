@@ -13,8 +13,8 @@ system("mkdir /mnt/$device") if (! -e "/mnt/$device");
 &mk_shortcut($device);
 
 if (/NTFS/) {
-#!system("ntfs-3g /dev/$device /mnt/$device") or rmdir("/mnt/$device");
-!system("ntfsmount /dev/$device /mnt/$device -o show_sys_files,umask=0,locale=zh_TW.UTF8") 
+!system("ntfs-3g /dev/$device /mnt/$device -o silent,umask=0,locale=zh_TW.utf8") 
+#!system("ntfsmount /dev/$device /mnt/$device -o show_sys_files,umask=0,locale=zh_TW.UTF8") 
 or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop"));
 }
 

@@ -39,14 +39,16 @@ epdfview
 xchm
 ndisgtk
 # bittornado-gui
-# gwget
+wvdial
+wipe
 
 # tool 
 
-squashfs-tools mkisofs grub debootstrap 
-# syslinux qemu
+squashfs-tools mkisofs grub debootstrap syslinux
+# qemu
 subversion 
-# xdialog libstdc++5 rpm
+xdialog 
+# libstdc++5 rpm
 openssh-client 
 lshw
 wget 
@@ -55,13 +57,19 @@ fdclock
 gqview
 scrot 
 numlockx
-ntfsprogs fuse-utils
+# ntfsprogs 
+fuse-utils ntfs-3g
 rxvt-unicode-lite
 unrar-free unzip p7zip lha unp
 tree
 lokkit
 libjpeg-progs
 unionfs-utils
+aria 
+aumix 
+smbfs linneighborhood
+imagemagick
+#wine
 
 # artwork
 usplash gtk2-engines-ubuntulooks ubuntu-artwork 

@@ -16,11 +16,12 @@
 		</properties>
 		<items>
 			<item name="xfce4-menu" id="11559417930"/>
-			<item name="showdesktop" id="11524753878"/>
 			<item name="separator" id="11526835460"/>
 			<item name="launcher" id="11524750113"/>
 			<item name="launcher" id="11524750554"/>
 			<item name="launcher" id="11524751435"/>
+			<item name="pager" id="11572484490"/>
+			<item name="separator" id="11572484761"/>
 			<item name="tasklist" id="11524753989"/>
 			<item name="systray" id="115247547712"/>
 			<item name="clock" id="115247545011"/>

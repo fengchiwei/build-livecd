@@ -87,11 +87,16 @@
 		<app name="終端機 (rxvt-unicode)" cmd="rxvt.sh" icon="/usr/local/share/icons/terminal.png"/>
 		<app name="解壓縮工具 (xarchiver)" cmd="xarchiver" icon="/usr/local/share/icons/terminal.png"/>
 		<app name="檔案管理 (thunar)" cmd="thunar" icon="/usr/local/share/icons/terminal.png"/>
+		<app name="下載管理員 (aria)" cmd="aria" icon="/usr/local/share/icons/terminal.png"/>
+		<app name="網路芳鄰 (LinNeighborhood)" cmd="/usr/local/bin/linneighborhood.sh" icon="/usr/local/share/icons/terminal.png"/>
 	</menu>
 
 	<separator/>
 
 	<menu name="設定" icon="gnome-settings">
+		<app name="ADSL 連線 (pppoeconf)" cmd="sudo pppoeconf" icon="gnome-settings"/>
+		<app name="網卡設定 (netcardconfig)" cmd="sudo netcardconfig" icon="gnome-settings"/>
+		<app name="無線網路設定 (wlcardconfig)" cmd="sudo wlcardconfig" icon="gnome-settings"/>
 		<app name="無線網卡驅動 (ndisgtk)" cmd="sudo ndisgtk" icon="gnome-settings"/>
 		<app name="控制台 (xfce-setting-show)" cmd="xfce-setting-show" snotify="true" icon="gnome-settings"/>
 	</menu>

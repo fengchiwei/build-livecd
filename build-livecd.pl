@@ -21,7 +21,7 @@ our(%VAR, %opts, @action, %act);
 getopts('phc:', \%opts);
 
 our($y, $m, $d, $h) = (localtime)[5, 4, 3, 2];
-$VAR{'TARGET_DIR'} 	= sprintf("../pud_builddir/hybrid-%.4d%.2d%.2d-%.2d", $y+1900, $m+1, $d, $h);
+$VAR{'TARGET_DIR'} 	= sprintf("../pud_builddir/lzma-%.4d%.2d%.2d-%.2d", $y+1900, $m+1, $d, $h);
 #$VAR{'TARGET_DIR'} 	= sprintf("../pud_builddir/hybrid-%.4d%.2d%.2d", $y+1900, $m+1, $d);
 $VAR{'SYSTEM'} 		= $VAR{'TARGET_DIR'}.'/system';
 $VAR{'CDROM'} 		= $VAR{'TARGET_DIR'}.'/cdrom';
@@ -143,6 +143,7 @@ print "OK.\n";
 # post-config
 print "[$0] Copying post-config files...";
 &system_call("cp -a $VAR{'POST'}/*  $VAR{'SYSTEM'}/");
+&do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
 print "OK.\n"; 
  
 # files for cdrom 
@@ -182,7 +183,7 @@ print "OK.\n";
 
 sub make_squashfs {
 # compress
-&system_call("mksquashfs $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -info");
+&system_call("post-config/usr/sbin/mksquashfs-lzma $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -info");
 }
 
 sub make_iso {

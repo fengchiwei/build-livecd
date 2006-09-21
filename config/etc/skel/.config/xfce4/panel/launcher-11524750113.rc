@@ -3,5 +3,5 @@ Name=網頁瀏覽器 (firefox)\
 Exec=firefox
 Terminal=false
 StartupNotify=false
-Icon=/usr/share/firefox/icons/mozicon128.png
+Icon=/usr/local/share/icons/browser.png
 
