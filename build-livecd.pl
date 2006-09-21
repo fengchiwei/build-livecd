@@ -195,7 +195,7 @@ sub make_iso {
 &system_call("cp /lib/grub/i386-pc/stage2_eltorito $VAR{'GRUB'}/");
 # &system_call("cp $VAR{'TEMPLATE'}/menu.lst $VAR{'GRUB'}");
 chdir $VAR{'CDROM'};
-&system_call("mkisofs -R -b boot/grub/stage2_eltorito -no-emul-boot -boot-load-size 4 -boot-info-table -o ../../$VAR{'TARGET_DIR'}.iso .");
+&system_call("mkisofs -R -l -V 'PUD GNU/Linux' -b boot/grub/stage2_eltorito -no-emul-boot -boot-load-size 4 -boot-info-table -o ../../$VAR{'TARGET_DIR'}.iso .");
 #&system_call("mkisofs -R -l -V 'PUD GNU/Linux' -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o ../../$VAR{'TARGET_DIR'}.iso .");
 }
 
