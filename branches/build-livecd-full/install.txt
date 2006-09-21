@@ -1,0 +1,88 @@
+# list.txt
+# PUD GNU/Linux package list for build script
+
+# main component
+casper linux-image-2.6.15-26-386 x-window-system-core 
+
+# window manager
+ion3 
+xfdesktop4 xfwm4 xfce4-panel xfce4-session xfce4-mcs-manager xfce4-icon-theme gtk2-engines-xfce
+xfce4-mcs-plugins xfwm4-themes
+xfce4-mixer-alsa xfce4-mixer
+
+# basic system
+x-ttcidfont-conf 
+scim scim-chewing scim-pinyin scim-tables-zh scim-bridge
+# scim-gtk2-immodule scim-qtimm im-switch
+ttf-arphic-uming
+debconf-utils
+#ttf-arphic-newsung
+
+# application
+
+vlc mozilla-plugin-vlc
+#gxineplugin gxine
+vim vim-perl 
+leafpad
+pppoeconf 
+gaim 
+# gaim-encryption gaim-guifications
+amule
+beep-media-player bmp-alarm
+mozilla-plugin-pcmanx pcmanx-gtk2 mozilla-firefox 
+mozilla-firefox-locale-zh-tw mozilla-firefox-locale-zh-cn
+gftp-gtk
+# pcmanfm
+thunar xarchiver
+epdfview
+xchm
+ndisgtk
+wipe
+network-manager-gnome
+# bittornado-gui
+wvdial
+
+# tool 
+
+squashfs-tools mkisofs grub debootstrap syslinux 
+# qemu
+subversion 
+xdialog 
+# libstdc++5 rpm
+openssh-client 
+lshw
+wget 
+fdclock 
+#xzgv 
+gqview
+scrot 
+numlockx
+# ntfsprogs
+fuse-utils ntfs-3g
+rxvt-unicode-lite
+unrar-free unzip p7zip lha unp
+tree
+lokkit
+libjpeg-progs
+unionfs-utils
+aria 
+aumix 
+smbfs linneighborhood
+imagemagick
+#wine
+cupsys cupsys-client cupsys-bsd cupsys-pt foomatic-gui
+gnomebaker
+gparted
+firestarter
+openoffice.org-l10n-zh-tw openoffice.org-calc openoffice.org-draw openoffice.org-impress openoffice.org-math openoffice.org-writer
+
+# artwork
+usplash gtk2-engines-ubuntulooks ubuntu-artwork 
+
+# automount
+ivman dbus hal 
+
+# misc.
+alsa-oss
+libcrypt-ssleay-perl libwww-mechanize-perl 
+#localepurge

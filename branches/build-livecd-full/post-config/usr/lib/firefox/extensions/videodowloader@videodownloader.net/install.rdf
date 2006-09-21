@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+ xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>videodowloader@videodownloader.net</em:id>
+    <em:name>VideoDownloader</em:name>
+    <em:version>1.1</em:version>
+    <em:creator>Javi Moya</em:creator>
+    <em:description>Download videos from Youtube, Google, Metacafe, iFilm, Dailymotion... and other 60+ video sites ! And all embedded objects on a webpage (movies, mp3s, flash, quicktime, etc).</em:description>
+    <em:homepageURL>http://videodownloader.net/</em:homepageURL>
+    <em:aboutURL>chrome://videodownloader/content/about.xul</em:aboutURL>
+    <em:optionsURL>chrome://videodownloader/content/options.xul</em:optionsURL>
+    <em:iconURL>chrome://videodownloader/content/videodownloader.png</em:iconURL>
+   <!-- Firefox -->   
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id> <!-- firefox -->
+        <em:minVersion>1.5</em:minVersion>
+        <em:maxVersion>2.0b2</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+  </Description>
+</RDF>

@@ -1,0 +1,34 @@
+#!/bin/sh
+# /etc/init.d/auto_mount: auto mount all partitions
+FLAGS="defaults 99"
+
+set -e
+
+PATH=/usr/auto/bin:/usr/auto/sbin:/usr/X11R6/bin:/bin:/usr/bin:/sbin:/usr/sbin
+PIDFILE=/var/run/autom.pid
+
+case "$1" in
+  start)
+    echo -n "Munt all partitions"
+    /usr/local/bin/mount-partition.pl 2>&1 & echo $! >$PIDFILE
+    echo "."
+  ;;
+
+  restart)
+    /etc/init.d/auto_mount stop
+    /etc/init.d/auto_mount start
+  ;;
+
+  stop)
+    echo -n "Umount all partitions"
+    umount -a
+    echo "."
+  ;;
+
+  *)
+    echo "Usage: /etc/init.d/auto_mount {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
