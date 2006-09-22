@@ -44,7 +44,7 @@ wvdial
 
 # tool 
 
-squashfs-tools mkisofs grub debootstrap syslinux 
+squashfs-tools mkisofs grub debootstrap syslinux mstools 
 # qemu
 subversion 
 xdialog 
