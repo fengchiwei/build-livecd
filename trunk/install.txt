@@ -39,12 +39,12 @@ epdfview
 xchm
 ndisgtk
 # bittornado-gui
-wvdial
+# wvdial
 wipe
 
 # tool 
 
-squashfs-tools mkisofs grub debootstrap syslinux
+squashfs-tools mkisofs grub debootstrap syslinux mtools
 # qemu
 subversion 
 xdialog 
