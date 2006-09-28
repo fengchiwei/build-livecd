@@ -9,7 +9,6 @@ ion3
 xfdesktop4 xfwm4 xfce4-panel xfce4-session xfce4-mcs-manager xfce4-icon-theme gtk2-engines-xfce
 xfce4-mcs-plugins xfwm4-themes
 xfce4-mixer-alsa xfce4-mixer
-#xfce4
 
 # basic system
 x-ttcidfont-conf 
@@ -34,13 +33,13 @@ mozilla-plugin-pcmanx pcmanx-gtk2 mozilla-firefox
 mozilla-firefox-locale-zh-tw mozilla-firefox-locale-zh-cn
 gftp-gtk
 # pcmanfm
-thunar xarchiver
+thunar xarchive
 epdfview
 xchm
 ndisgtk
 # bittornado-gui
 # wvdial
-wipe
+smbfs linneighborhood
 
 # tool 
 
@@ -67,9 +66,13 @@ libjpeg-progs
 unionfs-utils
 aria 
 aumix 
-smbfs linneighborhood
 imagemagick
 #wine
+mimms
+rdesktop
+wipe
+gpart
+wpasupplicant
 
 # artwork
 usplash gtk2-engines-ubuntulooks ubuntu-artwork 

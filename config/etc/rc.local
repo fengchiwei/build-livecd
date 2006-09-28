@@ -26,7 +26,7 @@ close(XORG_BAK); close(XORG);
 
 !system("sudo chmod a+rwx -R /etc/X11/xinit/") or die "$!\n";
 my $cmdline = `cat /proc/cmdline`;
-my ($wm) = $cmdline =~ /wm=(.*)\s/ig;
+my ($wm) = $cmdline =~ /wm=(.*?)\s/ig;
 
 if ($wm eq 'xfce4') {
 !system("sudo mv -f /etc/X11/xinit/xinitrc.xfce4 /etc/X11/xinit/xinitrc") or die "$!\n";
