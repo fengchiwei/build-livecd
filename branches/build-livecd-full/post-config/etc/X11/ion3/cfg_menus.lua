@@ -51,7 +51,7 @@ defmenu("adminmenu", {
     menuentry("文字編輯 (gvim)",          "ioncore.exec_on(_, 'gvim')"),
     menuentry("記事本 (leafpad)",          "ioncore.exec_on(_, 'leafpad')"),
     menuentry("檔案管理 (thunar)",          "ioncore.exec_on(_, 'thunar')"),
-    menuentry("解壓縮程式 (xarchiver)",          "ioncore.exec_on(_, 'xarchiver')"),
+    menuentry("解壓縮程式 (xarchive)",          "ioncore.exec_on(_, 'xarchive')"),
     menuentry("終端機 (rxvt-unicode)",       "ioncore.exec_on(_, '/usr/bin/rxvt.sh')"),
     menuentry("硬碟分割 (gparted)",       "ioncore.exec_on(_, 'sudo gparted')"),
     menuentry("光碟燒錄 (gnomebaker)",       "ioncore.exec_on(_, 'gnomebaker')"),

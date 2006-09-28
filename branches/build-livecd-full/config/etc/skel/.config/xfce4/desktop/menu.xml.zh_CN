@@ -88,7 +88,7 @@
 
 	<menu name="系統工具" icon="xfce-filemanager">
 		<app name="終端機 (rxvt-unicode)" cmd="rxvt.sh" icon="/usr/local/share/icons/terminal.png"/>
-		<app name="解壓縮工具 (xarchiver)" cmd="xarchiver" icon="/usr/local/share/icons/terminal.png"/>
+		<app name="解壓縮工具 (xarchive)" cmd="xarchive" icon="/usr/local/share/icons/terminal.png"/>
 		<app name="檔案管理 (thunar)" cmd="thunar" icon="/usr/local/share/icons/terminal.png"/>
 		<app name="硬碟分割 (gparted)" cmd="sudo gparted" icon="/usr/local/share/icons/terminal.png"/>
 		<app name="光碟燒錄 (gnomebaker)" cmd="gnomebaker" icon="/usr/local/share/icons/terminal.png"/>

@@ -33,7 +33,7 @@ mozilla-plugin-pcmanx pcmanx-gtk2 mozilla-firefox
 mozilla-firefox-locale-zh-tw mozilla-firefox-locale-zh-cn
 gftp-gtk
 # pcmanfm
-thunar xarchiver
+thunar xarchive
 epdfview
 xchm
 ndisgtk
@@ -44,7 +44,7 @@ wvdial
 
 # tool 
 
-squashfs-tools mkisofs grub debootstrap syslinux mstools 
+squashfs-tools mkisofs grub debootstrap syslinux mtools 
 # qemu
 subversion 
 xdialog 
@@ -75,6 +75,11 @@ gnomebaker
 gparted
 firestarter
 openoffice.org-l10n-zh-tw openoffice.org-calc openoffice.org-draw openoffice.org-impress openoffice.org-math openoffice.org-writer
+mimms
+rdesktop
+wipe
+gpart
+wpasupplicant
 
 # artwork
 usplash gtk2-engines-ubuntulooks ubuntu-artwork 
