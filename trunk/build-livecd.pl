@@ -118,9 +118,6 @@ print "[$0] install packages\n";
 &do_chroot('debconf-set-selections /localepurge_preseed.cfg');
 &do_chroot("apt-get install --yes --force-yes localepurge");
 &do_chroot("rm -f /localepurge_preseed.cfg");
-#&do_chroot("wget http://flomertens.keo.in/debian/ntfs-3g/binary-i386/ntfs-3g_20070714-BETA-1_i386.deb");
-#&do_chroot("dpkg -i ntfs-3g_20070714-BETA-1_i386.deb");
-#&do_chroot("rm -f ntfs-3g_20070714-BETA-1_i386.deb");
 } 
  
 sub pud_lize {
@@ -144,6 +141,8 @@ print "OK.\n";
 print "[$0] Copying post-config files...";
 &system_call("cp -a $VAR{'POST'}/*  $VAR{'SYSTEM'}/");
 &do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
+&do_chroot('updatedb');
+
 print "OK.\n"; 
  
 # files for cdrom 

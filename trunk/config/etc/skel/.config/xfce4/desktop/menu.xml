@@ -85,7 +85,7 @@
 
 	<menu name="系統工具" icon="xfce-filemanager">
 		<app name="終端機 (rxvt-unicode)" cmd="rxvt.sh" icon="/usr/local/share/icons/terminal.png"/>
-		<app name="解壓縮工具 (xarchiver)" cmd="xarchiver" icon="/usr/local/share/icons/terminal.png"/>
+		<app name="解壓縮工具 (xarchive)" cmd="xarchive" icon="/usr/local/share/icons/terminal.png"/>
 		<app name="檔案管理 (thunar)" cmd="thunar" icon="/usr/local/share/icons/terminal.png"/>
 		<app name="下載管理員 (aria)" cmd="aria" icon="/usr/local/share/icons/terminal.png"/>
 		<app name="網路芳鄰 (LinNeighborhood)" cmd="/usr/local/bin/linneighborhood.sh" icon="/usr/local/share/icons/terminal.png"/>
