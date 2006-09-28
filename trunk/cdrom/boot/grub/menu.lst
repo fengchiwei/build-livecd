@@ -11,25 +11,28 @@ fallback 1
 
 splashimage=(cd)/boot/grub/ubuntu.xpm.gz
 
-# For booting GNU/Linux
-title  PUD GNU/Linux Home Edition (xfce4)
+title  PUD GNU/Linux Home Edition
 root (cd)
 kernel /vmlinuz root=/ quiet splash vga=792 boot=casper show-cow wm=xfce4
 initrd /initrd.gz
 
-# For booting GNU/Linux
-title  PUD GNU/Linux Professional Edition (ion3)
+title  PUD GNU/Linux Home Edition to RAM (experimental)
+root (cd)
+kernel /vmlinuz root=/ quiet splash vga=792 boot=casper show-cow wm=xfce4 toram
+initrd /initrd.gz
+
+title  PUD GNU/Linux Professional Edition
 root (cd)
 kernel /vmlinuz root=/ quiet splash vga=792 boot=casper show-cow wm=ion3
 initrd /initrd.gz
 
-title  PUD GNU/Linux Simplified Chinese Edition (xfce4)
+title  PUD GNU/Linux Simplified Chinese Edition
 root (cd)
 kernel /vmlinuz root=/ quiet splash vga=792 boot=casper show-cow wm=simp
 initrd /initrd.gz
 
 # For booting Windows NT or Windows95
-title Boot From First Hard Disk
+title Boot from the first hard disk
 rootnoverify (hd0,0)
 makeactive
 chainloader  +1

@@ -217,10 +217,6 @@ is_usb_device() {
 }
 
 find_cd() {
-
-	#ram=$(awk '/MemTotal/{print $2}' /proc/meminfo)
-	#filesystem_size=$(du -s $filesystem | awk '{ print $1 }')
-
 	mounted=
         for sysblock in $(echo /sys/block/* | tr ' ' '\n' | grep -v loop | grep -v ram); do
             devname=$(sys2dev "${sysblock}")
@@ -228,24 +224,8 @@ find_cd() {
             if /lib/udev/cdrom_id ${devname} > /dev/null; then
                 mount -t ${fstype} -o ro "$devname" $mountpoint || continue
                 if casper_path $mountpoint; then
-
-			#### toram
-			if grep -q toram /proc/cmdline; then # && [ $ram -gt $filesystem_size ]
-
-				filesystem=$(casper_path $mountpoint)
-				cp -af $filesystem /
-				#umount $mountpoint
-				#eject "$devname"
-				echo '/filesystem.squashfs'
-				return
-
-			else
-
-				echo $(casper_path $mountpoint)
-				return
-
-			fi 
-
+                    echo $(casper_path $mountpoint)
+                    return
                 else
                     umount $mountpoint
                 fi
@@ -257,24 +237,8 @@ find_cd() {
                         vfat|iso9660|udf)
                             mount -t ${fstype} -o ro "${devname}" $mountpoint || continue
                             if casper_path $mountpoint; then
-
-				#### toram
-				if grep -q toram /proc/cmdline; then # && [ $ram -gt $filesystem_size ]
-	
-					filesystem=$(casper_path $mountpoint)
-					cp -af $filesystem /
-					#umount $mountpoint
-					#eject "$devname"
-					echo '/filesystem.squashfs'
-					return
-
-				else
-
-					echo $(casper_path $mountpoint)
-					return
-
-				fi 
-
+                                echo $(casper_path $mountpoint)
+                                return
                             else
                                 umount $mountpoint
                             fi
@@ -292,6 +256,18 @@ find_cd() {
                 return
             fi
         done
+}
+
+copy_to_ram() {
+        [ "$quiet" != "y" ] && log_begin_msg "Copying live media to ram..."
+	toram_dir='/toram'
+	mkdir -p $toram_dir
+	mount -t tmpfs /dev/shm $toram_dir
+	cp -a $mountpoint/* $toram_dir
+	umount $mountpoint
+	mount -r -o move $toram_dir $mountpoint
+	rmdir $toram_dir
+        [ "$quiet" != "y" ] && log_end_msg
 }
 
 set_usplash_timeout() {
@@ -326,7 +302,11 @@ mountroot() {
     if [ "$?" -gt 0 ]; then
         panic "Unable to find a CD-ROM containing a live file system"
     fi
-    
+   
+    if grep -q toram /proc/cmdline; then
+	copy_to_ram
+    fi
+ 
     setup_cow "$overlay_method" "$(get_backing_device $live_image)" "$rootmnt"
 
     log_end_msg
