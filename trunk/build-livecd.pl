@@ -118,13 +118,14 @@ print "[$0] install packages\n";
 &do_chroot('debconf-set-selections /localepurge_preseed.cfg');
 &do_chroot("apt-get install --yes --force-yes localepurge");
 &do_chroot("rm -f /localepurge_preseed.cfg");
+&do_chroot("apt-get remove aptitude -y; dpkg -P aptitude");
 } 
  
 sub pud_lize {
 # pud-lize
 print "[$0] PUD-lize the Live CD system...\n";
 &do_chroot('update-alternatives --install /usr/lib/usplash/usplash-artwork.so usplash-artwork.so /usr/lib/usplash/usplash-fixed.so 55');
-&do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
+#&do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
 &do_chroot('rm -f /etc/skel/.bashrc');
 &do_chroot('rm -rf /etc/X11/ion3/');
 &do_chroot('rm -f /usr/share/ubuntu-artwork/home/index.html');
@@ -135,12 +136,14 @@ print "[$0] PUD-lize the Live CD system...\n";
 &do_chroot('mv /etc/rc2.d/S99rc.local /etc/rc2.d/S98rc.local');
 &do_chroot('ln -s /etc/init.d/startx /etc/rc2.d/S99startx');
 &do_chroot('ln -s /etc/init.d/auto_mount /etc/rc2.d/S99auto_mount');
+&do_chroot('rm -f /etc/localtime');
+&do_chroot('ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime');
 print "OK.\n";
 
 # post-config
 print "[$0] Copying post-config files...";
 &system_call("cp -a $VAR{'POST'}/*  $VAR{'SYSTEM'}/");
-&do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
+#&do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
 &do_chroot('updatedb');
 
 print "OK.\n"; 
@@ -174,8 +177,10 @@ for (<R>) {
   		&system_call("mv $VAR{'SYSTEM'}$_ $VAR{'LEFT'}/$dir/");
   	}
 }
-
 close(R);
+
+&do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
+
 &do_chroot('umount /proc');
 print "OK.\n";
 }  
