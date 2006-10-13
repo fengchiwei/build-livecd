@@ -587,3 +587,10 @@
 /usr/share/scim/icons/Array30.png
 /usr/share/scim/tables/Simplex.bin
 /usr/share/scim/icons/Simplex.png
+# casper-bottom
+/usr/share/initramfs-tools/scripts/casper-bottom/15autologin
+/usr/share/initramfs-tools/scripts/casper-bottom/22gnome_panel_data
+/usr/share/initramfs-tools/scripts/casper-bottom/22screensaver
+/usr/share/initramfs-tools/scripts/casper-bottom/30accessibility
+/usr/share/initramfs-tools/scripts/casper-bottom/31disable_update_notifier
+/usr/share/initramfs-tools/scripts/casper-bottom/32disable_hibernation

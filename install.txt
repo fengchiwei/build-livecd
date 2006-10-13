@@ -14,7 +14,7 @@ xfce4-mixer-alsa xfce4-mixer
 x-ttcidfont-conf 
 scim scim-chewing scim-pinyin scim-tables-zh scim-bridge
 # scim-gtk2-immodule scim-qtimm im-switch
-ttf-arphic-uming
+ttf-arphic-uming ttf-sazanami-mincho
 debconf-utils
 #ttf-arphic-newsung
 
@@ -29,7 +29,8 @@ gaim
 # gaim-encryption gaim-guifications
 amule
 beep-media-player bmp-alarm
-mozilla-plugin-pcmanx pcmanx-gtk2 mozilla-firefox 
+#mozilla-plugin-pcmanx 
+pcmanx-gtk2 mozilla-firefox 
 mozilla-firefox-locale-zh-tw mozilla-firefox-locale-zh-cn
 gftp-gtk
 # pcmanfm
@@ -59,20 +60,23 @@ numlockx
 # ntfsprogs 
 fuse-utils ntfs-3g
 rxvt-unicode-lite
-unrar-free unzip p7zip lha unp
+unrar-free unzip p7zip
+# lha unp
 tree
 lokkit
 libjpeg-progs
 unionfs-utils
 aria 
-aumix 
+#aumix 
 imagemagick
 #wine
-mimms
+#mimms
 rdesktop
-wipe
-gpart
-wpasupplicant
+lftp
+pump
+#wipe
+#gpart
+#wpasupplicant
 
 # artwork
 usplash gtk2-engines-ubuntulooks ubuntu-artwork 
@@ -82,5 +86,5 @@ ivman dbus hal
 
 # misc.
 alsa-oss
-libcrypt-ssleay-perl libwww-mechanize-perl 
+libcrypt-ssleay-perl libwww-mechanize-perl libgtk2-perl
 #localepurge
