@@ -40,7 +40,7 @@ ndisgtk
 wipe
 network-manager-gnome
 # bittornado-gui
-wvdial
+# wvdial
 
 # tool 
 
@@ -77,9 +77,11 @@ firestarter
 openoffice.org-l10n-zh-tw openoffice.org-calc openoffice.org-draw openoffice.org-impress openoffice.org-math openoffice.org-writer
 mimms
 rdesktop
-wipe
-gpart
-wpasupplicant
+lftp
+pump
+#wipe
+#gpart
+#wpasupplicant
 
 # artwork
 usplash gtk2-engines-ubuntulooks ubuntu-artwork 
