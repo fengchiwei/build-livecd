@@ -60,7 +60,7 @@ user_pref("browser.link.open_newwindow.restriction", 0);
 user_pref("browser.search.selectedEngine", "Google");
 user_pref("browser.startup.homepage", "file:///usr/share/ubuntu-artwork/home/index.html");
 user_pref("browser.tabs.loadFolderAndReplace", false);
-user_pref("browser.sessionhistory.max_total_viewers", 2);
+user_pref("browser.sessionhistory.max_total_viewers", 1);
 user_pref("extensions.lastAppVersion", "1.5.0.7");
 user_pref("extensions.tabmix.dblClickTab", 2);
 user_pref("extensions.tabmix.focusTab", 4);

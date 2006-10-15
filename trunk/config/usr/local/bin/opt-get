@@ -69,7 +69,7 @@ print "Clean up snapshot.\n";
 
 # clean some directories
 !system("apt-get clean") or die "$!\n";
-!system("rm -rf /var/log/ /var/cache/apt/ /var/lib/dpkg/ /var/cache/debconf/ /usr/share/doc/ /usr/share/man/") or die "$!\n";
+!system("rm -rf /var/log/ /var/lib/ /var/cache/apt/ /var/cache/debconf/ /usr/share/doc/ /usr/share/man/") or die "$!\n";
 
 print "Merge the snapshot into plugin.\n";
 !system("unionctl / --mode rw /cow") or die "$!\n";

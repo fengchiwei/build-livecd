@@ -10,8 +10,8 @@ export LANG=zh_CN.UTF8
 export LC_ALL=zh_CN.UTF8
 
 export XMODIFIERS="@im=SCIM"
-export GTK_IM_MODULE=scim
-exec scim &
+export GTK_IM_MODULE=XIM
+scim -d
 #export QT_IM_MODULE=scim
 
 exec ivman-launch &
