@@ -60,7 +60,7 @@ numlockx
 # ntfsprogs 
 fuse-utils ntfs-3g
 rxvt-unicode-lite
-unrar-free unzip p7zip
+unrar-free unzip p7zip zip
 # lha unp
 tree
 lokkit

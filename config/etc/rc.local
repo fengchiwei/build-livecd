@@ -42,8 +42,19 @@ if ($wm eq 'xfce4') {
 }
 
 # for nox cheat code
-if ($cmdline =~ m/nox/) {
+if ($cmdline =~ m/nox/i) { 
 !system("rm -f /etc/rc2.d/S99startx") or die "$!\n";
+}
+
+# for nomount cheat code
+if ($cmdline =~ m/nomount/i) { 
+!system("rm -f /etc/rc2.d/S99auto_mount") or die "$!\n";
+}
+
+# auto toggle NumLock if keyboard model is 'pc104'
+chomp(my $xkb_model = `grep XkbModel /etc/X11/xorg.conf | cut -d'"' -f4`);
+if ($xkb_model ne 'pc104') {
+!system("perl -pi -e 's!numlockx on!numlockx off!g' /etc/X11/xinit/xinitrc") or die "$!\n";
 }
 
 unless (`grep devplug /etc/group`) {
