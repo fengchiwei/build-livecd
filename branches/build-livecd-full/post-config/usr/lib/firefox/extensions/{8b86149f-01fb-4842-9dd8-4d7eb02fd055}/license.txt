@@ -28,9 +28,8 @@ The following license applies to all files
  *         Tim Williamson <chsman@hotmail.com>
  *         Martin.T.Kutschker <Martin.T.Kutschker@blackbox.net>
  *    Tab and History scrolling part
- *      The Original Code is tabscroller
- *      The Initial Developer of the Original Code is Joe4711.
- *      Portions created by the Initial Developer are Copyright (C) 2003 the Initial Developer. All Rights Reserved.
+ *      The Original Code is tabscroller by Joe4711
+ *      Code has been entirely rewritten by Marc Boullet
  *    Autoscroll part
  *      The Original Code is Autoscroll
  *      The Initial Developer of the Original Code is Skidooer.

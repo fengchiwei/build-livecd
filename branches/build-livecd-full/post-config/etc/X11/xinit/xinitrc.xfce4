@@ -10,15 +10,15 @@ export LANG=zh_TW.UTF8
 export LC_ALL=zh_TW.UTF8
 
 export XMODIFIERS="@im=SCIM"
-export GTK_IM_MODULE=scim
-exec scim &
+export GTK_IM_MODULE=XIM
+scim -d
 #export QT_IM_MODULE=scim
 
 exec ivman-launch &
 
 exec scim &
 exec numlockx on &
-exec startxfce4 
+exec startxfce4
 
 # invoke global X session script
 . /etc/X11/Xsession

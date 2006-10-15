@@ -157,12 +157,6 @@ print "OK.\n";
 sub apt_clean {
 # clean up
 print "[$0] Clean up the Live CD system...";
-&do_chroot('apt-get clean');
-&do_chroot('localepurge');
-&do_chroot('rm -rf /var/lib/apt/lists/*');
-&do_chroot('mkdir /var/lib/apt/lists/partial');
-&do_chroot('rm -rf /var/cache/apt/*');
-&do_chroot('mkdir -p /var/cache/apt/archives/partial');
   
 # remove list
 open(R, 'remove.txt') or die "$!\n"; 
@@ -180,6 +174,13 @@ for (<R>) {
 close(R);
 
 &do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
+
+&do_chroot('apt-get clean');
+&do_chroot('localepurge');
+&do_chroot('rm -rf /var/lib/apt/lists/*');
+&do_chroot('mkdir /var/lib/apt/lists/partial');
+&do_chroot('rm -rf /var/cache/apt/*');
+&do_chroot('mkdir -p /var/cache/apt/archives/partial');
 
 &do_chroot('umount /proc');
 print "OK.\n";

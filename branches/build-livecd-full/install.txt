@@ -29,7 +29,8 @@ gaim
 # gaim-encryption gaim-guifications
 amule
 beep-media-player bmp-alarm
-mozilla-plugin-pcmanx pcmanx-gtk2 mozilla-firefox 
+#mozilla-plugin-pcmanx 
+pcmanx-gtk2 mozilla-firefox 
 mozilla-firefox-locale-zh-tw mozilla-firefox-locale-zh-cn
 gftp-gtk
 # pcmanfm
@@ -60,18 +61,19 @@ numlockx
 # ntfsprogs
 fuse-utils ntfs-3g
 rxvt-unicode-lite
-unrar-free unzip p7zip lha unp
+unrar-free unzip p7zip zip
+#lha unp
 tree
 lokkit
 libjpeg-progs
 unionfs-utils
 aria 
-aumix 
+#aumix 
 smbfs linneighborhood
 imagemagick
 #wine
 cupsys cupsys-client cupsys-bsd cupsys-pt foomatic-gui
-gnomebaker
+gnomebaker cdrecord
 gparted
 firestarter
 openoffice.org-l10n-zh-tw openoffice.org-calc openoffice.org-draw openoffice.org-impress openoffice.org-math openoffice.org-writer
