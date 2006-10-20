@@ -1,13 +1,16 @@
 #!/usr/bin/perl
-# opt-get - command line apt interface to install PUD GNU/Linux plug-in
+# opt-get - command line apt interface to install PUD GNU/Linux plugin
 # 
 # Copyright 2006 by Pin-Shiun Chen (penkia) <penkia@gmail.com>
 # This program is free software; 
 # you can redistribute it and/or modify it under the same terms as Perl itself.
 # See http://www.perl.com/perl/misc/Artistic.html
 
-our($pkg_name, $list, $snap_id, $snap_dir, $last_path);
+use strict;
+use warnings;
+use File::Basename;
 
+our($pkg_name, $pkg_list, $snap_id, $snap_dir, $last_path, @opt_list);
 if ($ARGV[0] eq 'moo') {
 
 print 	'         (__) '."\n".
@@ -20,25 +23,50 @@ print 	'         (__) '."\n".
 
 }
 
-elsif ($ARGV[0] eq 'install' && $ARGV[1]=~/\.opt$/) {
+elsif ($ARGV[0] eq 'install') {
 
-# get the plugin name
-my $pkg_name = $1 if `basename $ARGV[1]` =~ /(.*)\.opt$/;
-!system("mkdir /opt/$pkg_name") or die "$!\n";
-!system("mount -o loop $ARGV[1] /opt/$pkg_name") or die "$!\n";
-
-# copy read-write part to /cow
-!system("cp -a /opt/$pkg_name/ramdisk/* /") or die "$!\n";
-
-# insert read-only part into unionfs
-(`unionctl / --list`)[-1] =~ /\s*(.+?)\s/;
-$last_path = $1;
-!system("unionctl / --add --after $last_path --mode ro /opt/$pkg_name/branch") or die "$!\n";
-
-print "Plugin $ARGV[1] now can be used.\n";
-	if (-e "/opt/$pkg_name/install.sh") {
-		!system("sh /opt/$pkg_name/install.sh") or die "$!\n";
+	# check parameter
+	for (1..$#ARGV) { 
+		if ((fileparse($ARGV[$_], qr/\.[^.]*/))[2] eq '.opt') {
+			push @opt_list, $ARGV[$_];
+		} else {
+			print "$ARGV[$_] is not an Opt file.\n"
+		}
 	}
+
+	# mount opt file
+	for (@opt_list) {
+		#($pkg_name) = basename($_) =~ /(.*)\.opt$/;
+		$pkg_name = fileparse($_, qr/\.[^.]*/);
+		!system("mkdir /opt/$pkg_name") or die "$!\n";
+		!system("mount -o loop $_ /opt/$pkg_name") or die "$!\n";
+	}
+
+	# insert read-only part into unionfs
+	for (@opt_list) {
+		$pkg_name = fileparse($_, qr/\.[^.]*/);
+		($last_path) = (`unionctl / --list`)[-1] =~ /\s*(.+?)\s/;
+		!system("unionctl / --add --after $last_path --mode ro /opt/$pkg_name/branch") or die "$!\n";
+	}
+
+	# copy read-write part to ramdisk
+	for (@opt_list) {
+		$pkg_name = fileparse($_, qr/\.[^.]*/);
+		!system("cp -a /opt/$pkg_name/ramdisk/* /") or die "$!\n";
+	}
+
+	# execute post install and start scripts if exist
+	for (@opt_list) {
+		$pkg_name = fileparse($_, qr/\.[^.]*/);
+		print "Plugin $pkg_name now can be used.\n";
+		if (-e "/opt/$pkg_name/pinst.sh") {
+			!system("sh /opt/$pkg_name/pinst.sh") or die "$!\n";
+		}
+		if (@opt_list == 1 && -e "/opt/$pkg_name/start.sh") {
+			!system("sh /opt/$pkg_name/start.sh") or die "$!\n";
+		}
+	}
+
 } 
 
 elsif ($ARGV[0] eq 'make') {
@@ -46,13 +74,14 @@ elsif ($ARGV[0] eq 'make') {
 print "Make sure you have enough free memory and a clean file system.\n";
 
 	for (1..$#ARGV) { 
-	chomp; 	$list .=" $ARGV[$_]"; 
+	chomp; 	$pkg_list .=" $ARGV[$_]"; 
 	}
 
 !system("apt-get clean; apt-get update") or die "$!\n";
 
 # make snapshot directory
-$snap_id = 0; $snap_dir = "/tmp/snapshot-$snap_id";
+$snap_id = 0; 
+$snap_dir = "/tmp/snapshot-$snap_id";
 while(-e "$snap_dir") {
 	!system("unionctl / --mode ro $snap_dir") or die "$!\n";
 	$snap_id++;
@@ -64,7 +93,7 @@ while(-e "$snap_dir") {
 !system("unionctl / --mode ro /cow") or die "$!\n";
 print "Add snapshot directory to system.\n";
 
-!system("apt-get install $list --yes --force-yes") or die "$!\n";
+!system("apt-get install $pkg_list --yes --force-yes") or die "$!\n";
 print "Clean up snapshot.\n";
 
 # clean some directories
@@ -75,11 +104,15 @@ print "Merge the snapshot into plugin.\n";
 !system("unionctl / --mode rw /cow") or die "$!\n";
 
 !system("mkdir -p /tmp/$ARGV[1]/ramdisk; mkdir -p /tmp/$ARGV[1]/branch") or die "$!\n";
-!system("mv $snap_dir/usr/ /tmp/$ARGV[1]/branch/") or die "$!\n";
-!system("mv $snap_dir/* /tmp/$ARGV[1]/ramdisk/") or die "$!\n";
+!system("mv $snap_dir/etc/ /tmp/$ARGV[1]/ramdisk/") or die "$!\n";
+!system("mv $snap_dir/var/ /tmp/$ARGV[1]/ramdisk/") or die "$!\n";
+!system("mv $snap_dir/* /tmp/$ARGV[1]/branch/") or die "$!\n";
 
 # remove "white out" files
 !system("find /tmp/$ARGV[1]/ -name .wh.* -exec rm {} \\;");
+
+print "Pause for add pinst.sh or start.sh (press any key to continue) ";
+getc;
 
 print "Compress plugin to /tmp/$ARGV[1].opt .\n";
 !system("mksquashfs-lzma /tmp/$ARGV[1]/ /tmp/$ARGV[1].opt") or die "$!\n";
@@ -88,7 +121,7 @@ print "Plugin /tmp/$ARGV[1].opt now can be used.\n";
 
 } else {
 
-print	"Usage: opt-get install plugin\n".
+print	"Usage: opt-get install plugin1 [plugin2 ...]\n".
       	"       opt-get make pkg1 [pkg2 ...]\n".
       	"\nopt-get is a simple command line apt interface\n".
 	"for making and using plugins from PUD GNU/Linux.\n\n".

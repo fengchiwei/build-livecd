@@ -3,7 +3,10 @@
 
 # Copyright 2006 by 
 # Pin-Shiun Chen (penkia) <penkia@gmail.com>
+
+# Patched by 
 # Hiweed Leng (hiweed) <hiweed@gmail.com>
+# Jia Huan Li <huanlf@gmail.com>
 
 # This program is free software; 
 # you can redistribute it and/or modify it under the same terms as Perl itself.
@@ -18,11 +21,10 @@ $ENV{'LANG'} = 'C';
 $ENV{'LC_ALL'} = 'C';
 
 our(%VAR, %opts, @action, %act); 
-getopts('phc:', \%opts);
+getopts('phc:d:', \%opts);
 
 our($y, $m, $d, $h) = (localtime)[5, 4, 3, 2];
-$VAR{'TARGET_DIR'} 	= sprintf("../pud_builddir/lzma-%.4d%.2d%.2d-%.2d", $y+1900, $m+1, $d, $h);
-#$VAR{'TARGET_DIR'} 	= sprintf("../pud_builddir/hybrid-%.4d%.2d%.2d", $y+1900, $m+1, $d);
+$VAR{'TARGET_DIR'} 	= $opts{'d'} || sprintf("../pud_builddir/lzma-%.4d%.2d%.2d-%.2d", $y+1900, $m+1, $d, $h);
 $VAR{'SYSTEM'} 		= $VAR{'TARGET_DIR'}.'/system';
 $VAR{'CDROM'} 		= $VAR{'TARGET_DIR'}.'/cdrom';
 $VAR{'LEFT'}		= $VAR{'TARGET_DIR'}.'/left';
@@ -70,12 +72,13 @@ if ($opts{'h'}) {
 }
 
 sub do_chroot {
-!system("chroot $VAR{'SYSTEM'} $_[0]") or die "$!\n";
+!system("chroot $VAR{'SYSTEM'} $_[0]") or warn "$!\n";
 }
 
 sub bootstrap {
 &system_call("debootstrap --arch i386 dapper $VAR{'SYSTEM'} http://apt.ubuntu.org.tw/ubuntu");
-# http://archive.ubuntulinux.org/ubuntu");
+# http://archive.ubuntulinux.org/ubuntu
+# http://ubuntu.cn99.com/ubuntu/
 }
 
 sub make_dir {
@@ -118,7 +121,7 @@ print "[$0] install packages\n";
 &do_chroot('debconf-set-selections /localepurge_preseed.cfg');
 &do_chroot("apt-get install --yes --force-yes localepurge");
 &do_chroot("rm -f /localepurge_preseed.cfg");
-&do_chroot("apt-get remove aptitude -y; dpkg -P aptitude");
+&do_chroot("apt-get remove aptitude ubuntu-minimal -y; dpkg -P aptitude ubuntu-minimal");
 } 
  
 sub pud_lize {
@@ -132,7 +135,7 @@ print "[$0] PUD-lize the Live CD system...\n";
 &do_chroot('ln -s /usr/share/ubuntu-artwork/home/firefox-index.html /usr/share/ubuntu-artwork/home/index.html');
 &do_chroot('rm -rf /usr/share/firefox/searchplugins/');
 &do_chroot('ln -fs /usr/lib/libesd.so.0 /usr/lib/libesd.so.1');
-&do_chroot('ln -s /etc/fonts/conf.d/umingpatch.conf /etc/fonts/conf.d/20-umingpatch.conf');
+&do_chroot('ln -fs /etc/fonts/conf.d/umingpatch.conf /etc/fonts/conf.d/20-umingpatch.conf');
 &do_chroot('mv /etc/rc2.d/S99rc.local /etc/rc2.d/S98rc.local');
 &do_chroot('ln -s /etc/init.d/startx /etc/rc2.d/S99startx');
 &do_chroot('ln -s /etc/init.d/auto_mount /etc/rc2.d/S99auto_mount');
@@ -166,9 +169,9 @@ for (<R>) {
   	next if /^\s/;
   	if (/^#/) {
   		$dir = (split/ /, $_)[1];
-  		&system_call("mkdir $VAR{'LEFT'}/$dir");
+  		&system_call("mkdir -p $VAR{'LEFT'}/$dir");
   	} else {
-  		&system_call("mv $VAR{'SYSTEM'}$_ $VAR{'LEFT'}/$dir/");
+  		&system_call("mv $VAR{'SYSTEM'}$_ $VAR{'LEFT'}/$dir/") if ( -e "$VAR{'SYSTEM'}$_" );
   	}
 }
 close(R);
@@ -216,5 +219,6 @@ print 	"Usage: perl build-livecd.pl [OPTION] <command>\n".
 	"perl build-livecd.pl  -c <command>\tstart from the specified command to the end\n".
 	"\t\t\t\t\tvalid commands are:\n\t\t\t\t\tinit, bootstrap, base_config, apt_update,\n".
 	"\t\t\t\t\tapt_install, pud_lize, apt_clean, make_squashfs, make_iso, test_iso\n".
-	"perl build-livecd.pl  -c <command> -p\tprocess the specified command\n";
+	"perl build-livecd.pl -c <command> -p\tprocess the specified command\n".
+	"perl build-livecd.pl -d <target_dir>\tspecify target dir\n";
 }
