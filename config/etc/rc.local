@@ -3,8 +3,8 @@
 use Tie::File;
 tie my @xorg, 'Tie::File', '/etc/X11/xorg.conf' or die "$!\n";
 my $cmdline = `cat /proc/cmdline`;
-my ($wm) = $cmdline =~ /wm=(.*?)\s/ig; # window manager
-my ($screen) = $cmdline =~ /screen=(.*?)\s/ig; # screen resolution
+my ($wm) = $cmdline =~ /wm=(.*?)(\s|$)/ig; # window manager
+my ($screen) = $cmdline =~ /screen=(.*?)(\s|$)/ig; # screen resolution
 my $pivot, $res;
 
 # fix font path
@@ -42,12 +42,12 @@ if ($wm eq 'xfce4') {
 }
 
 # for nox cheat code
-if ($cmdline =~ m/nox/i) { 
+if ($cmdline =~ m/nox(\s|$)/i) { 
 !system("rm -f /etc/rc2.d/S99startx") or die "$!\n";
 }
 
 # for nomount cheat code
-if ($cmdline =~ m/nomount/i) { 
+if ($cmdline =~ m/nomount(\s|$)/i) { 
 !system("rm -f /etc/rc2.d/S99auto_mount") or die "$!\n";
 }
 
