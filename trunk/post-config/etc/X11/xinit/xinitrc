@@ -17,7 +17,6 @@ scim -d
 exec ivman-launch &
 exec numlockx on &
 #exec firefox &
-sudo load-opt &
 exec ion
 
 # invoke global X session script

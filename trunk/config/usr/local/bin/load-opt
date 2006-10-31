@@ -3,8 +3,6 @@
 my ($opt_location) = `cat /proc/cmdline` =~ /opt=(.*?)(\s|$)/ig;
 $opt_location =~ s/\/$//;
 
-if (! -z '/etc/.opt-get')  {
-
 print "Loading Opt-Get plugin.\n";
 
 my @opts = `ls -a /cdrom/opt/*.opt`;
@@ -15,6 +13,3 @@ for (@opts) { chomp; $list .= "$_ "; }
 system("opt-get install $list") if ($list ne '');
 system('touch /etc/.opt-get');
 
-} else {
-print "Opt-Get already loaded.\n";
-}

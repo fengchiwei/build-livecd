@@ -5,12 +5,11 @@ FLAGS="defaults 99"
 set -e
 
 PATH=/usr/auto/bin:/usr/auto/sbin:/usr/X11R6/bin:/bin:/usr/bin:/sbin:/usr/sbin
-PIDFILE=/var/run/autom.pid
 
 case "$1" in
   start)
     echo -n "Munt all partitions"
-    /usr/local/bin/mount-partition.pl 2>&1 & echo $! >$PIDFILE
+    /usr/local/bin/mount-partition.pl
     echo "."
   ;;
 

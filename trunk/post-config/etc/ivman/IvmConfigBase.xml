@@ -40,5 +40,5 @@
 
     <!-- If using pmount, and running as a system-wide instance of Ivman,
          mount devices with this umask.  Default: 007                    -->
-    <ivm:Option name="umask" value="777" />
+    <ivm:Option name="umask" value="007" />
 </ivm:BaseConfig>

@@ -27,7 +27,7 @@ print "Modify $target/boot.ini ...";
 print "OK.\n";
 
 print "Copy all necessary files (this may take a while) ...";
-!system("cp -rf /cdrom/casper/ /cdrom/vmlinuz /usr/local/share/embed/menu.lst /usr/local/share/embed/grldr $target") or die "$!\n";
+!system("cp -rf /cdrom/opt/ /cdrom/casper/ /cdrom/vmlinuz /usr/local/share/embed/menu.lst /usr/local/share/embed/grldr $target") or die "$!\n";
 print "OK.\n";
 
 print "Make new initrd ...";
