@@ -18,7 +18,6 @@ exec ivman-launch &
 
 exec scim &
 exec numlockx on &
-sudo load-opt &
 exec startxfce4
 
 # invoke global X session script

@@ -4,7 +4,7 @@ use warnings;
 $ENV{'LC_ALL'} = "zh_TW.UTF8";
 $ENV{'LANG'} = "zh_TW.UTF8";
 my @disk = `fdisk -l`;
-!system("mkdir /home/ubuntu/Desktop; chmod a+rw /home/ubuntu/Desktop") or die "$!\n";
+!system("mkdir /home/ubuntu/Desktop; chmod a+rw /home/ubuntu/Desktop") or warn "$!\n";
 
 foreach (@disk) {
 next unless /^\/dev\/(\w+)\s/;
