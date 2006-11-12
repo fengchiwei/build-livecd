@@ -21,6 +21,11 @@ if ($load eq 'auto') {
 
 if ($load =~ /^\//) {
 !system("sudo tar zxpvf $load/pud-backup.tgz -C / ") or die "$!\n";
+($save) = `cat /proc/cmdline` =~ /save=(.*?)(\s|$)/ig;
+	if ($save) {
+	!system(qq{sudo perl -pi -e 's!save=(.*)!save=$save!' /etc/pudata/pudata.conf})
+	or die "$!\n";
+	}
 } else {
 print "pudata: there is no pud-backup.tgz to load.\n";
 }

@@ -17,7 +17,7 @@ defmenu("mainmenu", {
 
 -- Application menu
 defmenu("appmenu", {
-    menuentry("終端機 (rxvt-unicode)",       "ioncore.exec_on(_, '/usr/bin/rxvt.sh')"), --x-terminal-emulator
+    menuentry("終端機 (xfce4-terminal)",       "ioncore.exec_on(_, 'xfce4-terminal')"), --x-terminal-emulator
     menuentry("瀏覽器 (firefox)",        "ioncore.exec_on(_, 'firefox')"), -- sensible-browser')"),
     submenu("網路應用",         "netmenu"),
     submenu("多媒體",         "mediamenu"),

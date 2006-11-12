@@ -55,7 +55,7 @@
 	
 	<separator/>
 	-->
-	<app name="終端機" cmd="rxvt.sh" icon="gnome-terminal"/>
+	<app name="終端機" cmd="xfce4-terminal" icon="gnome-terminal"/>
 	<!--
 	<app name="檔案管理程式" cmd="thunar" icon="Thunar"/>
 	-->
@@ -84,7 +84,7 @@
 	</menu>
 
 	<menu name="系統工具" icon="xfce-filemanager">
-		<app name="終端機 (rxvt-unicode)" cmd="rxvt.sh" icon="/usr/local/share/icons/terminal.png"/>
+		<app name="終端機 (xfce4-terminal)" cmd="xfce4-terminal" icon="/usr/local/share/icons/terminal.png"/>
 		<app name="解壓縮工具 (xarchive)" cmd="xarchive" icon="/usr/local/share/icons/terminal.png"/>
 		<app name="檔案管理 (thunar)" cmd="thunar" icon="/usr/local/share/icons/terminal.png"/>
 		<app name="下載管理員 (aria)" cmd="aria" icon="/usr/local/share/icons/terminal.png"/>
