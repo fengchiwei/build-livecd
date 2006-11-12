@@ -41,6 +41,7 @@ ndisgtk
 # bittornado-gui
 # wvdial
 smbfs linneighborhood
+xfce4-terminal
 
 # tool 
 
@@ -51,7 +52,7 @@ xdialog
 # libstdc++5 rpm
 openssh-client 
 lshw
-wget 
+wget curl 
 fdclock 
 #xzgv 
 gqview
@@ -60,23 +61,24 @@ numlockx
 # ntfsprogs 
 fuse-utils ntfs-3g
 rxvt-unicode-lite
-unrar-free unzip p7zip zip
+unrar-free unzip p7zip zip arj
 # lha unp
 tree
 lokkit
 libjpeg-progs
 unionfs-utils
 aria 
-#aumix 
+aumix 
 imagemagick
 #wine
 #mimms
 rdesktop
 lftp
 pump
+xloadimage
+telnet
 #wipe
 #gpart
-#wpasupplicant
 
 # artwork
 usplash gtk2-engines-ubuntulooks ubuntu-artwork 
@@ -87,4 +89,4 @@ ivman dbus hal
 # misc.
 alsa-oss
 libcrypt-ssleay-perl libwww-mechanize-perl libgtk2-perl
-#localepurge
+libgtk2-perl

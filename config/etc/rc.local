@@ -61,12 +61,12 @@ if ($cmdline =~ m/nox(\s|$)/i) {
 
 # for nomount cheat code
 if ($cmdline =~ m/nomount(\s|$)/i) {
-!system("rm -f /etc/rc2.d/S96auto_mount") or die "$!\n";
+!system("rm -f /etc/rc2.d/S95auto_mount") or die "$!\n";
 }
 
 # for opt=no cheat code
 if ($cmdline =~ m/opt=no(\s|$)/i) {
-!system("rm -f /etc/rc2.d/S97load-opt") or die "$!\n";
+!system("rm -f /etc/rc2.d/S96load-opt") or die "$!\n";
 }
 
 # auto toggle NumLock if keyboard model is 'pc104'

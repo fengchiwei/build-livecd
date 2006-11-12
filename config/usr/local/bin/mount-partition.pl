@@ -13,18 +13,18 @@ system("mkdir /mnt/$device") if (! -e "/mnt/$device");
 &mk_shortcut($device);
 
 if (/NTFS/) {
-!system("ntfs-3g /dev/$device /mnt/$device -o silent,umask=0,locale=zh_TW.utf8") 
+!system("ntfs-3g /dev/$device /mnt/$device -o noatime,silent,umask=0,locale=zh_TW.utf8") 
 #!system("ntfsmount /dev/$device /mnt/$device -o show_sys_files,umask=0,locale=zh_TW.UTF8") 
 or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop"));
 }
 
 elsif (/FAT/) {
-!system("mount /dev/$device /mnt/$device -o iocharset=utf8")
+!system("mount /dev/$device /mnt/$device -o noatime,iocharset=utf8")
 or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop"));
 }
 
 else {
-!system("mount /dev/$device /mnt/$device")
+!system("mount -o noatime /dev/$device /mnt/$device")
 or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop"));
 }
 }
