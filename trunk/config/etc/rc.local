@@ -35,8 +35,7 @@ if ($wm eq 'xfce4') {
 !system("sudo mv -f /etc/X11/xinit/xinitrc.simp /etc/X11/xinit/xinitrc") or die "$!\n";
 !system("sudo mv -f /home/ubuntu/.config/xfce4/desktop/menu.xml.zh_CN /home/ubuntu/.config/xfce4/desktop/menu.xml") or die "$!\n";
 !system("perl -pi -e 's!traditional!simplified!g' /home/ubuntu/.mozilla/firefox/k89vrm68.default/prefs.js") or die "$!\n";
-!system("perl -pi -e 's!Exec=firefox!Exec=firefox -UILocale zh-CN -contentLocale zh-CN!g' /home/ubuntu/.config/xfce4/panel/launcher-11524750113.rc") or die "$!\n";
-!system("perl -pi -e 's!碟!盘!g' /usr/local/bin/mount-partition.pl") or die "$!\n";
+#!system("perl -pi -e 's!Exec=firefox!Exec=firefox -UILocale zh-CN -contentLocale zh-CN!g' /home/ubuntu/.config/xfce4/panel/launcher-11524750113.rc") or die "$!\n";
 } else {
 }
 
@@ -71,7 +70,7 @@ if ($cmdline =~ m/opt=no(\s|$)/i) {
 
 # auto toggle NumLock if keyboard model is 'pc104'
 chomp(my $xkb_model = `grep XkbModel /etc/X11/xorg.conf | cut -d'"' -f4`);
-if ($xkb_model ne 'pc104') {
+if (($xkb_model ne 'pc104') && ($xkb_model ne 'pc105')) {
 !system("perl -pi -e 's!numlockx on!numlockx off!g' /etc/X11/xinit/xinitrc") or die "$!\n";
 }
 
