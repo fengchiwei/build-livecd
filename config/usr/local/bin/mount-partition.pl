@@ -5,6 +5,7 @@ $ENV{'LC_ALL'} = "zh_TW.UTF8";
 $ENV{'LANG'} = "zh_TW.UTF8";
 my @disk = `fdisk -l`;
 !system("mkdir /home/ubuntu/Desktop; chmod a+rw /home/ubuntu/Desktop") or warn "$!\n";
+&mk_home_shortcut();
 
 foreach (@disk) {
 next unless /^\/dev\/(\w+)\s/;
@@ -37,13 +38,33 @@ print SHORTCUT <<EOF;
 Version=1.0
 Encoding=UTF-8
 Type=Application
-Name=硬碟($mount_point)
-Comment=
+Name=HardDisk($mount_point)
+Name[zh_TW]=硬碟($mount_point)
+Name[zh_CN]=硬盘($mount_point)
 Categories=Application;
 Exec=thunar /mnt/$mount_point
-Icon=/usr/local/share/icons/gnome-dev-harddisk.png
+Icon=gnome-dev-harddisk
 Terminal=false
 StartupNotify=false
 EOF
 close(SHORTCUT);
+}
+
+sub mk_home_shortcut() {
+open(HOME, ">/home/ubuntu/Desktop/home.desktop") or die "$!\n";
+print HOME <<EOF;
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Type=Application
+Name=Home
+Name[zh_TW]=家目錄
+Name[zh_CN]=家目录
+Categories=Application;
+Exec=thunar
+Icon=gnome-fs-home
+Terminal=false
+StartupNotify=false
+EOF
+close(HOME);
 }

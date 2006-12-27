@@ -5,7 +5,7 @@
 #
 # global xinitrc file, used by all X sessions started by xinit (startx)
 
-export G_BROKEN_FILENAMES=1
+export LANGUAGE=zh_TW.UTF8
 export LANG=zh_TW.UTF8
 export LC_ALL=zh_TW.UTF8
 
@@ -14,10 +14,11 @@ export GTK_IM_MODULE=scim
 scim -d
 #export QT_IM_MODULE=scim
 
-exec ivman-launch &
-exec numlockx on &
+ivman-launch &
+numlockx on &
 #exec firefox &
 exec ion
 
 # invoke global X session script
 . /etc/X11/Xsession
+
