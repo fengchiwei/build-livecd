@@ -1,6 +1,8 @@
 pref("tongwentang.autoconvert.chineseCharset", "off");
-pref("tongwentang.autoconvert.oppositeCharsetOnly", "off");
+pref("tongwentang.autoconvert.oppositeCharsetOnly", true);
 pref("tongwentang.autoconvert.chineseEncodingOnly", true);
+pref("tongwentang.autoconvert.enableUtf8Trans", true);
+
 pref("tongwentang.debug", "off");
 pref("tongwentang.reloadSetting", false);
 pref("tongwentang.phrase.useInsideTable", true);
@@ -39,5 +41,8 @@ pref("tongwentang.filter.list" , "");
 pref("tongwentang.redefinephrase.enable" , false);
 pref("tongwentang.redefinephrase.s2t" , "");
 pref("tongwentang.redefinephrase.t2s" , "");
+
+pref("tongwentang.redefinephrase2.s2t" , "");
+pref("tongwentang.redefinephrase2.t2s" , "");
 
 pref("tongwentang.toolbar.enable" , true);

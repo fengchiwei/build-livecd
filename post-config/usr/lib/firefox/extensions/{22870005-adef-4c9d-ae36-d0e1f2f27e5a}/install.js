@@ -1,4 +1,4 @@
-const X_VERSION		= "0.2.9.5";
+const X_VERSION		= "0.2.9.9.0";
 const X_MSG			= "\u65b0\u540c\u6587\u5802(New Tong Wen Tang)";
 const X_NAME		= "/hashao/tongwen";
 const X_AUTH		= "hashao"

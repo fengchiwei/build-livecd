@@ -24,9 +24,10 @@ our(%VAR, %opts, @action, %act);
 getopts('phc:d:', \%opts);
 
 our($y, $m, $d, $h) = (localtime)[5, 4, 3, 2];
-$VAR{'TARGET_DIR'} 	= $opts{'d'} || sprintf("../pud_builddir/lzma-%.4d%.2d%.2d-%.2d", $y+1900, $m+1, $d, $h);
+$VAR{'TARGET_DIR'} 	= $opts{'d'} || sprintf("../pud_builddir/edgy-%.4d%.2d%.2d-%.2d", $y+1900, $m+1, $d, $h);
 $VAR{'SYSTEM'} 		= $VAR{'TARGET_DIR'}.'/system';
 $VAR{'CDROM'} 		= $VAR{'TARGET_DIR'}.'/cdrom';
+$VAR{'INFO'} 		= $VAR{'TARGET_DIR'}.'/cdrom/info';
 $VAR{'LEFT'}		= $VAR{'TARGET_DIR'}.'/left';
 $VAR{'TEMPLATE'} = 'config';
 $VAR{'POST'} = 'post-config';
@@ -76,7 +77,7 @@ sub do_chroot {
 }
 
 sub bootstrap {
-&system_call("debootstrap --arch i386 dapper $VAR{'SYSTEM'} http://apt.ubuntu.org.tw/ubuntu");
+&system_call("debootstrap --arch i386 edgy $VAR{'SYSTEM'} http://apt.ubuntu.org.tw/ubuntu");
 # http://archive.ubuntulinux.org/ubuntu
 # http://ubuntu.cn99.com/ubuntu/
 }
@@ -117,18 +118,19 @@ sub apt_install {
 open(L, 'install.txt') or die "$!\n"; my $list; for (<L>) { chomp; next if /^#/; $list .= " $_"; } close(L);
   
 print "[$0] install packages\n";
+&do_chroot('debconf-set-selections /preseed.cfg');
 &do_chroot("apt-get install --yes --force-yes $list");
-&do_chroot('debconf-set-selections /localepurge_preseed.cfg');
 &do_chroot("apt-get install --yes --force-yes localepurge");
-&do_chroot("rm -f /localepurge_preseed.cfg");
+&do_chroot("rm -f /preseed.cfg");
 &do_chroot("apt-get remove aptitude ubuntu-minimal -y; dpkg -P aptitude ubuntu-minimal");
 } 
  
 sub pud_lize {
 # pud-lize
 print "[$0] PUD-lize the Live CD system...\n";
-&do_chroot('update-alternatives --install /usr/lib/usplash/usplash-artwork.so usplash-artwork.so /usr/lib/usplash/usplash-fixed.so 55');
-#&do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
+#&do_chroot('update-alternatives --install /usr/lib/usplash/usplash-artwork.so usplash-artwork.so /usr/lib/usplash/usplash-fixed.so 55');
+&do_chroot('rm -f /bin/sh');
+&do_chroot('ln -s /bin/bash /bin/sh');
 &do_chroot('rm -f /etc/skel/.bashrc');
 &do_chroot('rm -rf /etc/X11/ion3/');
 &do_chroot('rm -f /usr/share/ubuntu-artwork/home/index.html');
@@ -152,7 +154,6 @@ print "OK.\n";
 # post-config
 print "[$0] Copying post-config files...";
 &system_call("cp -a $VAR{'POST'}/*  $VAR{'SYSTEM'}/");
-#&do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
 &do_chroot('updatedb');
 
 print "OK.\n"; 
@@ -160,13 +161,13 @@ print "OK.\n";
 # files for cdrom 
 &system_call("cp -a $VAR{'CDROM-TEMP'}/  $VAR{'TARGET_DIR'}/");
 &do_chroot('dpkg -l > packages.txt');
-&system_call("mv packages.txt $VAR{'CDROM'}/");
+&system_call("mv packages.txt $VAR{'INFO'}/");
 }  
 
 sub apt_clean {
 # clean up
 print "[$0] Clean up the Live CD system...";
-  
+
 # remove list
 open(R, 'remove.txt') or die "$!\n"; 
 my $dir;
@@ -182,7 +183,7 @@ for (<R>) {
 }
 close(R);
 
-&do_chroot('dpkg-reconfigure linux-image-2.6.15-26-386');
+&do_chroot('dpkg-reconfigure linux-image-2.6.17-10-generic');
 
 &do_chroot('apt-get clean');
 &do_chroot('localepurge');
@@ -197,16 +198,17 @@ print "OK.\n";
 
 sub make_squashfs {
 # compress
-&system_call("post-config/usr/sbin/mksquashfs-lzma $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -info");
+&system_call("mksquashfs $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -info");
 }
 
 sub make_iso {
+&system_call("rm -f $VAR{'SYSTEM'}/boot/*.bak");
 &system_call("cp $VAR{'SYSTEM'}/boot/vmlinuz-* $VAR{'CDROM'}/vmlinuz");
 &system_call("cp $VAR{'SYSTEM'}/boot/initrd.img-* $VAR{'CDROM'}/initrd.gz");
 #&system_call("cp /usr/lib/syslinux/isolinux.bin $VAR{'ISOLINUX'}/");
   
 # &system_call("cp $VAR{'TEMPLATE'}/ubuntu.xpm.gz $VAR{'GRUB'}/");
-&system_call("cp /lib/grub/i386-pc/stage2_eltorito $VAR{'GRUB'}/");
+&system_call("cp /usr/lib/grub/i386-pc/stage2_eltorito $VAR{'GRUB'}/");
 # &system_call("cp $VAR{'TEMPLATE'}/menu.lst $VAR{'GRUB'}");
 chdir $VAR{'CDROM'};
 &system_call("mkisofs -R -l -V 'PUD GNU/Linux' -b boot/grub/stage2_eltorito -no-emul-boot -boot-load-size 4 -boot-info-table -o ../../$VAR{'TARGET_DIR'}.iso .");

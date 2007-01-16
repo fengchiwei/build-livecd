@@ -1,8 +1,0 @@
-passwd	passwd/root-password-crypted	password	*
-passwd	passwd/root-password-again	password	*
-passwd	passwd/user-password-crypted	password	U6aMy0wojraho
-passwd	passwd/user-password-again	password	U6aMy0wojraho
-passwd	passwd/user-fullname	string	Ubuntu LiveCD user
-passwd	passwd/username	string	ubuntu
-passwd	passwd/user-uid	string	999
-passwd	passwd/make-user	boolean	true

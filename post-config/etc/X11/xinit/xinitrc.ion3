@@ -16,7 +16,7 @@ scim -d
 
 ivman-launch &
 numlockx on &
-exec ion
+exec ion3
 
 # invoke global X session script
 . /etc/X11/Xsession

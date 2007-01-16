@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Silicon
+Comment=A clean theme to be easy on the eyes
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Silicon
+MetacityTheme=Silicon
+IconTheme=Tango
+
+

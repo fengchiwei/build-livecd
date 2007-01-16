@@ -1,8 +1,8 @@
 [Window]
 MainWndX=0
 MainWndY=0
-MainWndW=1270
-MainWndH=987
+MainWndW=1280
+MainWndH=954
 
 [General]
 QueryOnExit=1
@@ -22,7 +22,9 @@ PopupTimeout=6
 [Display]
 FontFamily=Sans
 FontSize=14
-AntiAliasFont=1
+FontFamilyEn=Sans
+FontSizeEn=14
+AntiAliasFont=0
 CompactLayout=0
 HorizontalCenterAlign=0
 VerticalCenterAlign=0
@@ -51,7 +53,7 @@ HyperLinkColor=255,102,0
 [Site]
 AutoReconnect=20
 AntiIdle=180
-AntiIdleStr=^[OB
+AntiIdleStr=^[[A^[[B
 Cols=80
 Rows=24
 TermType=vt100

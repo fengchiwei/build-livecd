@@ -1,7 +1,7 @@
 const APP_DISPLAY_NAME = "FlashGot";
 const APP_NAME = "flashgot";
 const APP_PACKAGE = "/informaction/flashgot";
-const APP_VERSION = "0.5.96.060910";
+const APP_VERSION = "0.5.97.03";
 
 const APP_PREFS_FILE="defaults/preferences/flashgot.js";
 const APP_XPCOM_SERVICE="components/flashgotService.js";
@@ -14,7 +14,7 @@ const APP_LOCALES = [
   "he-IL","tr-TR","sr-YU", "ca-AD",
   "zh-TW","zh-CN","el-GR", "uk-UA",
   "lt-LT","ja-JP","pl-PL", "hr-HR",
-  "id-ID","cs-CZ","ko-KR",
+  "id-ID","cs-CZ","ko-KR", "be-BY",
   "nb-NO","ro-RO","sk-SK",
   "fa-IR","sl-SI","ar-JO",
   "bg-BG","da-DK","pt-BR",

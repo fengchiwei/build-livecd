@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE RDF [
-<!ENTITY tongwen-version "0.2.9.5">
+<!ENTITY tongwen-version "0.2.9.9.0">
 <!ENTITY firefox-version.minimun "0.8">
 <!ENTITY firefox-version.maximun "3.0">
 <!ENTITY Flock-version.minimun "0.4">

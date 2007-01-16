@@ -5,12 +5,13 @@
  
    <em:id>{19503e42-ca3c-4c27-b1e2-9cdb2170ee34}</em:id>
    <em:name>FlashGot</em:name>
-   <em:version>0.5.96.060910</em:version>
+   <em:version>0.5.97.03</em:version>
    <em:description>Enables Firefox, Mozilla Suite, Netscape and Thunderbird to handle single and massive (&quot;all&quot; and &quot;selection&quot;) downloads using the most popular external download managers for Windows, Mac OS X, Linux and FreeBSD (dozens currently supported, see Extension's Home Page for details). FlashGot offers also a Build Gallery functionality which helps to synthetize full media galleries in one page, from serial contents originally scattered on several pages, for easy and fast &quot;download all&quot;.</em:description>
    <em:creator>Giorgio Maone</em:creator>
    
    <em:contributor>Ahmad Zhafir (Malay translation)</em:contributor>
    <em:contributor>Alexander &quot;Hawksthorne&quot; Kirilov and splt-rmx (Bulgarian translation)</em:contributor>
+   <em:contributor>DRKA (Belarusian translation)</em:contributor>
    <em:contributor>Anthony L. Bryan and Darius Liktorius (Metalink support)</em:contributor>
    <em:contributor>Artek Działek, Bartosz Piec and Piotr Konieczny (Polish translation)</em:contributor>
    <em:contributor>Axel Zechner (KGet support)</em:contributor>
@@ -37,13 +38,14 @@
    <em:contributor>Jonathan Avraham (Hebrew translation)</em:contributor>
    <em:contributor>Jouko Saarinen (Finnish translation)</em:contributor>
    <em:contributor>Jure Osredkar and Miles (Slovenian translation)</em:contributor>
-   <em:contributor>Kesisidis  Dimitrios (Greek translation)</em:contributor>
+   <em:contributor>Kesisidis  Dimitrios and Rookie (Greek translation)</em:contributor>
    <em:contributor>Krcko (Croatian translation)</em:contributor>
    <em:contributor>Kostas Papadimas (Greek translation)</em:contributor>
    <em:contributor>Tomas Kordik (Czech translation)</em:contributor>
    <em:contributor>Leif Larsson (Swedish translation)</em:contributor>
    <em:contributor>Levent Karakas (Turkish translation)</em:contributor>
    <em:contributor>Luca Pedrazzi (Italian translation)</em:contributor>
+   <em:contributor>Max Velasques (wxDownload Fast support)</em:contributor>
    <em:contributor>M. Agras and Urko (Spanish translation)</em:contributor>
    <em:contributor>Marius Navickas (Lithuanian translation)</em:contributor>
    <em:contributor>Martin Joné (Norwegian Bokmål translation)</em:contributor>
@@ -75,7 +77,7 @@
      <Description>
      <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
      <em:minVersion>1.0</em:minVersion>
-     <em:maxVersion>3.0a1</em:maxVersion>
+     <em:maxVersion>3.0a2</em:maxVersion>
      </Description>
    </em:targetApplication>
    
@@ -110,7 +112,7 @@
       <Description>
         <em:id>{3db10fab-e461-4c80-8b97-957ad5f8ea47}</em:id>
         <em:minVersion>8.0</em:minVersion>
-        <em:maxVersion>8.1</em:maxVersion>
+        <em:maxVersion>8.1.2</em:maxVersion>
       </Description>
     </em:targetApplication>
     
@@ -118,8 +120,8 @@
    <em:targetApplication> 
       <Description>
         <em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
-        <em:minVersion>1.0+</em:minVersion>
-        <em:maxVersion>1.0+</em:maxVersion>
+        <em:minVersion>0.4</em:minVersion>
+        <em:maxVersion>0.8</em:maxVersion>
       </Description>
     </em:targetApplication>
     
@@ -129,6 +131,7 @@
        <em:skin>skin/classic/flashgot/</em:skin>
        <em:locale>content/flashgot/en-US/</em:locale>
        <em:locale>locale/ar-JO/flashgot/</em:locale>
+       <em:locale>locale/be-BY/flashgot/</em:locale>
        <em:locale>locale/bg-BG/flashgot/</em:locale>
        <em:locale>locale/ca-AD/flashgot/</em:locale>
        <em:locale>locale/cs-CZ/flashgot/</em:locale>

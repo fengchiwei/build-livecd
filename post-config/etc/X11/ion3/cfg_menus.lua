@@ -33,6 +33,7 @@ defmenu("netmenu", {
     menuentry("BBS 連線 (pcmanx)",          "ioncore.exec_on(_, 'pcmanx')"),
     menuentry("P2P 下載 (amule)",          "ioncore.exec_on(_, 'amule')"),
     menuentry("FTP 連線 (gftp)",          "ioncore.exec_on(_, 'gftp')"),
+    menuentry("BT 下載 (btdownloadgui)",          "ioncore.exec_on(_, 'btdownloadgui')"),
     menuentry("下載管理員 (aria)", "ioncore.exec_on(_, 'aria')"),
 })
 
