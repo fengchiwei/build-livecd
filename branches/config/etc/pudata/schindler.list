@@ -1,0 +1,11 @@
+/home/
+/root/
+/etc/network
+/etc/ppp
+/etc/resolv.conf
+/etc/X11/xinit
+/etc/X11/xorg.conf
+/etc/cups
+/etc/inittab
+/etc/init.d/
+/etc/pudata/

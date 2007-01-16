@@ -1,0 +1,52 @@
+# boot menu configuration file
+
+# Boot automatically after 10 secs.
+timeout 10 
+
+# By default, boot the first entry.
+default 0
+
+# Fallback to the second entry.
+fallback 1
+
+splashimage=(cd)/boot/grub/ubuntu.xpm.gz
+
+title  PUD GNU/Linux Home Edition (English)
+root (cd)
+kernel /vmlinuz root=/ boot=casper showmounts wm=en splash
+initrd /initrd.gz
+
+#title  PUD GNU/Linux Home Edition to RAM (experimental)
+#root (cd)
+#kernel /vmlinuz root=/ quiet splash vga=792 boot=casper show-cow wm=xfce4 toram
+#initrd /initrd.gz
+
+title  PUD GNU/Linux Home Edition (Traditional Chinese)
+root (cd)
+kernel /vmlinuz root=/ boot=casper showmounts wm=tw splash
+initrd /initrd.gz
+
+title  PUD GNU/Linux Home Edition (Simplified Chinese)
+root (cd)
+kernel /vmlinuz root=/ boot=casper showmounts wm=simp splash
+initrd /initrd.gz
+
+title  PUD GNU/Linux Professional Edition
+root (cd)
+kernel /vmlinuz root=/ boot=casper showmounts wm=ion3 vga=792
+initrd /initrd.gz
+
+# For booting Windows NT or Windows95
+title Boot from the first hard disk
+rootnoverify (hd0,0)
+makeactive
+chainloader  +1
+
+# For installing GRUB into the hard disk
+#title Install GRUB into the hard disk
+#root    (hd0,0)
+#setup   (hd0)
+
+# Change the colors.
+#title Change the colors
+#color light-green/brown blink-red/blue
