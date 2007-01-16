@@ -28,7 +28,7 @@ print "Modify $target/boot.ini ...";
 !system(qq{echo 'c:\\grldr="PUD GNU/Linux"' >> $target/boot.ini}) or die "$!\n";
 print "OK.\n";
 } else {
-print "It seems you have embedded before, it will now be upgraded.";
+print "It seems you have embedded before, it will now be upgraded.\n";
 }
 
 print "Copy all necessary files (this may take a while) ...";
