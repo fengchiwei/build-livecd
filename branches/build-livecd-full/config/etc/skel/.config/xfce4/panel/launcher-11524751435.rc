@@ -1,7 +1,0 @@
-[Entry 0]
-Name=影音播放 (vlc)\ 
-Exec=vlc
-Terminal=false
-StartupNotify=false
-Icon=/usr/local/share/icons/xmms.png
-

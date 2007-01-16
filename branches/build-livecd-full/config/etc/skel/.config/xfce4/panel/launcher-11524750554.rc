@@ -1,7 +1,0 @@
-[Entry 0]
-Name=終端機 (rxvt-unicode)\ 
-Exec=/usr/bin/rxvt.sh
-Terminal=false
-StartupNotify=false
-Icon=/usr/local/share/icons/terminal.png
-

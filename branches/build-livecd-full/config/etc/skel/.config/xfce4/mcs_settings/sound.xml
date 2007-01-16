@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mcs-option SYSTEM "mcs-option.dtd">
-
-<mcs-option>
-	<option name="Sound/Mixer/DefaultDevice" type="string" value="default"/>
-	<option name="Sound/Mixer/Useful:#0: C-Media PCI CMI8738" type="string" value="@Master,0@3D Control - Switch,0@PCM,0@Synth,0@Line,0@Line-In Mode,0@CD,0@Mic,0@Mic Boost,0@Phone,0@IEC958 5V,0@IEC958 Copyright,0@IEC958 In Monitor,0@IEC958 In Phase Inverse,0@IEC958 In Select,0@IEC958 In Valid,0@IEC958 Loop,0@IEC958 Mix Analog,0@IEC958 Output,0@PC Speaker,0@PC Speaker Playnack,0@Aux,0@Exchange DAC,0@Four Channel Mode,0@"/>
-	<option name="Sound/Mixer/Useful:#1: Camera" type="string" value="@"/>
-	<option name="Sound/Mixer/Useful:default" type="string" value="@Master,0@3D Control - Switch,0@PCM,0@Synth,0@Line,0@Line-In Mode,0@CD,0@Mic,0@Mic Boost,0@Phone,0@IEC958 5V,0@IEC958 Copyright,0@IEC958 In Monitor,0@IEC958 In Phase Inverse,0@IEC958 In Select,0@IEC958 In Valid,0@IEC958 Loop,0@IEC958 Mix Analog,0@IEC958 Output,0@PC Speaker,0@PC Speaker Playnack,0@Aux,0@Exchange DAC,0@Four Channel Mode,0@"/>
-</mcs-option>

@@ -1,7 +1,0 @@
-[Entry 0]
-Name=網頁瀏覽器 (firefox)\ 
-Exec=firefox
-Terminal=false
-StartupNotify=false
-Icon=/usr/local/share/icons/browser.png
-
