@@ -1,0 +1,16 @@
+[Desktop Entry]
+Categories=Application;Network;
+Encoding=UTF-8
+Name=Configures PPPoE/ADSL connections
+Name[zh_TW]=設定 PPPoE/ADSL 連線
+Name[zh_CN]=设定 PPPoE/ADSL 连线
+Exec=sudo pppoeconf
+Icon=gnome-settings
+Type=Application
+Terminal=false
+GenericName=Configures PPPoE/ADSL connections
+GenericName[zh_TW]=設定 PPPoE/ADSL 連線
+GenericName[zh_CN]=设定 PPPoE/ADSL 连线
+Comment=Configures PPPoE/ADSL connections
+Comment[zh_TW]=設定 PPPoE/ADSL 連線
+Comment[zh_CN]=设定 PPPoE/ADSL 连线

@@ -1,0 +1,21 @@
+content	 gspace  jar:chrome/gspace.jar!/content/gspace/
+
+# overlays
+overlay	 chrome://browser/content/browser.xul	chrome://gspace/content/gspace.xul
+
+# locales
+locale   gspace  hr-HR  jar:chrome/gspace.jar!/locale/gspace/hr-HR/
+locale   gspace  pl-PL  jar:chrome/gspace.jar!/locale/gspace/pl-PL/
+locale   gspace  ca-AD  jar:chrome/gspace.jar!/locale/gspace/ca-AD/
+locale   gspace  hu-HU  jar:chrome/gspace.jar!/locale/gspace/hu-HU/
+locale   gspace  it-IT  jar:chrome/gspace.jar!/locale/gspace/it-IT/
+locale   gspace  en-US  jar:chrome/gspace.jar!/locale/gspace/en-US/
+locale   gspace  tr-TR  jar:chrome/gspace.jar!/locale/gspace/tr-TR/
+locale   gspace  ru-RU  jar:chrome/gspace.jar!/locale/gspace/ru-RU/
+locale   gspace  es-ES  jar:chrome/gspace.jar!/locale/gspace/es-ES/
+locale   gspace  fr-FR  jar:chrome/gspace.jar!/locale/gspace/fr-FR/
+locale   gspace  sk  jar:chrome/gspace.jar!/locale/gspace/sk/
+locale   gspace  de-DE  jar:chrome/gspace.jar!/locale/gspace/de-DE/
+
+# skin
+skin     gspace  classic/1.0  jar:chrome/gspace.jar!/skin/classic/gspace/
