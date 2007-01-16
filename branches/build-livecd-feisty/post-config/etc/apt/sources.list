@@ -1,0 +1,22 @@
+## Feisty Fawn - Officials Repos
+
+## Base
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty universe main multiverse restricted
+
+## Updates
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-updates universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty-updates universe main multiverse restricted
+
+## Security
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-security universe main restricted multiverse
+#deb-src http://tw.archive.ubuntu.com/ubuntu feisty-security main restricted universe multiverse
+
+## Backports
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-backports universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty-backports universe main multiverse restricted
+
+## Proposed
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-proposed universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty-proposed universe main multiverse restricted
+

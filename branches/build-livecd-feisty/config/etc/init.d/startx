@@ -1,0 +1,39 @@
+#!/bin/sh
+# /etc/init.d/auto_startx: start or stop primary user's X session
+FLAGS="defaults 99"
+
+set -e
+
+PATH=/usr/auto/bin:/usr/auto/sbin:/usr/X11R6/bin:/bin:/usr/bin:/sbin:/usr/sbin
+DAEMON=/usr/bin/X11/startx
+
+test -x $DAEMON || exit 0
+
+case "$1" in
+  start)
+    #[ "$2" != "now" ] && sleep 8s
+    echo -n "Starting X session: startx"
+    cd ~ubuntu
+#    /bin/su - ubuntu -c "/usr/bin/X11/startx -- :0 vt7 -dpi 96 -deferglyphs all" </dev/tty7 >/dev/tty7 2>&1 & echo $! >$PIDFILE
+    /bin/su - ubuntu -c "/usr/bin/X11/startx" </dev/tty4 >/dev/tty4 2>&1 &
+    echo "."
+  ;;
+
+  restart)
+    /etc/init.d/auto_startx stop
+    /etc/init.d/auto_startx start
+  ;;
+
+  stop)
+    echo -n "Stopping X session: startx"
+    killall xinit || echo -n " not running"
+    echo "."
+  ;;
+
+  *)
+    echo "Usage: /etc/init.d/auto_startx {start|stop|restart}"
+    exit 1
+    ;;
+esac
+
+exit 0
