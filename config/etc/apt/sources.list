@@ -1,31 +1,22 @@
-# apt.ubtw
-deb http://apt.ubuntu.org.tw/ubuntu dapper-updates main restricted universe multiverse
-# deb-src http://apt.ubuntu.org.tw/ubuntu dapper-updates main restricted universe multiverse
-deb http://apt.ubuntu.org.tw/ubuntu dapper main universe multiverse restricted
-# deb-src http://apt.ubuntu.org.tw/ubuntu dapper main universe multiverse restricted
-deb http://apt.ubuntu.org.tw/ubuntu dapper-backports main universe multiverse restricted
-# deb-src http://apt.ubuntu.org.tw/ubuntu dapper-backports main universe multiverse restricted
-deb http://apt.ubuntu.org.tw/ubuntu dapper-security main restricted universe multiverse
-# deb-src http://apt.ubuntu.org.tw/ubuntu dapper-security main restricted universe multiverse
+## Feisty Fawn - Officials Repos
 
-#deb http://archive.ubuntu.com/ubuntu dapper main restricted universe multiverse
-#deb-src http://archive.ubuntu.com/ubuntu dapper main restricted universe multiverse
-#deb http://archive.ubuntu.com/ubuntu dapper-updates main restricted universe multiverse
-#deb-src http://archive.ubuntu.com/ubuntu dapper-updates main restricted universe multiverse
-#deb http://archive.ubuntu.com/ubuntu dapper-security main restricted universe multiverse
-#deb-src http://archive.ubuntu.com/ubuntu dapper-security main restricted universe multiverse
-#deb http://archive.ubuntu.com/ubuntu dapper-backports main restricted universe multiverse
-#deb-src http://archive.ubuntu.com/ubuntu dapper-backports main restricted universe multiverse
+## Base
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty universe main # multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty universe main multiverse restricted
 
-# ubtw
-deb http://apt.ubuntu.org.tw ubtw/
-#deb http://apt.ubuntu.org.tw ubtw-testing/
+## Updates
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-updates universe main # multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty-updates universe main multiverse restricted
 
-# aMule 2.1.3 for Ubuntu Dapper i386
-deb http://twemu.no-ip.org/apt/amule-testing/dapper/ ./
-#deb-src http://twemu.no-ip.org/apt/amule-testing/dapper/ ./
+## Security
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-security universe main # restricted multiverse
+#deb-src http://tw.archive.ubuntu.com/ubuntu feisty-security main restricted universe multiverse
 
-#Givre's repository (ntfs-3g & fuse 2.5.3)
-#deb http://givre.cabspace.com/ubuntu/ dapper main
-deb http://ntfs-3g.sitesweetsite.info/ubuntu/ dapper main
-# deb-src http://givre.cabspace.com/ubuntu/ dapper main
+## Backports
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-backports universe main # multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty-backports universe main multiverse restricted
+
+## Proposed
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-proposed universe main # multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty-proposed universe main multiverse restricted
+

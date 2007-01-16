@@ -17,6 +17,7 @@ overlay	chrome://messenger/content/mailWindowOverlay.xul	chrome://flashgot/conte
 
 locale	flashgot	en-US	jar:chrome/flashgot.jar!/content/flashgot/en-US/
 locale	flashgot	ar-JO	jar:chrome/flashgot.jar!/locale/ar-JO/flashgot/
+locale	flashgot	be-BY	jar:chrome/flashgot.jar!/locale/be-BY/flashgot/
 locale	flashgot	bg-BG	jar:chrome/flashgot.jar!/locale/bg-BG/flashgot/
 locale	flashgot	ca-AD	jar:chrome/flashgot.jar!/locale/ca-AD/flashgot/
 locale	flashgot	cs-CZ	jar:chrome/flashgot.jar!/locale/cs-CZ/flashgot/

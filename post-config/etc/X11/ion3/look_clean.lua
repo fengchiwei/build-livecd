@@ -13,7 +13,7 @@ de.defstyle("*", {
     highlight_pixels = 1,
     shadow_pixels = 1,
     border_style = "elevated",
-    font = "fixed",
+    font = "-misc-fixed-medium-r-*-*-13-*-*-*-*-60-*-*",
     text_align = "center",
 })
 
@@ -29,18 +29,9 @@ de.defstyle("frame", {
     }),
 })
 
-de.defstyle("frame-tiled", {
-    based_on = "frame",
-    padding_pixels = 0,
-    highlight_pixels = 0,
-    shadow_pixels = 0,
-    spacing = 1,
-})
-
-
 de.defstyle("tab", {
     based_on = "*",
-    font = "fixed",
+    font = "-misc-fixed-medium-r-*-*-13-*-*-*-*-60-*-*",
     de.substyle("active-selected", {
         shadow_colour = "white",
         highlight_colour = "white",
@@ -81,7 +72,6 @@ de.defstyle("tab-menuentry", {
 
 de.defstyle("tab-menuentry-big", {
     based_on = "tab-menuentry",
---    font = "-*-fixed-medium-r-normal-*-17-*-*-*-*-*-*-*",
     padding_pixels = 7,
 })
 
@@ -103,7 +93,7 @@ de.defstyle("input", {
         background_colour = "#aaaaaa",
         foreground_colour = "black",
     }),
-    font = "fixed",
+    font = "-misc-fixed-medium-r-*-*-13-*-*-*-*-60-*-*",
 })
 
 dopath("lookcommon_clean")

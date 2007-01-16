@@ -67,6 +67,7 @@
 		<app name="即时通讯 (gaim)" cmd="gaim" icon="/usr/local/share/icons/browser.png"/>
 		<app name="BBS 连线 (pcmanx)" cmd="pcmanx" icon="/usr/local/share/icons/browser.png"/>
 		<app name="FTP 连线 (gftp)" cmd="gftp" icon="/usr/local/share/icons/browser.png"/>
+                <app name="BT 下载 (btdownloadgui)" cmd="btdownloadgui" icon="/usr/local/share/icons/browser.png"/>
 		<app name="P2P 软体 (amule)" cmd="amule" icon="/usr/local/share/icons/browser.png"/>
 	</menu>
 

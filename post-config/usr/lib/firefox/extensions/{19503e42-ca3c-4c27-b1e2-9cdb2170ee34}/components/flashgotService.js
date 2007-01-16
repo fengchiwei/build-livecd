@@ -16,7 +16,7 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
+                             
 ***** END LICENSE BLOCK *****/
 
 // *****************************************************************************
@@ -184,7 +184,7 @@ FlashGotDM.prototype = {
 ,
   createJobBody: function(links) {
     var job="";
-    var l,url;
+    var l, url;
     const len=links.length;
     this.checkCookieSupport();
     var postData = links.postData || "";
@@ -311,7 +311,7 @@ FlashGotDM.prototype = {
     }
     
     links.cookies=hostCookies;
-    return this.getCookie(link,links);
+    return this.getCookie(link, links);
   }
 ,
   createJobFile: function(job) {
@@ -502,6 +502,18 @@ FlashGotDM.prototype = {
   },
   sanitizeWinArg: function(a) {
     return a.replace(/([\|\(\) &\^])/g, "^$1"); 
+  },
+  supportURLList: function(links, argsTemplate) {
+    if(/\[[^\]]*UFILE[^\]]*\]/.test(argsTemplate) && links.length) {
+      // we must create a file list
+      var urlList = "";
+      for(j = 0; j < links.length; j++) {
+        urlList += links[j].href + "\n";
+      }
+      links.length = 1;
+      return this.createJobFile(urlList).path
+    }
+    return null;
   }
   
 }
@@ -528,7 +540,7 @@ FlashGotDMX.prototype.unixCmds=[];
 FlashGotDMX.prototype.unixShell=null;
 FlashGotDMX.prototype.argsTemplate="[URL]";
 FlashGotDMX.prototype.launchSupportTest=function(testFile) {
-  const cmds=this.unixCmds;
+  const cmds = this.unixCmds;
   var script="(\n";
   var cmd;
   for(var j=cmds.length; j-->0;) {
@@ -540,10 +552,10 @@ FlashGotDMX.prototype.launchSupportTest=function(testFile) {
   this.performJob(script,true);
 };
 
-FlashGotDMX.prototype.createCmdLine=function(URL, REFERER, COOKIE, FOLDER, POST) {
-  const parms={ URL: URL, REFERER: REFERER, COOKIE: COOKIE, FOLDER: FOLDER, POST: POST };
-  return this.unixCmd+ " " +
-    this.argsTemplate.replace(/\[(.*?)(URL|REFERER|COOKIE|FOLDER|POST)(.*?)\]/g,
+FlashGotDMX.prototype.createCmdLine=function(URL, REFERER, COOKIE, FOLDER, POST, UFILE) {
+  const parms={ URL: URL, REFERER: REFERER, COOKIE: COOKIE, FOLDER: FOLDER, POST: POST, UFILE: UFILE };
+  return this.unixCmd + " " +
+    this.argsTemplate.replace(/\[(.*?)(URL|REFERER|COOKIE|FOLDER|POST|UFILE)(.*?)\]/g,
       function(all,before,parm,after) { 
           v=parms[parm]; 
           return typeof(v) != "undefined" && v != null
@@ -558,22 +570,25 @@ FlashGotDMX.prototype.shellEsc = function(s) {
 FlashGotDMX.prototype.createJob=function(links,opType) {
   const shellEsc = this.shellEsc;
   // basic implementation
-  const len=links.length;
+
   const folder=shellEsc(links.folder);
   const referrer=shellEsc(this.getReferrer(links));
   const postData=shellEsc(links.postData);
   var job="";
   var l, url;
   this.checkCookieSupport();
-  for(var j=0; j<len; j++) {
-    l=links[j];
-    url=l.href;
-    job+=this.createCmdLine(
+  var urlListFile = this.supportURLList(links, this.argsTemplate);
+  for(var j = 0, len = links.length; j < len; j++) {
+    l = links[j];
+    url = l.href;
+    job += this.createCmdLine(
       shellEsc(url), 
       referrer, 
-      shellEsc(this.getCookie(l,links)), 
+      shellEsc(this.getCookie(l, links)), 
       folder, 
-      postData);
+      postData,
+      shellEsc(urlListFile)
+      );
     this.updateProgress(links, j, len);
   }
   return job;
@@ -711,10 +726,6 @@ function FlashGotDMCust(name) {
   if(arguments.length==0 || (!name) || (!name.length)) return;
   name=name.replace(/,/g," ");
   this._init(name);
-  
-  const cc=Components.classes;
-  const ci=Components.interfaces;
-  const svc=this.service;
   this.prefsBase="custom."+this.codeName+".";
 }
 
@@ -763,8 +774,9 @@ FlashGotDMCust.prototype.__defineSetter__("exeFile",function(v) {
 });
 
 FlashGotDMCust.prototype.__defineGetter__("argsTemplate",function() {
-  var t=this.service.getPref(this.prefsBase+"args","[URL]");
-  return /['"`]/.test(t)?this.argsTemplate=t:t;  
+  if(this.forcedTemplate) return this.forcedTemplate;
+  var t = this.service.getPref(this.prefsBase+"args","[URL]");
+  return /['"`]/.test(t) ? this.argsTemplate = t : t;
 });
 FlashGotDMCust.prototype.__defineSetter__("argsTemplate",function(v) {
   if(!v) {
@@ -779,8 +791,8 @@ FlashGotDMCust.prototype.__defineSetter__("argsTemplate",function(v) {
 FlashGotDMCust.prototype.cookieSupport=false;
 FlashGotDMCust.prototype.askPath=[true,true,true];
 
-FlashGotDMCust.prototype.download = function(links,opType) {
-  const t=this.argsTemplate;
+FlashGotDMCust.prototype.download = function(links, opType) {
+  const t = this.argsTemplate;
   this.cookieSupport=/\[.*?COOKIE.*?\]/.test(t);
   this.askPath[opType]=/\[.*?FOLDER.*?\]/.test(t);
   var exeFile=this.exeFile;
@@ -789,7 +801,7 @@ FlashGotDMCust.prototype.download = function(links,opType) {
     // try changing the first part of path
     var path = exeFile.path;
     var profPath = this.service.profDir.path;
-    var pos1, pos2;
+    var pos1, pos2;g
     if(path[1] == ":" && profPath[1] == ":") { 
       // easy, it's Windows, swap drive letter
       path = profPath[0] + path.substring(1);
@@ -842,10 +854,10 @@ FlashGotDMCust.prototype._addParts=function(a,s) {
     }
   } 
 };
-FlashGotDMCust.prototype.makeArgs=function(URL, REFERER, COOKIE, FOLDER, POST,  CFILE, UFILE) {
+FlashGotDMCust.prototype.makeArgs = function(URL, REFERER, COOKIE, FOLDER, POST,  CFILE, UFILE) {
   const parms={ URL: URL, REFERER: REFERER, COOKIE: COOKIE, FOLDER: FOLDER, POST: POST,  CFILE: CFILE, UFILE: UFILE};
   const args=[];
-  var t=this.argsTemplate;
+  var t = this.argsTemplate;
   var j, v, len, s;
   var isWin = this.exeFile.path.indexOf("\\") > -1;
   var idx;
@@ -883,22 +895,18 @@ FlashGotDMCust.prototype.makeArgs=function(URL, REFERER, COOKIE, FOLDER, POST,  
   return args;
 };
 
-FlashGotDMCust.prototype.createJob=function(links,opType) {
+FlashGotDMCust.prototype.createJob=function(links, opType) {
   return { links: links, opType: opType };
 };
 
 FlashGotDMCust.prototype.performJob=function(job) {
-  const links=job.links;
-  const exeFile=links.exeFile;
-  if(!exeFile) return;
-  
-  const len=links.length;
-  if(len < 1) return;
+  const links = job.links;
+  const exeFile = links.exeFile;
+  if(links.length < 1 || !exeFile) return;
   
   const folder=links.folder;
   const referrer = this.getReferrer(links);
   const postData = links.postData;
-  var l, url;
   
   this.checkCookieSupport();
   var cookieFile;
@@ -909,45 +917,24 @@ FlashGotDMCust.prototype.performJob=function(job) {
     cookieFile.append("cookies.txt");
     cookieFile = cookieFile.path;
   }
-  
-  var j;
-  if(/\[[^\]]*UFILE[^\]]*\]/.test(this.argsTemplate)) {
-    // we must create a file list
-    var urlList = "";
-    for(j = 0; j < len; j++) {
-      urlList += links[j].href + "\n";
-    }
-    var args;
-    this.runNative(args = this.makeArgs(
-      null,
-      referrer,
-      null,
-      folder,
-      postData,
-      cookieFile,
-      this.createJobFile(urlList).path
-      ),
-    false, exeFile);
-    this.log("wget " + args.join(" "));
-  } else {
-   
-    for(j = 0; j < len; j++) {
-      l=links[j];
-      url=l.href;
-      this.runNative(  
-        this.makeArgs(
-          url, 
-          referrer, 
-          this.getCookie(l, links), 
-          folder, 
-          postData,
-          cookieFile,
-          null  // URL LIST FILE
-          ),
-      false, exeFile);
-      this.updateProgress(links, j, len);
-    }
-  }
+ 
+  var urlListFile = this.supportURLList(links, this.argsTemplate);
+  var l;
+  for(var j = 0, len = links.length; j < len; j++) {
+    l = links[j];
+    this.runNative(  
+      this.makeArgs(
+        l.href, 
+        referrer, 
+        this.getCookie(l, links), 
+        folder, 
+        postData,
+        cookieFile,
+        urlListFile
+       ),
+       false, exeFile);
+    this.updateProgress(links, j, len);
+  } 
 };
 FlashGotDMCust.prototype.checkExePlatform=function(exeFile) {
   return exeFile;
@@ -1003,7 +990,7 @@ FlashGotDM.initDMS=function(service) {
         return job;
       case service.OP_SEL:
       case service.OP_ALL:
-        var urlList="";
+        var urlList = "";
         var referrerLine=(referrer && referrer.length>0)?"\r\nReferer: "+referrer+"\r\n":"\r\n";
         var l, k, len, decodedURL, urlParts, fileSpec, cookie;
         for(var j = 0; j < links.length; j++) {
@@ -1136,6 +1123,7 @@ FlashGotDM.initDMS=function(service) {
   new FlashGotDM("Net Transport 2");
   new FlashGotDM("NetAnts");
   new FlashGotDM("Mass Downloader");
+  new FlashGotDM("Orbit");
   
   (new FlashGotDM("ReGet")).postSupport = true;
   
@@ -1181,7 +1169,7 @@ FlashGotDM.initDMS=function(service) {
   };
   dm.shouldList = function() { return true; }
 
-  dm=new FlashGotDMX("Aria","aria", "[-r REFERER] [-d FOLDER] -g [URL]");
+  dm=new FlashGotDMX("Aria", "aria", "[-r REFERER] [-d FOLDER] -g [URL]");
   dm.createJob=function(links,opType) {
     return FlashGotDMX.prototype.createJob.call(this,links,opType) + "\nsleep 4\n" + this.unixCmd+" -s &\n";
   };
@@ -1191,7 +1179,7 @@ FlashGotDM.initDMS=function(service) {
   dm.createJob=function(links,opType) {
     return this.unixCmd+"&\nsleep 1\n" +
       (links.folder && links.folder._fgSelected
-      ? this.unixCmd+" -d '"+links.folder+"'\n"
+      ? this.unixCmd + " -d '"+links.folder+"'\n"
       :"") + 
       FlashGotDMX.prototype.createJob.call(this,links,opType);
   };
@@ -1237,9 +1225,6 @@ FlashGotDM.initDMS=function(service) {
     return job;
   };
   
-  dm=new FlashGotDMX("KDE KGet","kget");
-  dm.askPath=ASK_NEVER;
-  
   dm=new FlashGotDMX("GNOME Gwget","gwget");
   dm.askPath=ASK_NEVER;
   dm.createJob=function(links, opType) {
@@ -1249,14 +1234,24 @@ FlashGotDM.initDMS=function(service) {
       opType = service.OP_ONE;
     }
     return FlashGotDMX.prototype.createJob.call(this, links, opType)
-  }
+  } 
   
+  dm=new FlashGotDMX("KDE KGet","kget");
+  dm.askPath=ASK_NEVER;
+  
+  if(service.isWindows) {
+    new FlashGotDM("wxDownload Fast");
+  } else {
+    dm=new FlashGotDMX("wxDownload Fast","wxdfast", "[-reference REFERER] [-destination FOLDER] [-list UFILE]");
+    dm.askPath = ASK_NEVER;
+  }
+
   dm=new FlashGotDMX("cURL","curl", '-L -O [--referer REFERER] [-b COOKIE] [-d POST] [URL]');
   dm.postSupport = true;
   dm.createJob=function(links,opType) {
     var job="[ -x \"`which 'xterm'`\" ] &&  CURL_CMD='xterm -e curl' || CURL_CMD='curl'\n";
     if (links.folder) job+="cd '"+links.folder+"'\n";
-    this.unixCmd="$CURL_CMD";
+    this.unixCmd = "$CURL_CMD";
     return job + FlashGotDMX.prototype.createJob.call(this,links,opType);
   };
 
@@ -1337,7 +1332,8 @@ HttpInterceptor.prototype = {
     Components.interfaces.nsIObserver, 
     Components.interfaces.nsIWeakReference,
     Components.interfaces.nsISupportsWeakReference,
-    Components.interfaces.nsISupport],
+    Components.interfaces.nsISupports
+  ],
   
   QueryInterface: function(iid) {
      xpcom_checkInterfaces(iid, this.interfaces, Components.results.NS_ERROR_NO_INTERFACE);
@@ -1427,40 +1423,72 @@ HttpInterceptor.prototype = {
     return this._shouldIntercept(contentType);
   }
 ,
+  lastRequest: null,
   doContent: function(contentType, isContentPreferred, channel, contentHandler) {
-    const ci=Components.interfaces;
+    const ci = Components.interfaces;
     channel.QueryInterface(ci.nsIChannel);
-    const uri=channel.URI;
-    dump("FG: doContent "+contentType+" "+uri.spec+"\n");
-    if(!this._willHandle(uri.spec,contentType)) {
-      throw new Error("FlashGot not interested in "+contentType+" from "+uri.spec);
+    const uri = channel.URI;
+    dump("FG: doContent " +contentType + " " + uri.spec + "\n");
+    if(!this._willHandle(uri.spec, contentType)) {
+      throw new Error("FlashGot not interested in " + contentType + " from " + uri.spec);
     }
     
     this.log("Intercepting download...");
 
     const pathParts=uri.path.split(/\//);
-    var links=[ {
+    var links = [ {
      href: channel.URI.spec, 
-     title: pathParts[pathParts.length-1],
+     description: pathParts[pathParts.length-1],
     } ];
     
+    
+    
+    
     if(channel instanceof ci.nsIHttpChannel) {
-      links.referrer=channel.referrer.spec;
+      links.referrer = channel.referrer && channel.referrer.spec || "";
       links.postData = this.extractPostData(channel);
-    }
-      
-    if(this.service.download(links)) {
-      this.log("...interception done!");
+    } 
+    var firstAttempt;
+    if(contentHandler) {
+      this.lastRequest = null;
+      firstAttempt = true;
+      this.forceAutoStart = false;
     } else {
-       throw new Error("Can't download from this URL: "+uri.spec);
+      var requestLines = [ channel.requestMethod, links[0].href, links.referrer || "", links.postData || ""].join("\n\n");
+      firstAttempt = this.lastRequest != requestLines;
+      this.lastRequest = requestLines;
     }
     
-    channel.cancel(Components.results.NS_BINDING_ABORTED); 
-   
+    if(firstAttempt) {
+      if(this.service.download(links)) {
+        this.log("...interception done!");
+      } else {
+         throw new Error("Can't download from this URL: "+uri.spec);
+      }
+    } else {
+      dump("Second attempt, skipping.");
+      this.lastRequest = null;
+    }
+    
+    if(!channel.isPending()) { 
+      try {
+        channel.requestMethod = "HEAD";
+        channel.loadFlags = ci.nsIChannel.LOAD_RETARGETED | ci.nsIChannel.LOAD_RETARGETED_DOCUMENT_URI | ci.nsICachingChannel.LOAD_ONLY_FROM_CACHE;
+      } catch(e) {}
+    }
+    channel.cancel(0x804b0002 /* NS_BINDING_ABORTED */); 
+
     this.log("Original request cancelled.");
-    contentHandler.value=null;
+    
     return true;
-  }
+  },
+  contentHandler: {
+      onStartRequest: function(request, context) { 
+        throw "cancelled"; 
+      }, 
+      onStopRequest: function() {}, 
+      onDataAvailable: function() {}
+   }
 ,
   isPreferred: function(contentType, desiredContentType) {
     dump("FG: isPreferred("+contentType+","+desiredContentType+")\n");
@@ -1474,8 +1502,13 @@ HttpInterceptor.prototype = {
 ,
   /* http-on-modify-request Observer */
   observe: function(channel, topic, data) {
-    if(channel instanceof Components.interfaces.nsIUploadChannel) {
-      this.lastPost = channel.QueryInterface(Components.interfaces.nsIHttpChannel);
+    if(channel instanceof Components.interfaces.nsIHttpChannel) {
+      
+      if(this.forceAutoStart) {
+        this.doContent("flashgot/forced", true, channel, null);
+      } else if(channel instanceof Components.interfaces.nsIUploadChannel) {
+        this.lastPost = channel;
+      }
     }
   }
 }
@@ -1571,7 +1604,7 @@ FlashGotService.prototype = {
         
         case "autoStart":
         case "interceptAll":
-          this.interceptor[name] = this.getPref("name");
+          this.interceptor[name] = this.getPref(name);
         break;
       }
     }
@@ -1593,6 +1626,10 @@ FlashGotService.prototype = {
 ,
   get profDir() {
     return this.globals.profDir; 
+  }
+,
+  get isWindows() {
+    return ("nsIWindowsShellService" in Components.interfaces) || ("@mozilla.org/winhooks;1" in Components.classes);
   }
 ,
   get DMS() {
@@ -1780,12 +1817,12 @@ FlashGotService.prototype = {
                 if(escapeCheckYes.test(href) || !escapeCheckNo.test(href)) { 
                   href=encodeURI(href);
                 }
-                // workaround for malformed hash urls (excluding metalinks)
-                while((pos1 = href.indexOf("#")) > -1 && href[pos1 + 1] != "!"
-                  && ((pos2 = href.indexOf("?")) < 0 
-                      || pos2 > pos1 || pos1 != href.lastIndexOf('#')) 
-                      ) {
-                   href = href.substring(0, pos1) + '%23' + href.substring(pos1 + 1);
+                // workaround for malformed hash urls
+                while((pos1 = href.indexOf("#")) > -1 // has fragment?
+                  && href[pos1 + 1] != "!" // skip metalinks!
+                  && (href.indexOf("?") > pos1 || pos1 != href.lastIndexOf('#')) // fragment before query or double fragment ? 
+                ) {
+                  href = href.substring(0, pos1) + '%23' + href.substring(pos1 + 1);
                 }
                 l.href = href;
               } else {  
@@ -1873,9 +1910,11 @@ FlashGotService.prototype = {
        href = l.href;
        pos = href.indexOf("#!");
        if(pos < 0) continue;
+       parts = href.substring(pos + 2).split("#!");
+       if(parts[0].indexOf("metalink3!") == 0) continue; // per Ant request
+       
        hasMetalinks = true;
        l.metalinks = [];
-       parts = href.substring(pos + 2).split("#!");
        for(k = 0; k < parts.length; k++) {
          couple = parts[k].split("!");
          if(couple.length != 2) continue;

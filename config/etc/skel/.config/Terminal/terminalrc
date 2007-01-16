@@ -58,7 +58,7 @@ CommandUpdateRecords=TRUE
 CommandLoginShell=FALSE
 FontAllowBold=TRUE
 FontAntiAlias=TRUE
-FontName=FreeSans 12
+FontName=DejaVu Serif 10
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
 MiscBordersDefault=TRUE
@@ -84,4 +84,5 @@ VteWorkaroundTitleBug=TRUE
 WordChars=-A-Za-z0-9,./?%&#:_
 HelperWebbrowser=firefox
 HelperMailreader=disabled
+MiscDefaultGeometry=80x24
 

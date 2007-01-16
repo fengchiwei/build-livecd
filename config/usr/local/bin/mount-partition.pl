@@ -5,7 +5,7 @@ $ENV{'LC_ALL'} = "zh_TW.UTF8";
 $ENV{'LANG'} = "zh_TW.UTF8";
 my @disk = `fdisk -l`;
 !system("mkdir /home/ubuntu/Desktop; chmod a+rw /home/ubuntu/Desktop") or warn "$!\n";
-&mk_home_shortcut();
+#&mk_home_shortcut();
 
 foreach (@disk) {
 next unless /^\/dev\/(\w+)\s/;

@@ -21,22 +21,21 @@ $target = "/mnt/$device" if -e "/mnt/$device/boot.ini";
 if ($target) {
 print "Now embedding PUD to $target...\n";
 
+my $tmp = `grep PUD $target/boot.ini`;
+if (! defined $tmp) {
 print "Modify $target/boot.ini ...";
 !system("perl -pi -e 's!timeout=30!timeout=10!' $target/boot.ini") or die "$!\n";
 !system(qq{echo 'c:\\grldr="PUD GNU/Linux"' >> $target/boot.ini}) or die "$!\n";
 print "OK.\n";
+} else {
+print "It seems you have embedded before, it will now be upgraded.";
+}
 
 print "Copy all necessary files (this may take a while) ...";
-!system("cp -rf /cdrom/opt/ /cdrom/casper/ /cdrom/vmlinuz /usr/local/share/embed/menu.lst /usr/local/share/embed/grldr $target") or die "$!\n";
+!system("cp -rf /cdrom/opt/ /cdrom/casper/ /cdrom/initrd.gz /cdrom/vmlinuz /cdrom/misc/embedded/menu.lst /cdrom/misc/embedded/grldr $target") or die "$!\n";
 print "OK.\n";
 
-print "Make new initrd ...";
-!system("cp -f /usr/local/share/embed/casper /usr/share/initramfs-tools/scripts/") or die "$!\n";
-!system("dpkg-reconfigure linux-image-$(uname -r)") or die "$!\n";
-!system("cp -f /initrd.img $target/initrd.gz") or die "$!\n";
-print "OK.\n";
-
-print "Done. You can reboot and try embedded PUD GNU/Linux. \n";
+print "Done. You can reboot and try the embedded PUD GNU/Linux. \n";
 
 } else {
 print "Can not find any bootable W32 partition with 'boot.ini', abort.\n";

@@ -42,6 +42,9 @@ defbindings("WEdln", {
     bdoc("Delete the whole line."),
     kpress("Control+Y", "WEdln.kill_line(_)"),
     
+    bdoc("Transpose characters."),
+    kpress("Control+T", "WEdln.transpose_chars(_)"),
+
     bdoc("Select next/previous (matching) history entry."),
     kpress("Control+P", "WEdln.history_prev(_)"),
     kpress("Control+N", "WEdln.history_next(_)"),
@@ -66,14 +69,20 @@ defbindings("WEdln", {
         
         bdoc("Clear mark/cancel selection."),
         kpress("G", "WEdln.clear_mark(_)"),
+
+        --bdoc("Transpose words."),
+        --kpress("T", "WEdln.transpose_words(_)"),
     }),
 
     bdoc("Try to complete the entered text or cycle through completions."),
-    -- true => forward cycle through completions in auto-show-completions 
-    kpress("Tab", "WEdln.complete(_, true)"), 
-    -- false => do not cycle; force evaluation of new completions
-    kpress("Control+Tab", "WEdln.complete(_, false)"),
-    kpress("Shift+Tab", "WEdln.prev_completion(_)"),
+    kpress("Tab", "WEdln.complete(_, 'next', 'normal')"), 
+    kpress("Shift+Tab", "WEdln.complete(_, 'prev', 'normal')"),
+    -- Do not cycle; only force evaluation of new completions
+    kpress("Control+Tab", "WEdln.complete(_, nil, 'normal')"),
+    
+    bdoc("Toggle on history completion mode"),
+    kpress("Control+R", "WEdln.complete(_, 'next', 'history')"),
+    kpress("Control+S", "WEdln.complete(_, 'prev', 'history')"),
     
     bdoc("Close the query and execute bound action."),
     kpress("Control+M", "WEdln.finish(_)"),

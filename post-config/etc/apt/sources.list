@@ -1,23 +1,22 @@
-# ubtw
-#deb http://apt.ubuntu.org.tw ubtw/
-#deb http://apt.ubuntu.org.tw ubtw-dapper/
-#deb http://apt.ubuntu.org.tw ubtw-testing/
+## Feisty Fawn - Officials Repos
 
-deb http://archive.ubuntu.com/ubuntu dapper main universe multiverse restricted
-deb http://archive.ubuntu.com/ubuntu dapper-proposed main universe multiverse restricted
+## Base
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty universe main multiverse restricted
 
-## MAJOR BUG FIX UPDATES produced after the final release
-deb http://archive.ubuntu.com/ubuntu dapper-updates main universe multiverse restricted
+## Updates
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-updates universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty-updates universe main multiverse restricted
 
-## UBUNTU SECURITY UPDATES
-deb http://security.ubuntu.com/ubuntu dapper-security main universe multiverse restricted
+## Security
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-security universe main restricted multiverse
+#deb-src http://tw.archive.ubuntu.com/ubuntu feisty-security main restricted universe multiverse
 
-## BACKPORTS REPOSITORY (Unsupported.  May contain illegal packages.  Use at own risk.)
-deb http://archive.ubuntu.com/ubuntu dapper-backports main restricted universe multiverse
+## Backports
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-backports universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty-backports universe main multiverse restricted
 
-## PLF REPOSITORY (Unsupported.  May contain illegal packages.  Use at own risk.)
-deb http://packages.freecontrib.org/plf dapper free non-free
+## Proposed
+deb http://tw.archive.ubuntu.com/ubuntu/ feisty-proposed universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty-proposed universe main multiverse restricted
 
-## CANONICAL COMMERCIAL REPOSITORY (Hosted on Canonical servers, not Ubuntu
-## servers. RealPlayer10, Opera and more to come.)
-deb http://archive.canonical.com/ubuntu dapper-commercial main

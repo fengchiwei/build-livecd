@@ -1,45 +1,40 @@
 <?xml version="1.0"?>
-<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
-         xmlns:NC="http://home.netscape.com/NC-rdf#"
-         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-  <Description RDF:about="rdf:#$LF1.h2"
-                   em:id="{a463f10c-3994-11da-9945-000d60ca027b}"
-                   em:minVersion="0.4"
-                   em:maxVersion="0.8" />
-  <RDF:Description RDF:about="urn:mozilla:install-manifest"
-                   em:id="{B9C8BE50-7105-4ec6-8FB4-4935C0671648}"
-                   em:name="Gmail Space"
-                   em:version="0.5.1"
-                   em:description="Use your gmail account space for file storage. Enables to upload/download folders."
-                   em:creator="Rahul Jonna"
-                   em:homepageURL="http://www.rjonna.com/ext/gspace.php"
-		   em:updateURL="http://www.rjonna.com/ext/update.rdf"	
-                   em:contributor="Menet [FR](changes to translate all)"
-                   em:iconURL="chrome://gspace/skin/gspace.png"
-                   em:contributorURL="http://www.babelzilla.org/"
-                   em:optionsURL="chrome://gspace/content/options.xul">
-    <em:file RDF:resource="urn:mozilla:extension:file:gspace.jar"/>
-    <em:targetApplication RDF:resource="rdf:#$2FEbO3"/>
-    <em:targetApplication RDF:resource="rdf:#$LF1.h2"/>
-  </RDF:Description>
-  <RDF:Description RDF:about="urn:mozilla:extension:file:gspace.jar"
-                   em:package="content/gspace/"
-                   em:skin="skin/classic/gspace/">
-    <em:locale>locale/gspace/en-US/</em:locale>
-    <em:locale>locale/gspace/es-ES/</em:locale>
-    <em:locale>locale/gspace/fr-FR/</em:locale>
-    <em:locale>locale/gspace/ca-AD/</em:locale>
-    <em:locale>locale/gspace/hr-HR/</em:locale>
-    <em:locale>locale/gspace/sk/</em:locale>
-    <em:locale>locale/gspace/it-IT/</em:locale>
-    <em:locale>locale/gspace/pl-PL/</em:locale>
-    <em:locale>locale/gspace/ru-RU/</em:locale>
-    <em:locale>locale/gspace/de-DE/</em:locale>
-    <em:locale>locale/gspace/hu-HU/</em:locale>
-    <em:locale>locale/gspace/tr-TR/</em:locale>
-  </RDF:Description>
-  <RDF:Description RDF:about="rdf:#$2FEbO3"
-                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
-                   em:minVersion="1.5"
-                   em:maxVersion="2.0.0.*" />
-</RDF:RDF>
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>{B9C8BE50-7105-4ec6-8FB4-4935C0671648}</em:id>
+    <em:version>0.5.3</em:version>
+    <em:type>2</em:type>
+   
+    <!-- Firefox -->
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>1.5</em:minVersion>
+        <em:maxVersion>2.0.0.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
+    <!-- Flock Browser -->
+    <em:targetApplication>
+      <Description>
+        <em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
+        <em:minVersion>0.4</em:minVersion>
+        <em:maxVersion>0.8</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
+    <!-- MetaData -->
+    <em:name>Gmail Space</em:name>
+    <em:description>Use your gmail account space for file storage. Enables to upload/download folders.</em:description>
+    <em:creator>Rahul Jonna</em:creator>
+    <em:developer>Tnarik Innael</em:developer>
+    <em:contributor>Menet [FR] and the people at http://www.babelzilla.org/</em:contributor>
+    <em:homepageURL>http://www.getgspace.com/</em:homepageURL>
+
+    <!-- Integration Hooks (used by Extension Manager)-->
+    <em:optionsURL>chrome://gspace/content/options.xul</em:optionsURL>
+    <em:iconURL>chrome://gspace/skin/gspace.png</em:iconURL>
+  </Description>      
+</RDF>

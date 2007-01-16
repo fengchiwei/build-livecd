@@ -7,7 +7,7 @@ de.defstyle("stdisp", {
     text_align = "left",
     background_colour = "#000000",
     foreground_colour = "grey",
-    font="fixed",
+    font="-misc-fixed-medium-r-*-*-13-*-*-*-*-60-*-*",
     
     de.substyle("important", {
         foreground_colour = "green",
@@ -41,3 +41,20 @@ de.defstyle("tab-frame-tiled", {
     spacing = 1,
 })
 
+de.defstyle("frame-tiled", {
+    based_on = "frame",
+    shadow_pixels = 0,
+    highlight_pixels = 0,
+    padding_pixels = 0,
+    spacing = 1,
+})
+
+de.defstyle("frame-tiled-alt", {
+    based_on = "frame-tiled",
+    bar = "none",
+})
+
+de.defstyle("frame-floating", {
+    based_on = "frame",
+    bar = "shaped"
+})
