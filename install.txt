@@ -92,4 +92,4 @@ usplash usplash-theme-ubuntu gtk2-engines-ubuntulooks ubuntu-artwork
 ivman dbus hal 
 
 # misc.
-libcrypt-ssleay-perl libwww-mechanize-perl libgtk2-perl
+libcrypt-ssleay-perl libwww-mechanize-perl libgtk2-perl libgtk2-gladexml-perl
