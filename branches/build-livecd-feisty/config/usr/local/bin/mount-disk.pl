@@ -1,10 +1,14 @@
 #!/usr/bin/perl
+# mount-disk.pl - PUD GNU/Linux automatic mount script
 use strict; 
 use warnings;
+use Switch;
+
 $ENV{'LC_ALL'} = "zh_TW.UTF8";
 $ENV{'LANG'} = "zh_TW.UTF8";
+my $fstype;
 my @disk = `fdisk -l`;
-!system("mkdir /home/ubuntu/Desktop; chmod a+rw /home/ubuntu/Desktop") or warn "$!\n";
+!system("mkdir -p /home/ubuntu/Desktop") or warn "$!\n";
 #&mk_home_shortcut();
 
 foreach (@disk) {
@@ -13,22 +17,24 @@ my $device = $1;
 system("mkdir /mnt/$device") if (! -e "/mnt/$device");
 &mk_shortcut($device);
 
-if (/NTFS/) {
-!system("ntfs-3g /dev/$device /mnt/$device -o noatime,silent,umask=0,locale=zh_TW.utf8") 
-#!system("ntfsmount /dev/$device /mnt/$device -o show_sys_files,umask=0,locale=zh_TW.UTF8") 
-or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop"));
+chomp($fstype = `/lib/udev/vol_id -t /dev/$1`);
+
+switch ($fstype) {
+case 'ntfs' { 	!system("ntfs-3g /dev/$device /mnt/$device -o noatime,silent,umask=0,locale=zh_TW.utf8") 
+		#!system("ntfsmount /dev/$device /mnt/$device -o show_sys_files,umask=0,locale=zh_TW.UTF8") 
+		or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop")); } 
+
+case 'vfat' { 	!system("mount /dev/$device /mnt/$device -o noatime,iocharset=utf8")
+		or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop")); }
+
+case /(ext2|ext3)/ { 
+		!system("mount -o noatime /dev/$device /mnt/$device")
+		or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop")); } 
 }
 
-elsif (/FAT/) {
-!system("mount /dev/$device /mnt/$device -o noatime,iocharset=utf8")
-or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop"));
 }
 
-else {
-!system("mount -o noatime /dev/$device /mnt/$device")
-or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop"));
-}
-}
+!system("chown ubuntu:ubuntu -R /home/ubuntu/Desktop") or warn "$!\n";
 
 sub mk_shortcut() {
 my $mount_point = shift @_;

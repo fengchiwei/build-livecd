@@ -77,7 +77,8 @@ sub do_chroot {
 }
 
 sub bootstrap {
-&system_call("debootstrap --arch i386 feisty $VAR{'SYSTEM'} http://apt.ubuntu.org.tw/ubuntu");
+&system_call("debootstrap --arch i386 feisty $VAR{'SYSTEM'} http://tw.archive.ubuntu.com/ubuntu");
+# http://apt.ubuntu.org.tw/ubuntu
 # http://archive.ubuntulinux.org/ubuntu
 # http://ubuntu.cn99.com/ubuntu/
 }
@@ -93,7 +94,7 @@ sub system_call {
 }
 
 sub init {
-print "[$0] Initializing $VAR{'TARGET_DIR'}...";
+print "[$0] Initializing $VAR{'TARGET_DIR'} ...";
 &make_dir();
 print "OK.\n"
 }
@@ -128,7 +129,6 @@ print "[$0] install packages\n";
 sub pud_lize {
 # pud-lize
 print "[$0] PUD-lize the Live CD system...\n";
-#&do_chroot('update-alternatives --install /usr/lib/usplash/usplash-artwork.so usplash-artwork.so /usr/lib/usplash/usplash-fixed.so 55');
 &do_chroot('rm -f /bin/sh');
 &do_chroot('ln -s /bin/bash /bin/sh');
 &do_chroot('rm -f /etc/skel/.bashrc');
@@ -183,7 +183,7 @@ for (<R>) {
 }
 close(R);
 
-&do_chroot('dpkg-reconfigure linux-image-2.6.20-5-generic');
+&do_chroot('dpkg-reconfigure linux-image-2.6.20-9-generic');
 
 &do_chroot('apt-get clean');
 &do_chroot('localepurge');
@@ -208,7 +208,7 @@ sub make_iso {
 #&system_call("cp /usr/lib/syslinux/isolinux.bin $VAR{'ISOLINUX'}/");
   
 # &system_call("cp $VAR{'TEMPLATE'}/ubuntu.xpm.gz $VAR{'GRUB'}/");
-&system_call("cp /lib/grub/i386-pc/stage2_eltorito $VAR{'GRUB'}/");
+&system_call("cp /usr/lib/grub/i386-pc/stage2_eltorito $VAR{'GRUB'}/");
 # &system_call("cp $VAR{'TEMPLATE'}/menu.lst $VAR{'GRUB'}");
 chdir $VAR{'CDROM'};
 &system_call("mkisofs -R -U -V 'PUD GNU/Linux' -b boot/grub/stage2_eltorito -no-emul-boot -boot-load-size 4 -boot-info-table -o ../../$VAR{'TARGET_DIR'}.iso .");
@@ -216,7 +216,9 @@ chdir $VAR{'CDROM'};
 }
 
 sub test_iso {
-&system_call("qemu -cdrom ../../$VAR{'TARGET_DIR'}.iso &");
+chdir "../../";
+&system_call("md5sum $VAR{'TARGET_DIR'}.iso > $VAR{'TARGET_DIR'}.iso.md5");
+&system_call("qemu -cdrom $VAR{'TARGET_DIR'}.iso &");
 }
 
 sub usage {

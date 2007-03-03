@@ -116,7 +116,7 @@ print "Pause for add pinst.sh or start.sh (press any key to continue) ";
 getc;
 
 print "Compress plugin to /tmp/$ARGV[1].opt .\n";
-!system("mksquashfs-lzma /tmp/$ARGV[1]/ /tmp/$ARGV[1].opt") or die "$!\n";
+!system("mksquashfs /tmp/$ARGV[1]/ /tmp/$ARGV[1].opt") or die "$!\n";
 
 print "Plugin /tmp/$ARGV[1].opt now can be used.\n";
 
