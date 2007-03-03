@@ -1,0 +1,214 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul">
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_actFileName"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_actType"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_actUploadFrom"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_actDownloadTo"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_actProgress"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_actStatus"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_remoteFileName"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_remoteFileSize"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_uploadTime"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_remoteFrom"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_localFileName"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_localFileSize"/>
+    <NC:persist RDF:resource="chrome://gspace/content/gspaceWindow.xul#gspace_localModifiedTime"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://mozapps/content/downloads/unknownContentType.xul">
+    <NC:persist RDF:resource="chrome://mozapps/content/downloads/unknownContentType.xul#unknownContentType"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/preferences/preferences.xul#BrowserPreferences"
+                   screenX="0"
+                   screenY="0"
+                   lastSelected="panePrivacy" />
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_actFileName"
+                   ordinal="1" />
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/addBookmark2.xul#folder-tree"
+                   colinfo=" col:Name?width=&amp;hidden=&amp;ordinal=1" />
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_actUploadFrom"
+                   ordinal="5" />
+  <RDF:Description RDF:about="chrome://flashgot/content/flashgotOptions.xul">
+    <NC:persist RDF:resource="chrome://flashgot/content/flashgotOptions.xul#flashgotOptions"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://mozapps/content/extensions/extensions.xul">
+    <NC:persist RDF:resource="chrome://mozapps/content/extensions/extensions.xul#extensions-view"/>
+    <NC:persist RDF:resource="chrome://mozapps/content/extensions/extensions.xul#viewGroup"/>
+    <NC:persist RDF:resource="chrome://mozapps/content/extensions/extensions.xul#extensionsManager"/>
+    <NC:persist RDF:resource="chrome://mozapps/content/extensions/extensions.xul#themes-view"/>
+    <NC:persist RDF:resource="chrome://mozapps/content/extensions/extensions.xul#locales-view"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#PersonalToolbar"
+                   currentset="personal-bookmarks" />
+  <RDF:Description RDF:about="chrome://tongwen/content/settings/settings.xul">
+    <NC:persist RDF:resource="chrome://tongwen/content/settings/settings.xul#winMain"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_remoteFrom"
+                   ordinal="7" />
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_localModifiedTime"
+                   ordinal="5" />
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#flashgot-submenu"
+                   hidden="true" />
+  <RDF:Description RDF:about="chrome://mozapps/content/extensions/extensions.xul#extensions-view"
+                   selected="true"
+                   last-selected="urn:mozilla:item:{22870005-adef-4c9d-ae36-d0e1f2f27e5a}" />
+  <RDF:Description RDF:about="chrome://mozapps/content/downloads/downloads.xul">
+    <NC:persist RDF:resource="chrome://mozapps/content/downloads/downloads.xul#downloadManager"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://allinonegest/content/pref/aioOptions.xul">
+    <NC:persist RDF:resource="chrome://allinonegest/content/pref/aioOptions.xul#allInOnePref"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://flashgot/content/flashgotOptions.xul#flashgotOptions"
+                   screenX="0"
+                   screenY="0" />
+  <RDF:Description RDF:about="chrome://mozapps/content/extensions/extensions.xul#viewGroup"
+                   last-selected="extensions" />
+  <RDF:Description RDF:about="chrome://mozapps/content/downloads/unknownContentType.xul#unknownContentType"
+                   screenX="0"
+                   screenY="0" />
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_localFileSize"
+                   ordinal="3" />
+  <RDF:Description RDF:about="chrome://browser/content/preferences/fonts.xul">
+    <NC:persist RDF:resource="chrome://browser/content/preferences/fonts.xul#FontsDialog"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/addBookmark2.xul">
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/addBookmark2.xul#addBookmarkDialog"/>
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/addBookmark2.xul#folder-tree"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/bookmarksManager.xul#bookmark-folders-view"
+                   colinfo=" col:Name?width=&amp;hidden=&amp;ordinal=1" />
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_actType"
+                   ordinal="3" />
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/bookmarksManager.xul#URL"
+                   ordinal="3" />
+  <RDF:Description RDF:about="chrome://tabmixplus/content/pref/pref-tabmix.xul">
+    <NC:persist RDF:resource="chrome://tabmixplus/content/pref/pref-tabmix.xul#pref-tabmix"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_remoteFileName"
+                   ordinal="1" />
+  <RDF:Description RDF:about="chrome://browser/content/preferences/fonts.xul#FontsDialog"
+                   screenX="0"
+                   screenY="0" />
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#nav-bar"
+                   currentset="back-button,forward-button,reload-button,stop-button,home-button,urlbar-container,search-container" />
+  <RDF:Description RDF:about="chrome://global/content/customizeToolbar.xul">
+    <NC:persist RDF:resource="chrome://global/content/customizeToolbar.xul#CustomizeToolbarWindow"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://tongwen/content/settings/settings.xul#winMain"
+                   screenX="0"
+                   screenY="0"
+                   width="1270"
+                   height="987" />
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/bookmarksManager.xul#bookmark-window"
+                   screenX="0"
+                   screenY="0"
+                   sizemode="normal"
+                   width="1270"
+                   height="987" />
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/bookmarksManager.xul#LastModDate"
+                   ordinal="11" />
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/addBookmark2.xul#addBookmarkDialog"
+                   screenX="0"
+                   screenY="0"
+                   width="1260" />
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul">
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#main-window"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#sidebar-box"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#sidebar-title"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#flashgot-submenu"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#toolbar-menubar"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#nav-bar"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#PersonalToolbar"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#toolbar-menubar"
+                   currentset="menubar-items,spring,throbber-box" />
+  <RDF:Description RDF:about="chrome://browser/content/sanitize.xul#SanitizeDialog"
+                   screenX="0"
+                   screenY="0" />
+  <RDF:Description RDF:about="chrome://mozapps/content/extensions/extensions.xul#themes-view"
+                   last-selected="urn:mozilla:item:{D95DBCCC-8E32-467d-B1F9-2A1D8944325E}" />
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/bookmarksManager.xul#ShortcutURL"
+                   ordinal="5" />
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/bookmarksManager.xul">
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/bookmarksManager.xul#Name"/>
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/bookmarksManager.xul#URL"/>
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/bookmarksManager.xul#ShortcutURL"/>
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/bookmarksManager.xul#Description"/>
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/bookmarksManager.xul#AddDate"/>
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/bookmarksManager.xul#LastModDate"/>
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/bookmarksManager.xul#LastVisitDate"/>
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/bookmarksManager.xul#bookmark-window"/>
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/bookmarksManager.xul#bookmarks-view"/>
+    <NC:persist RDF:resource="chrome://browser/content/bookmarks/bookmarksManager.xul#bookmark-folders-view"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://tabmixplus/content/pref/pref-appearance.xul#pref-TMPfiletype"
+                   screenX="0"
+                   screenY="0" />
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_remoteFileSize"
+                   ordinal="3" />
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#sidebar-title"
+                   value="" />
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/bookmarksManager.xul#LastVisitDate"
+                   ordinal="13" />
+  <RDF:Description RDF:about="chrome://mozapps/content/downloads/downloads.xul#downloadManager"
+                   screenX="0"
+                   screenY="0"
+                   sizemode="normal"
+                   width="1270"
+                   height="987" />
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/bookmarksManager.xul#Name"
+                   ordinal="1" />
+  <RDF:Description RDF:about="chrome://browser/content/preferences/preferences.xul">
+    <NC:persist RDF:resource="chrome://browser/content/preferences/preferences.xul#BrowserPreferences"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/bookmarksManager.xul#Description"
+                   ordinal="7" />
+  <RDF:Description RDF:about="chrome://mozapps/content/extensions/extensions.xul#extensionsManager"
+                   screenX="0"
+                   screenY="0"
+                   sizemode="normal"
+                   width="1270"
+                   height="987" />
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#main-window"
+                   screenX="0"
+                   screenY="0"
+                   sizemode="normal"
+                   width="1270"
+                   height="987" />
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_uploadTime"
+                   ordinal="5" />
+  <RDF:Description RDF:about="chrome://allinonegest/content/pref/aioOptions.xul#allInOnePref"
+                   screenX="0"
+                   screenY="0"
+                   height="643"
+                   width="1260" />
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/bookmarksManager.xul#AddDate"
+                   ordinal="9" />
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_localFileName"
+                   ordinal="1" />
+  <RDF:Description RDF:about="rdf:#$FvPhC3"
+                   NC:open="true" />
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_actDownloadTo"
+                   ordinal="7" />
+  <RDF:Description RDF:about="chrome://browser/content/bookmarks/bookmarksManager.xul#bookmarks-view"
+                   colinfo=" col:Name?width=&amp;hidden=&amp;ordinal=1 col:URL?width=&amp;hidden=&amp;ordinal=3 col:ShortcutURL?width=&amp;hidden=true&amp;ordinal=5 col:Description?width=&amp;hidden=&amp;ordinal=7 col:AddDate?width=&amp;hidden=true&amp;ordinal=9 col:LastModDate?width=&amp;hidden=true&amp;ordinal=11 col:LastVisitDate?width=&amp;hidden=true&amp;ordinal=13" />
+  <RDF:Description RDF:about="chrome://global/content/customizeToolbar.xul#CustomizeToolbarWindow"
+                   height="400"
+                   width="1260" />
+  <RDF:Description RDF:about="chrome://tabmixplus/content/pref/pref-appearance.xul">
+    <NC:persist RDF:resource="chrome://tabmixplus/content/pref/pref-appearance.xul#pref-TMPfiletype"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/sanitize.xul">
+    <NC:persist RDF:resource="chrome://browser/content/sanitize.xul#SanitizeDialog"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_actStatus"
+                   ordinal="11" />
+  <RDF:Description RDF:about="NC:BookmarksRoot"
+                   NC:open="true" />
+  <RDF:Description RDF:about="chrome://tabmixplus/content/pref/pref-tabmix.xul#pref-tabmix"
+                   screenX="0"
+                   screenY="0" />
+  <RDF:Description RDF:about="chrome://gspace/content/gspaceWindow.xul#gspace_actProgress"
+                   ordinal="9" />
+</RDF:RDF>
