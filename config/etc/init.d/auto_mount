@@ -9,7 +9,7 @@ PATH=/usr/auto/bin:/usr/auto/sbin:/usr/X11R6/bin:/bin:/usr/bin:/sbin:/usr/sbin
 case "$1" in
   start)
     echo -n "Munt all partitions"
-    /usr/local/bin/mount-partition.pl
+    /usr/local/bin/mount-disk.pl
     echo "."
   ;;
 
