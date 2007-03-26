@@ -183,7 +183,7 @@ for (<R>) {
 }
 close(R);
 
-&do_chroot('dpkg-reconfigure linux-image-2.6.20-9-generic');
+&do_chroot('dpkg-reconfigure linux-image-2.6.20-12-generic');
 
 &do_chroot('apt-get clean');
 &do_chroot('localepurge');

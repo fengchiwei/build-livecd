@@ -2,7 +2,7 @@
 # PUD GNU/Linux package list for build script
 
 # main component
-casper linux-image-2.6.20-9-generic 
+casper linux-image-2.6.20-12-generic 
 xserver-xorg xserver-xorg-core xfonts-100dpi xfonts-75dpi xfonts-base
 readahead discover1 hwdata xresprobe mdetect 
 
@@ -45,7 +45,7 @@ smbfs linneighborhood
 xfce4-terminal
 
 # avahi
-#avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
+avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
 
 # tool 
 
@@ -92,4 +92,5 @@ usplash usplash-theme-ubuntu gtk2-engines-ubuntulooks ubuntu-artwork
 ivman dbus hal 
 
 # misc.
-libcrypt-ssleay-perl libwww-mechanize-perl libgtk2-perl libgtk2-gladexml-perl
+libcrypt-ssleay-perl libwww-mechanize-perl libgtk2-perl libgtk2-gladexml-perl 
+glade-3
