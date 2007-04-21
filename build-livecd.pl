@@ -78,6 +78,7 @@ sub do_chroot {
 
 sub bootstrap {
 &system_call("debootstrap --arch i386 feisty $VAR{'SYSTEM'} http://tw.archive.ubuntu.com/ubuntu");
+# http://tw.archive.ubuntu.com/ubuntu
 # http://apt.ubuntu.org.tw/ubuntu
 # http://archive.ubuntulinux.org/ubuntu
 # http://ubuntu.cn99.com/ubuntu/
@@ -183,7 +184,7 @@ for (<R>) {
 }
 close(R);
 
-&do_chroot('dpkg-reconfigure linux-image-2.6.20-12-generic');
+&do_chroot('dpkg-reconfigure linux-image-2.6.20-15-generic');
 
 &do_chroot('apt-get clean');
 &do_chroot('localepurge');
@@ -197,6 +198,8 @@ print "OK.\n";
 }  
 
 sub make_squashfs {
+&do_chroot('umount /proc');
+
 # compress
 &system_call("mksquashfs $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -info");
 }

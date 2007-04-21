@@ -2,7 +2,7 @@
 # PUD GNU/Linux package list for build script
 
 # main component
-casper linux-image-2.6.20-12-generic 
+casper linux-image-2.6.20-15-generic 
 xserver-xorg xserver-xorg-core xfonts-100dpi xfonts-75dpi xfonts-base
 readahead discover1 hwdata xresprobe mdetect 
 
