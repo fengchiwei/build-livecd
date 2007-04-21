@@ -30,6 +30,11 @@ case 'vfat' { 	!system("mount /dev/$device /mnt/$device -o noatime,iocharset=utf
 case /(ext2|ext3)/ { 
 		!system("mount -o noatime /dev/$device /mnt/$device")
 		or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop")); } 
+
+else 	{
+		!system("mount -o noatime /dev/$device /mnt/$device")
+		or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop"));
+	}
 }
 
 }
