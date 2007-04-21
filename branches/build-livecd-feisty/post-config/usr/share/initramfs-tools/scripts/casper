@@ -390,7 +390,9 @@ setup_unionfs() {
     image_directory="$1"
     rootmnt="$2"
 
-    modprobe "${MP_QUIET}" -b unionfs
+#    modprobe "${MP_QUIET}" -b unionfs
+    modprobe aufs
+    modprobe squashfs
 
     # run-init can't deal with images in a subdir, but we're going to
     # move all of these away before it runs anyway.  No, we're not,
@@ -422,6 +424,9 @@ setup_unionfs() {
                 if [ "${fstype}" = "unknown" ]; then
                     panic "Unknown file system type on ${backdev} (${image})"
                 fi
+		if [ -z "${fstype}" ]; then
+		    fstype=squashfs
+		fi
                 mkdir -p "${croot}/${imagename}"
                 mount -t "${fstype}" -o ro "${backdev}" "${croot}/${imagename}" || panic "Can not mount $backdev ($image) on ${croot}/${imagename}" && rofsstring="${croot}/${imagename}=${roopt}:${rofsstring}" && rofslist="${croot}/${imagename} ${rofslist}"
             fi
@@ -446,7 +451,9 @@ setup_unionfs() {
 
     mount ${cowdevice} -t ${cow_fstype} -o rw /cow || panic "Can not mount $cowdevice on /cow"
 
-    mount -t unionfs -o dirs=/cow=rw:$rofsstring unionfs "$rootmnt" || panic "Unionfs mount failed"
+    mount -t aufs -o dirs=/cow=rw:$rofsstring unionfs "$rootmnt" || 
+    #mount -t unionfs -o dirs=/cow=rw:$rofsstring unionfs "$rootmnt" || 
+    panic "Unionfs mount failed"
 
     # Adding other custom mounts
     if [ -n "${PERSISTENT}" ]; then
