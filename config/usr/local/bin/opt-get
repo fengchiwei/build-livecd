@@ -31,8 +31,8 @@ elsif ($ARGV[0] eq 'install') {
 
 	# check parameter
 	for (1..$#ARGV) { 
-		#if ((fileparse($ARGV[$_], qr/\.[^.]*/))[2] eq '.opt') {
-		if (`file $ARGV[$_] | grep Squashfs`) {
+		if ((fileparse($ARGV[$_], qr/\.[^.]*/))[2] eq '.opt') {
+		#if (`file $ARGV[$_] | grep data`) {
 			push @opt_list, $ARGV[$_];
 		} else {
 			print "$ARGV[$_] is not an Opt file.\n"
