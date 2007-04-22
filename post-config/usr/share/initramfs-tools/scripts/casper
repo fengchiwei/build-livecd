@@ -218,7 +218,12 @@ copy_live_to() {
     mkdir "${copyto}"
     echo "mount -t ${fstype} ${mount_options} ${dev} ${copyto}"
     mount -t "${fstype}" ${mount_options} "${dev}" "${copyto}"
-    cp -a ${copyfrom}/* ${copyto} # "cp -a" from busybox also copies hidden files
+
+    # add by penk
+    for target in autorun.inf boot boot.catalog casper info initrd.gz logo.ico misc opt vmlinuz; do
+        cp -a ${copyfrom}/${taget} ${copyto} # "cp -a" from busybox also copies hidden files
+    done
+
     umount ${copyfrom}
     mount -r -o move ${copyto} ${copyfrom}
     rmdir ${copyto}
@@ -390,8 +395,6 @@ setup_unionfs() {
     image_directory="$1"
     rootmnt="$2"
 
-#    modprobe "${MP_QUIET}" -b unionfs
-    modprobe aufs
     modprobe squashfs
 
     # run-init can't deal with images in a subdir, but we're going to
@@ -451,9 +454,14 @@ setup_unionfs() {
 
     mount ${cowdevice} -t ${cow_fstype} -o rw /cow || panic "Can not mount $cowdevice on /cow"
 
-    mount -t aufs -o dirs=/cow=rw:$rofsstring unionfs "$rootmnt" || 
-    #mount -t unionfs -o dirs=/cow=rw:$rofsstring unionfs "$rootmnt" || 
-    panic "Unionfs mount failed"
+    # add by penk
+    if [ grep -q aufs /proc/cmdline ]; then
+        modprobe aufs
+        mount -t aufs -o dirs=/cow=rw:$rofsstring unionfs "$rootmnt" || panic "Unionfs (aufs) mount failed"
+    else 
+        modprobe "${MP_QUIET}" -b unionfs
+        mount -t unionfs -o dirs=/cow=rw:$rofsstring unionfs "$rootmnt" ||  panic "Unionfs (unionfs) mount failed"
+    fi
 
     # Adding other custom mounts
     if [ -n "${PERSISTENT}" ]; then
