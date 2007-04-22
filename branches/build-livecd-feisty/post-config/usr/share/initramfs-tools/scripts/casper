@@ -221,7 +221,7 @@ copy_live_to() {
 
     # add by penk
     for target in autorun.inf boot boot.catalog casper info initrd.gz logo.ico misc opt vmlinuz; do
-        cp -a ${copyfrom}/${taget} ${copyto} # "cp -a" from busybox also copies hidden files
+        cp -a ${copyfrom}/${target} ${copyto} # "cp -a" from busybox also copies hidden files
     done
 
     umount ${copyfrom}

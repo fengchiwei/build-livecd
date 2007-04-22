@@ -73,12 +73,13 @@ unionfs-utils
 aria 
 aumix 
 imagemagick
+netpbm
 #wine
 #mimms
 rdesktop
 lftp
 pump
-xloadimage
+#xloadimage
 telnet
 dosfstools jfsutils xfsprogs ntfsprogs
 #wipe

@@ -192,6 +192,8 @@ close(R);
 &do_chroot('mkdir /var/lib/apt/lists/partial');
 &do_chroot('rm -rf /var/cache/apt/*');
 &do_chroot('mkdir -p /var/cache/apt/archives/partial');
+&do_chroot('rm -f /var/lib/dpkg/*-old');
+&do_chroot('rm -f /var/cache/debconf/*-old');
 
 &do_chroot('umount /proc');
 print "OK.\n";
