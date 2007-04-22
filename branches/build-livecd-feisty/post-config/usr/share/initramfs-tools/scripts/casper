@@ -455,7 +455,7 @@ setup_unionfs() {
     mount ${cowdevice} -t ${cow_fstype} -o rw /cow || panic "Can not mount $cowdevice on /cow"
 
     # add by penk
-    if [ grep -q aufs /proc/cmdline ]; then
+    if grep -q aufs /proc/cmdline; then
         modprobe aufs
         mount -t aufs -o dirs=/cow=rw:$rofsstring unionfs "$rootmnt" || panic "Unionfs (aufs) mount failed"
     else 

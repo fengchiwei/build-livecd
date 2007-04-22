@@ -13,7 +13,7 @@ splashimage=(cd)/boot/grub/ubuntu.xpm.gz
 
 title  PUD GNU/Linux Home Edition (English)
 root (cd)
-kernel /vmlinuz root=/ boot=casper showmounts wm=en splash load=no
+kernel /vmlinuz root=/ boot=casper showmounts wm=en splash aufs
 initrd /initrd.gz
 
 #title  PUD GNU/Linux Home Edition to RAM (experimental)
@@ -23,17 +23,17 @@ initrd /initrd.gz
 
 title  PUD GNU/Linux Home Edition (Traditional Chinese)
 root (cd)
-kernel /vmlinuz root=/ boot=casper showmounts wm=tw splash load=no
+kernel /vmlinuz root=/ boot=casper showmounts wm=tw splash aufs
 initrd /initrd.gz
 
 title  PUD GNU/Linux Home Edition (Simplified Chinese)
 root (cd)
-kernel /vmlinuz root=/ boot=casper showmounts wm=simp splash load=no
+kernel /vmlinuz root=/ boot=casper showmounts wm=simp splash aufs
 initrd /initrd.gz
 
 title  PUD GNU/Linux Professional Edition
 root (cd)
-kernel /vmlinuz root=/ boot=casper showmounts wm=ion3 vga=792 load=no
+kernel /vmlinuz root=/ boot=casper showmounts wm=ion3 vga=792 aufs
 initrd /initrd.gz
 
 # For booting Windows NT or Windows95
