@@ -69,7 +69,7 @@ unrar-free unzip p7zip zip arj
 tree
 lokkit
 libjpeg-progs
-#unionfs-utils
+unionfs-utils
 aria 
 aumix 
 imagemagick
