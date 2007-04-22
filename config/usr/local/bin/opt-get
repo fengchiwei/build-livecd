@@ -10,7 +10,7 @@ use strict;
 #use warnings;
 use File::Basename;
 
-our($pkg_name, $pkg_list, $snap_id, $snap_dir, $last_path, @opt_list);
+our($pkg_name, $pkg_list, $snap_id, $snap_dir, $last_path, @opt_list, $UCTL);
 if ($ARGV[0] eq 'moo') {
 
 print 	'         (__) '."\n".
@@ -24,6 +24,10 @@ print 	'         (__) '."\n".
 }
 
 elsif ($ARGV[0] eq 'install') {
+
+	# check if using aufs
+	if(`grep aufs /proc/cmdline`) 
+		{ $UCTL = '/sbin/unionctl.aufs'; } else { $UCTL = '/usr/sbin/unionctl'; }
 
 	# check parameter
 	for (1..$#ARGV) { 
@@ -46,8 +50,8 @@ elsif ($ARGV[0] eq 'install') {
 	# insert read-only part into unionfs
 	for (@opt_list) {
 		$pkg_name = fileparse($_, qr/\.[^.]*/);
-		($last_path) = (`unionctl / --list`)[-1] =~ /\s*(.+?)\s/;
-		!system("unionctl / --add --after $last_path --mode ro /opt/$pkg_name/branch") or die "$!\n";
+		($last_path) = (`$UCTL / --list`)[-1] =~ /\s*(.+?)\s/;
+		!system("$UCTL / --add --after $last_path --mode ro /opt/$pkg_name/branch") or die "$!\n";
 	}
 
 	# copy read-write part to ramdisk
@@ -72,7 +76,8 @@ elsif ($ARGV[0] eq 'install') {
 
 elsif ($ARGV[0] eq 'make') {
 
-print "Make sure you have enough free memory and a clean file system.\n";
+print "Make sure you have enough free memory and a clean file system.\n".
+      "Note: You must using unionfs!\n";
 
 	for (1..$#ARGV) { 
 	chomp; 	$pkg_list .=" $ARGV[$_]"; 
