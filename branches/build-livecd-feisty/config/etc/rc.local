@@ -74,9 +74,8 @@ if ($cmdline =~ m/opt=no(\s|$)/i) {
 !system("rm -f /etc/rc2.d/S96load-opt") or die "$!\n";
 }
 
-# auto toggle NumLock if keyboard model is 'pc104'
-chomp(my $xkb_model = `grep XkbModel /etc/X11/xorg.conf | cut -d'"' -f4`);
-if (($xkb_model ne 'pc104') && ($xkb_model ne 'pc105')) {
+# auto toggle NumLock unless this is a laptop 
+if (`laptop-detect`) {
 !system("perl -pi -e 's!numlockx on!numlockx off!g' /etc/X11/xinit/xinitrc") or die "$!\n";
 }
 
