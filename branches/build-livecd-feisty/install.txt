@@ -79,12 +79,14 @@ netpbm
 rdesktop
 lftp
 pump
+menu
 #xloadimage
 telnet
 dosfstools jfsutils xfsprogs ntfsprogs
 #wipe
 #gpart
 alsa-oss
+nfs-kernel-server nfs-common portmap 
 
 # artwork
 usplash usplash-theme-ubuntu gtk2-engines-ubuntulooks ubuntu-artwork 
