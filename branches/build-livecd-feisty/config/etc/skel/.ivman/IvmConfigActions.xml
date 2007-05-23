@@ -5,7 +5,7 @@
     <!-- mount everything we can -->
     <ivm:Match name="ivm.mountable" value="true">
         <ivm:Option name="mount" value="true" />
-	 <ivm:Option name="exec" value="thunar $hal.volume.mount_point$" />
+	 <ivm:Option name="exec" value="sudo thunar $hal.volume.mount_point$" />
     </ivm:Match>
 
     <!-- rip CDs with audio tracks and no data tracks -->
