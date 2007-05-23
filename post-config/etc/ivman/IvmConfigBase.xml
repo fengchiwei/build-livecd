@@ -7,7 +7,7 @@
 
     <!-- Whether or not to give debugging output.  Warning, this is very
          verbose! -->
-    <ivm:Option name="debug" value="true" />
+    <ivm:Option name="debug" value="false" />
 
     <!-- whether or not system-wide ivman should sleep a little while before
          mounting volumes.  Default: true. -->
@@ -40,5 +40,5 @@
 
     <!-- If using pmount, and running as a system-wide instance of Ivman,
          mount devices with this umask.  Default: 007                    -->
-    <ivm:Option name="umask" value="007" />
+    <ivm:Option name="umask" value="000" />
 </ivm:BaseConfig>
