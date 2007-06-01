@@ -1,0 +1,13 @@
+0_rs_attributes_rs_offlineuistatus=INSTALLED
+0_rs_attributes_rs_offlineuiurl=http://www.redswoosh.net/install/ControlPanel-031.zip
+2_rs_attributes_rs_cuid=rs_default
+2_rs_attributes_rs_detailsviewenabled=true
+2_rs_attributes_rs_offlineuistatus=NOTINSTALLED
+2_rs_attributes_rs_predeliveriesenabled=true
+currentfoxtorrenturl=http://www.redswoosh.net/install/FoxTorrent-002.exe
+global_cachefolderpath=/home/ubuntu/.redswoosh/Cache
+global_downloadcustomerid=2
+global_guid=5a6ac4caae986e4706349f755860bd2e
+global_rs_attributes_rs_autoregistertorrenttype=true
+global_rs_attributes_rs_downloadfolderpath=/home/ubuntu/Desktop
+

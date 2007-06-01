@@ -2,8 +2,8 @@
 # PUD GNU/Linux package list for build script
 
 # main component
-casper linux-image-2.6.20-15-generic 
-xserver-xorg xserver-xorg-core xfonts-100dpi xfonts-75dpi xfonts-base
+casper linux-image-2.6.20-16-generic 
+xserver-xorg xserver-xorg-core xfonts-100dpi xfonts-base
 readahead discover1 hwdata xresprobe mdetect 
 
 # window manager
@@ -24,6 +24,7 @@ debconf-utils
 vlc mozilla-plugin-vlc
 #gxineplugin gxine
 vim vim-perl 
+#cream
 leafpad
 pppoeconf 
 gaim 
@@ -34,14 +35,14 @@ beep-media-player bmp-alarm
 pcmanx-gtk2 mozilla-firefox 
 mozilla-firefox-locale-zh-tw mozilla-firefox-locale-zh-cn
 gftp-gtk
-# pcmanfm
+#pcmanfm
 thunar xarchive
 epdfview
 xchm
 ndisgtk
-bittornado-gui
-# wvdial
-smbfs linneighborhood
+#bittornado-gui
+#wvdial
+#smbfs linneighborhood
 xfce4-terminal
 
 # avahi
@@ -50,14 +51,15 @@ avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
 # tool 
 
 squashfs-tools mkisofs grub debootstrap syslinux mtools
-# qemu
+#qemu
 subversion 
 xdialog 
 # libstdc++5 rpm
 openssh-client 
 lshw
-wget curl 
-fdclock 
+wget 
+#curl 
+#fdclock 
 #xzgv 
 gqview
 scrot 
@@ -67,10 +69,10 @@ rxvt-unicode-lite
 unrar-free unzip p7zip zip arj
 # lha unp
 tree
-lokkit
+#lokkit
 libjpeg-progs
 unionfs-utils
-aria 
+#aria 
 aumix 
 imagemagick
 netpbm
@@ -89,6 +91,7 @@ alsa-oss
 #nfs-kernel-server 
 nfs-common portmap 
 
+
 # artwork
 usplash usplash-theme-ubuntu gtk2-engines-ubuntulooks ubuntu-artwork 
 
@@ -97,4 +100,4 @@ ivman dbus hal
 
 # misc.
 libcrypt-ssleay-perl libwww-mechanize-perl libgtk2-perl libgtk2-gladexml-perl 
-glade-3
+#glade-3

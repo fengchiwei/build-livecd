@@ -350,8 +350,7 @@ defmenu("netmenu", {
     menuentry("BBS 連線 (pcmanx)",          "ioncore.exec_on(_, 'pcmanx')"),
     menuentry("P2P 下載 (amule)",          "ioncore.exec_on(_, 'amule')"),
     menuentry("FTP 連線 (gftp)",          "ioncore.exec_on(_, 'gftp')"),
-    menuentry("BT 下載 (btdownloadgui)",          "ioncore.exec_on(_, 'btdownloadgui')"),
-    menuentry("下載管理員 (aria)", "ioncore.exec_on(_, 'aria')"),
+    menuentry("下載管理員 (wxdfast)", "ioncore.exec_on(_, 'wxdfast')"),
 })
 
 -- Multimedia application menu
@@ -377,7 +376,6 @@ defmenu("settingmenu", {
     menuentry("網卡設定 (netcardconfig)",          "ioncore.exec_on(_, 'sudo netcardconfig')"),
     menuentry("無線網路設定 (wlcardconfig)",          "ioncore.exec_on(_, 'sudo wlcardconfig')"),
     menuentry("無線網卡驅動 (ndisgtk)", "ioncore.exec_on(_, 'sudo ndisgtk')"),
-    menuentry("網路芳鄰 (LinNeighborhood)", "ioncore.exec_on(_, '/usr/local/bin/linneighborhood.sh')"),
 })
 
 

@@ -20,8 +20,8 @@ case "$1" in
   ;;
 
   restart)
-    /etc/init.d/auto_startx stop
-    /etc/init.d/auto_startx start
+    /etc/init.d/startx stop
+    /etc/init.d/startx start
   ;;
 
   stop)

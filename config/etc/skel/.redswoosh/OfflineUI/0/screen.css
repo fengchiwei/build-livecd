@@ -1,0 +1,303 @@
+#openFolderButton{
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+.errorSpan{
+	font-size: 13px;
+	font-weight: normal;
+	color: #DD0000;
+	margin-left: 0.75em;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.errorMessageBox h1{
+	font-size: 14px;
+	margin: 0;
+	padding: 0;
+	margin-bottom: 0.33em;
+}
+
+.errorMessageBox{
+	background-color: #FFFF88;
+	border: 1px solid black;
+	padding: 1em;
+	max-width: 20em;
+	position: absolute;
+	z-index: 1;
+	font-size: 13px;
+	cursor: pointer;
+}
+
+#feedbackOverlay{
+	width: 100%;
+	height: 100%;
+	background-image: url(images/overlaybg.png);
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 2;
+}
+
+#feedbackOverlay div{
+	border: 1px solid black;
+	background-color: white;
+	padding: 1em;
+	width: 30.5em;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 8em;
+}
+
+#feedbackOverlay h1{
+	font-size: 20px;
+	padding: 0;
+	margin: 0;
+	margin-bottom: 0.5em;
+	font-family: Verdana,Helvetica,sans-serif;
+}
+
+#feedbackOverlay textarea{
+	font-size: 16px;
+	width: 25.4em;
+	display: block;
+	height: 100px;
+	font-family: Georgia,'Times New Roman',serif;
+	padding: 0.5em;
+	background-color: #EEEEEE;
+	border: 1px solid black;
+}
+
+#feedbackOverlay form div{
+	text-align: right;
+	border-width: 0;
+	width: auto;
+	height: auto;
+	padding: 0;
+	margin: 0;
+	margin-top: 0.25em;
+}
+
+#feedbackOverlay form #feedbackEmail{
+	width: 25.4em;
+	margin-bottom: 0.33em;
+	font-family: Georgia,'Times New Roman',serif;
+	font-size: 16px;
+	padding: 0.5em;
+	border: 1px solid black;
+	background-color: #EEEEEE;
+}
+
+#note{
+	font-weight: bold;
+	font-size: 16px;
+	margin-top: 1.5em;
+	margin-bottom: 0.5em;
+	clear: both;
+	text-align: center;
+}
+
+#feedback{
+	font-size: 13px;
+	text-align: center;
+	margin: 2em;
+}
+
+body{
+	margin: 0em 2em;
+	padding: 0;
+	font-family: sans-serif;
+	font-size: 14px;
+}
+
+#tagline{
+	margin-bottom: 1em;
+}
+
+#global_stats{
+	float: right;
+	width: 15.25em;
+	padding-top: 1em;
+}
+
+.speedLabel{
+	display: block;
+	float:left;
+	width: 8em;
+	margin-right: 2px;
+}
+
+#global_stats div{
+	text-align: right;
+	clear: both;
+}
+
+#RS_DOWNLOAD_RATE, #RS_SHARE_RATE, #RS_DISK_SPACE{
+	font-weight: bold;
+	float: right;
+	display: block;
+	width: 7em;
+	text-align: left;
+}
+
+#logo{
+	float: left;
+}
+
+#logo div{
+	text-align: center;
+	font-size: 11px;
+}
+
+#header{
+	padding-top: 1em;
+}
+
+#header div{
+
+}
+
+.PauseTorrentGroup{
+	position: absolute;
+	top: 0.5em;
+	right: 165px;
+	width: 70px;
+}
+
+.DeleteTorrentGroup{
+	position: absolute;
+	top: 0.5em;
+	right: 84px;
+	width: 70px;
+}
+
+.CollapseTorrentGroup{
+	position: absolute;
+	top: 0.5em;
+	right: 3px;
+	width: 70px;
+	text-align: center;
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#torrents{
+	clear: both;
+}
+.torrent{
+	background-color: #CCCCFF;
+	margin-top: 0em;
+	margin-bottom: 4px;
+	border: 2px solid grey;
+	border-bottom: 1px solid grey; /* Leave this line in or borders between rows don't draw properly. Seems to be a FF rendering bug. */
+}
+
+.torrentHeader{
+	font-size: 14px;
+	font-weight: bold;
+	padding: 0.5em;
+	background-color: #DDDDDD;
+	position: relative;
+	border-bottom: 1px solid gray;
+	background-image: url(images/headerbg.png);
+	background-repeat: repeat-x;
+	padding-left: 0;
+}
+
+.torrentHeader input{
+	margin-left: 5px;
+	margin-right: 9px;
+}
+
+.torrent table{
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-width: 0;
+	padding-top: 3em;
+	border-collapse: collapse;
+	border-bottom: 1px solid grey; /* Leave this line in or borders between rows don't draw properly. Seems to be a FF rendering bug. */
+}
+.torrent table tr:hover{
+	background-color: #AAAAFF;
+}
+
+tr{ border-top: 1px solid #AAAAFF;}
+
+td{
+	margin: 0;
+}
+
+/* Set the default widths for all of the standard FileRow cells. "NameCell" is unspecified and will strech to fit the
+   amount of space available in the browser. */
+.ControlCell{  width: 25px  }
+.OpenCell{     width: 70px  }
+.ProgressCell{ width: 200px }
+.SaveCell{     width: 90px  }
+.StatusCell{   width: 100px }
+.SizeCell{     width: 60px  }
+
+.openCell, .SaveCell{
+	text-align: center;
+}
+
+.OpenCell input{
+	width: 70px;
+}
+
+.StatusCell{
+	text-align: center;
+}
+/* This is all formatting for ProgressCell and its subcomponents (the various components of the progress bar, mostly.) */
+.ProgressCell{
+	padding: 0;
+	margin-bottom: 2px;
+	border-top: 1px solid #AAAAFF;
+}
+
+
+.ProgressContainer{
+	position: relative; /* Must be specified for absolute positioning of .ProgressBar to work. */
+	background-color: white;
+	background-image: url(images/progressbg.png);
+}
+
+.ProgressBGText, .ProgressFGText{
+	width: 198px; /* Should be the same as the width of ".ProgressCell" */
+	text-align: center;
+	color: black;
+	height: 20px;
+	padding-top: 4px;
+	border-left: 1px solid #AAAAFF;
+	border-right: 1px solid #AAAAFF;
+}
+
+#none{
+	font-size: 22px;
+	font-weight: bold;
+	text-align: center;
+	padding-top: 2em;
+}
+
+.ProgressFGText{
+	color: white;
+}
+
+.ProgressBar{
+	display: inline;
+	overflow: hidden;
+	width: 0;
+	background-color: #000099;
+	background-image: url(images/progressfg.png);
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.torrentError{
+	font-size: 12px;
+	font-weight: bold;
+	color: #CC0000;
+	padding-left: 8px;
+}
