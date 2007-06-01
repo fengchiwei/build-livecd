@@ -32,15 +32,15 @@ if ($screen) {
 
 if ($wm eq 'en') {
 !system("ln -fs /etc/X11/xinit/xinitrc.en /etc/X11/xinit/xinitrc") or die "$!\n";
-!system("sudo ln -fs /home/ubuntu/.config/xfce4/desktop/menu.xml.en_US /home/ubuntu/.config/xfce4/desktop/menu.xml") or die "$!\n";
-!system("perl -pi -e 's!功能表!Menu!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or die "$!\n";
 } elsif ($wm eq 'simp') {
 !system("ln -fs /etc/X11/xinit/xinitrc.simp /etc/X11/xinit/xinitrc") or die "$!\n";
-!system("sudo ln -fs /home/ubuntu/.config/xfce4/desktop/menu.xml.zh_CN /home/ubuntu/.config/xfce4/desktop/menu.xml") or die "$!\n";
+!system("perl -pi -e 's!Menu!功能表!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or die "$!\n";
+!system("perl -pi -e 's!menu\.xml!menu.xml.zh_CN!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or die "$!\n";
 !system("perl -pi -e 's!traditional!simplified!g' /home/ubuntu/.mozilla/firefox/*.default/prefs.js") or die "$!\n";
 } elsif ($wm eq 'tw') {
 !system("ln -fs /etc/X11/xinit/xinitrc.tw /etc/X11/xinit/xinitrc") or die "$!\n";
-!system("sudo ln -fs /home/ubuntu/.config/xfce4/desktop/menu.xml.zh_TW /home/ubuntu/.config/xfce4/desktop/menu.xml") or die "$!\n";
+!system("perl -pi -e 's!Menu!功能表!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or die "$!\n";
+!system("perl -pi -e 's!menu\.xml!menu.xml.zh_TW!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or die "$!\n";
 } else {
 !system("ln -fs /etc/X11/xinit/xinitrc.ion3 /etc/X11/xinit/xinitrc") or die "$!\n";
 }

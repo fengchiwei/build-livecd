@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>FoxTorrent Downloads</title>
+		<script type="text/javascript">
+		
+			if(document.location.href.match(/127.0.0.1:9421/)) document.write('<base href="http://127.0.0.1:9421/rsui/0/">');
+			
+			var randdate = Math.round(Math.random() * 25 + 1960);
+			
+			var taglines = new Array();
+			taglines.push("Enabling BitTorrent downloads in Firefox since " + randdate + ".");
+			taglines.push("Hecho in M&eacute;xico. Less than 6% alcohol.");
+			taglines.push("Ze future of ze world.");
+			taglines.push("Torrents to the Browser.");
+		</script>
+		
+		<link rel="stylesheet" type="text/css" href="screen.css" media="screen" />
+		<script type="text/javascript" src="prototype.js"></script>
+		<script type="text/javascript" src="jsapi.js"></script>
+		<script type="text/javascript" src="inbrowser.js"></script>
+		
+		<script type="text/javascript">
+			Event.observe(window, 'load', setTagline);
+		
+			function setTagline(){
+				$("tagline").innerHTML = taglines[Math.floor(Math.random() * taglines.length)];
+			}
+			
+		</script>
+	</head>
+	<body >
+		<div id="root">
+			<div id="header">
+				<div id="logo">
+					<img src="images/foxtorrent.gif" alt="FoxTorrent">
+					<div id="tagline"></div>
+				</div>
+			    <div id="global_stats">
+					<div><span class="speedLabel">Download Speed: </span><span id="RS_DOWNLOAD_RATE">0</span></div>
+					<div><span class="speedLabel">Share Speed: </span><span id="RS_SHARE_RATE">0</span></div>
+					<div><input type="button" id="openFolderButton" value="Open Download Folder" /></div>
+				</div>
+			</div>
+			<div id="note"></div>
+			<div id="torrents"></div>
+			<div id="none"></div>
+		</div>
+		<div id="feedback">
+			<p>
+				Need to host your own files online?
+				<a href="http://upload.redswoosh.net">Try our new hosting service. (free!)</a>
+			</p>
+			<p>
+				Help FoxTorrent get listed on mozilla.org:
+				<a href=https://addons.mozilla.org/en-US/firefox/addon/4844>write a review in the sandbox.</a>
+			</p>
+			<p>
+				Problems? Questions? Comments?
+				<a id="feedbackLink" href="http://groups.google.com/group/foxtorrent">Let us know.</a>
+			</p>
+	</div>
+		<div id="feedbackOverlay">
+			<div id="feedbackBox">
+				<form action="">
+					<p>
+					<h1>Send Us Feedback:</h1>
+					<input type="text" id="feedbackEmail" value="Enter your email (Optional)."/><br/>
+					<textarea id="feedbackText">Enter your comment here.</textarea>
+					<div>
+					<input type="button" value="Send Feedback" id="sendFeedbackButton"/>
+					<input type="button" value="Cancel" id="cancelFeedbackButton"/>
+					</div>
+					</p>
+				</form>
+			</div>
+			<div id="feedbackSending">Sending...</div>
+			<div id="feedbackSent">Message Sent. Thanks!</div>
+		</div>
+		<script type="text/javascript">$("feedbackOverlay").hide()</script>
+		<div id="feedbackScripts" style="display: none"></div>
+	</body>
+</html>
