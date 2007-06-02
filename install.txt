@@ -3,7 +3,9 @@
 
 # main component
 casper linux-image-2.6.20-16-generic 
-xserver-xorg xserver-xorg-core xfonts-100dpi xfonts-base
+xserver-xorg xserver-xorg-core 
+#xfonts-100dpi 
+xfonts-base
 readahead discover1 hwdata xresprobe mdetect 
 
 # window manager
@@ -42,7 +44,7 @@ xchm
 ndisgtk
 #bittornado-gui
 #wvdial
-#smbfs linneighborhood
+smbfs linneighborhood
 xfce4-terminal
 
 # avahi

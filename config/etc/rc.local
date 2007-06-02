@@ -32,6 +32,10 @@ if ($screen) {
 
 if ($wm eq 'en') {
 !system("ln -fs /etc/X11/xinit/xinitrc.en /etc/X11/xinit/xinitrc") or die "$!\n";
+!system("perl -pi -e 's!網頁瀏覽器!Browser!g' /home/ubuntu/.config/xfce4/panel/launcher-11524750113.rc") or die "$!\n";
+!system("perl -pi -e 's!終端機!Terminal!g' /home/ubuntu/.config/xfce4/panel/launcher-11524750554.rc") or die "$!\n";
+!system("perl -pi -e 's!影音播放!Media Player!g' /home/ubuntu/.config/xfce4/panel/launcher-11524751435.rc") or die "$!\n";
+
 } elsif ($wm eq 'simp') {
 !system("ln -fs /etc/X11/xinit/xinitrc.simp /etc/X11/xinit/xinitrc") or die "$!\n";
 !system("perl -pi -e 's!Menu!功能表!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or die "$!\n";
