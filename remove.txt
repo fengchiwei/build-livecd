@@ -7,7 +7,6 @@
 # vim-doc
 /usr/share/vim/vim70/doc/
 # lang
-/usr/share/vim/vim70/lang/en_GB
 /usr/share/vim/vim70/lang/af
 /usr/share/vim/vim70/lang/ca
 /usr/share/vim/vim70/lang/cs
@@ -140,7 +139,6 @@
 /usr/share/locale/da
 /usr/share/locale/de
 /usr/share/locale/el
-/usr/share/locale/en_GB
 /usr/share/locale/es
 /usr/share/locale/et
 /usr/share/locale/eu
@@ -256,7 +254,6 @@
 /usr/share/i18n/locales/en_BW
 /usr/share/i18n/locales/en_CA
 /usr/share/i18n/locales/en_DK
-/usr/share/i18n/locales/en_GB
 /usr/share/i18n/locales/en_HK
 /usr/share/i18n/locales/en_IE
 /usr/share/i18n/locales/en_IE@euro
@@ -593,3 +590,6 @@
 /usr/share/initramfs-tools/scripts/casper-bottom/30accessibility
 /usr/share/initramfs-tools/scripts/casper-bottom/31disable_update_notifier
 /usr/share/initramfs-tools/scripts/casper-bottom/32disable_hibernation
+# misc
+/usr/share/gdm
+/usr/share/backgrounds
