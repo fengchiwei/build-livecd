@@ -1,0 +1,95 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-06-03 20:13+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: pud_mkliveusb.pm:62
+msgid "<span font_desc='16' weight='bold'>PUD LiveUSB Installer</span>  v0.2"
+msgstr ""
+
+#: pud_mkliveusb.pm:63
+msgid "Install onto:"
+msgstr ""
+
+#: pud_mkliveusb.pm:65
+msgid "Backup size limit:"
+msgstr ""
+
+#: pud_mkliveusb.pm:67
+msgid "MB (Partition Size)"
+msgstr ""
+
+#: pud_mkliveusb.pm:68
+msgid "Advanced Options"
+msgstr ""
+
+#: pud_mkliveusb.pm:70
+msgid "Backup user data when finished"
+msgstr ""
+
+#: pud_mkliveusb.pm:71
+msgid "Find and install Opt-Get plugins"
+msgstr ""
+
+#: pud_mkliveusb.pm:73
+msgid "Commands to execute:"
+msgstr ""
+
+#: pud_mkliveusb.pm:75
+msgid "(While booting to X)"
+msgstr ""
+
+#: pud_mkliveusb.pm:76
+msgid "Booting parameters"
+msgstr ""
+
+#: pud_mkliveusb.pm:77
+msgid "Install"
+msgstr ""
+
+#: pud_mkliveusb.pm:78 pud_mkliveusb.pm:89
+msgid "Cancel"
+msgstr ""
+
+#: pud_mkliveusb.pm:80
+msgid "Okay"
+msgstr ""
+
+#: pud_mkliveusb.pm:82
+msgid ""
+"Note: The following steps will format the seleted device,\n"
+"It's highly recommended to make a backup, if there's an important data;\n"
+"This program is still underdeveloped, use at your own risk.\n"
+"\n"
+"Click <span weight='bold'>I'm Sure</span> to continue, <span "
+"weight='bold'>Cancel</span> to previous screen.\n"
+msgstr ""
+
+#: pud_mkliveusb.pm:88
+msgid "I'm Sure"
+msgstr ""
+
+#: pud_mkliveusb.pm:90
+msgid "Install successful."
+msgstr ""
+
+#: pud_mkliveusb.pm:309
+msgid "Install PUD onto"
+msgstr ""
+
+#: pud_mkliveusb.pm:315
+msgid "Please select a target device"
+msgstr ""

@@ -8,4 +8,3 @@
 $ARGV[0] =~ s/opt-get/http/;
 !system("wget $ARGV[0] -P /tmp") or die "$!\n";
 !system("sudo opt-get install /tmp/$pkg_name.opt") or die "$!\n";
-}
