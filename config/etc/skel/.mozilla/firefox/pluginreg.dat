@@ -1,0 +1,38 @@
+Generated File. Do not edit.
+
+[HEADER]
+Version:0.08:$
+
+[PLUGINS]
+/usr/lib/mozilla/plugins/libvlcplugin.so:$
+:$
+1166240851000:1:5:$
+Version 0.8.6 Janus, copyright 1996-2006 The VideoLAN Team<br><a href="http://www.videolan.org/">http://www.videolan.org/</a>:$
+VLC Multimedia Plugin:$
+26
+0:audio/mpeg:MPEG audio:mp2,mp3,mpga,mpega:$
+1:audio/x-mpeg:MPEG audio:mp2,mp3,mpga,mpega:$
+2:video/mpeg:MPEG video:mpg,mpeg,mpe:$
+3:video/x-mpeg:MPEG video:mpg,mpeg,mpe:$
+4:video/mpeg-system:MPEG video:mpg,mpeg,mpe,vob:$
+5:video/x-mpeg-system:MPEG video:mpg,mpeg,mpe,vob:$
+6:video/mpeg4:MPEG-4 video:mp4,mpg4:$
+7:audio/mpeg4:MPEG-4 audio:mp4,mpg4:$
+8:application/mpeg4-iod:MPEG-4 video:mp4,mpg4:$
+9:application/mpeg4-muxcodetable:MPEG-4 video:mp4,mpg4:$
+10:video/x-msvideo:AVI video:avi:$
+11:video/quicktime:QuickTime video:mov,qt:$
+12:application/x-ogg:Ogg stream:ogg:$
+13:application/ogg:Ogg stream:ogg:$
+14:application/x-vlc-plugin:VLC plugin:vlc:$
+15:video/x-ms-asf-plugin:Windows Media Video:asf,asx:$
+16:video/x-ms-asf:Windows Media Video:asf,asx:$
+17:application/x-mplayer2:Windows Media::$
+18:video/x-ms-wmv:Windows Media:wmv:$
+19:application/x-google-vlc-plugin:Google VLC plugin::$
+20:audio/wav:WAV audio:wav:$
+21:audio/x-wav:WAV audio:wav:$
+22:audio/3gpp:3GPP audio:3gp,3gpp:$
+23:video/3gpp:3GPP video:3gp,3gpp:$
+24:audio/3gpp2:3GPP2 audio:3g2,3gpp2:$
+25:video/3gpp2:3GPP2 video:3g2,3gpp2:$
