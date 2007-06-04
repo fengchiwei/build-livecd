@@ -47,6 +47,9 @@ ndisgtk
 smbfs linneighborhood
 xfce4-terminal
 
+# bluetooth
+bluez-utils bluetooth bluez-pcmcia-support
+
 # avahi
 avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
 
