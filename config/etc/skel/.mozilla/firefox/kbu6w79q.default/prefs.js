@@ -123,7 +123,7 @@ user_pref("network.http.max-persistent-connections-per-server", 6);
 user_pref("network.http.pipelining.maxrequests", 6);
 user_pref("network.protocol-handler.app.ed2k", "/usr/bin/ed2k.amule");
 user_pref("network.protocol-handler.app.mms", "vlc");
-user_pref("network.protocol-handler.app.opt-get", "/usr/local/bin/remote-opt-get");
+user_pref("network.protocol-handler.app.opt-get", "/usr/local/bin/opt-get-client");
 user_pref("network.protocol-handler.external.ed2k", true);
 user_pref("network.protocol-handler.external.mms", true);
 user_pref("network.protocol-handler.external.opt-get", true);
