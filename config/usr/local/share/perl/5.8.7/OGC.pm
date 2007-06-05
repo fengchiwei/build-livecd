@@ -41,7 +41,8 @@ $gladexml->get_widget('filechooserdialog1')->hide;
 $path = $gladexml->get_widget('filechooserdialog1')->get_current_folder;
 
 $ARGV[0] =~ s/opt-get/ftp/;
-!system("sudo gtk2-wget.pl $ARGV[0] $path") or die "$!\n";
+
+!system("sudo wget $ARGV[0] -P $path") or die "$!\n";
 
 $gladexml->get_widget('label2')->set_label(`sudo opt-get install $path/$filename`);
 
