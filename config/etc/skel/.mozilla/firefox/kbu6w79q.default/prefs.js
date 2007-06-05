@@ -121,7 +121,7 @@ user_pref("network.http.max-connections-per-server", 16);
 user_pref("network.http.max-persistent-connections-per-proxy", 12);
 user_pref("network.http.max-persistent-connections-per-server", 6);
 user_pref("network.http.pipelining.maxrequests", 6);
-user_pref("network.protocol-handler.app.ed2k", "/usr/bin/ed2k.amule");
+user_pref("network.protocol-handler.app.ed2k", "/usr/bin/ed2k");
 user_pref("network.protocol-handler.app.mms", "vlc");
 user_pref("network.protocol-handler.app.opt-get", "/usr/local/bin/opt-get-client");
 user_pref("network.protocol-handler.external.ed2k", true);
