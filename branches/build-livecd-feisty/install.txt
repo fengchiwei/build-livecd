@@ -31,7 +31,7 @@ leafpad
 pppoeconf 
 gaim 
 # gaim-encryption gaim-guifications
-amule
+amule amule-utils
 beep-media-player bmp-alarm
 #mozilla-plugin-pcmanx 
 pcmanx-gtk2 mozilla-firefox 
