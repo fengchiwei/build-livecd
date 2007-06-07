@@ -3,10 +3,10 @@
 
 # main component
 casper linux-image-2.6.20-16-generic 
-xserver-xorg xserver-xorg-core 
-#xfonts-100dpi 
-xfonts-base
-readahead discover1 hwdata xresprobe mdetect 
+xserver-xorg xserver-xorg-core xfonts-base 
+#xfonts-100dpi readahead 
+discover1 hwdata xresprobe mdetect 
+#xdebconfigurator
 
 # window manager
 ion3 
@@ -77,7 +77,7 @@ tree
 #lokkit
 libjpeg-progs
 unionfs-utils
-#aria 
+aria 
 aumix 
 imagemagick
 netpbm
@@ -91,7 +91,7 @@ menu
 telnet
 dosfstools jfsutils xfsprogs ntfsprogs
 #wipe
-#gpart
+gpart ddrescue wipe parted
 alsa-oss
 #nfs-kernel-server 
 nfs-common portmap 
