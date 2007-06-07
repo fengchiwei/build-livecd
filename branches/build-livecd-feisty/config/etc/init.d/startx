@@ -15,7 +15,7 @@ case "$1" in
     echo -n "Starting X session: startx"
     cd ~ubuntu
 #    /bin/su - ubuntu -c "/usr/bin/X11/startx -- :0 vt7 -dpi 96 -deferglyphs all" </dev/tty7 >/dev/tty7 2>&1 & echo $! >$PIDFILE
-    /bin/su - ubuntu -c "/usr/bin/X11/startx" </dev/tty4 >/dev/tty4 2>&1 &
+    /bin/su - ubuntu -c "/usr/bin/X11/startx" </dev/tty2 >/dev/tty2 2>&1 &
     echo "."
   ;;
 

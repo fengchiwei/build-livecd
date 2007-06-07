@@ -189,6 +189,21 @@
 /usr/share/locale/sr@Latn
 /usr/share/locale/ta
 /usr/share/locale/th
+/usr/share/locale/dz
+/usr/share/locale/km
+/usr/share/locale/ku
+/usr/share/locale/ne
+/usr/share/locale/eo
+/usr/share/locale/gu
+/usr/share/locale/hi
+/usr/share/locale/wo
+/usr/share/locale/co
+/usr/share/locale/fur
+/usr/share/locale/ka
+/usr/share/locale/oc
+/usr/share/locale/no_NO
+/usr/share/locale/sv_SE
+/usr/share/locale/rw
 # locales
 /usr/share/i18n/locales/aa_DJ
 /usr/share/i18n/locales/aa_ER
@@ -508,6 +523,26 @@
 /usr/share/themes/Variation
 /usr/share/themes/Waza
 /usr/share/themes/Wildbush
+/usr/share/themes/Xfce
+/usr/share/themes/Xfce-4.0
+/usr/share/themes/Xfce-4.2
+/usr/share/themes/Xfce-b5
+/usr/share/themes/Xfce-basic
+/usr/share/themes/Xfce-cadmium
+/usr/share/themes/Xfce-curve
+/usr/share/themes/Xfce-dawn
+/usr/share/themes/Xfce-dusk
+/usr/share/themes/Xfce-kde2
+/usr/share/themes/Xfce-kolors
+/usr/share/themes/Xfce-light
+/usr/share/themes/Xfce-orange
+/usr/share/themes/Xfce-redmondxp
+/usr/share/themes/Xfce-saltlake
+/usr/share/themes/Xfce-smooth
+/usr/share/themes/Xfce-stellar
+/usr/share/themes/Xfce-winter
+# icon
+/usr/share/icons/Rodent
 # x-locale
 /usr/share/X11/locale/georgian-academy
 /usr/share/X11/locale/armscii-8
@@ -584,6 +619,13 @@
 /usr/share/scim/tables/Simplex.bin
 /usr/share/scim/icons/Simplex.png
 # casper-bottom
+/usr/share/initramfs-tools/scripts/casper-bottom/01integrity_check
+/usr/share/initramfs-tools/scripts/casper-bottom/02_timezone
+/usr/share/initramfs-tools/scripts/casper-bottom/25configure_init
+/usr/share/initramfs-tools/scripts/casper-bottom/33enable_apport_crashe
+/usr/share/initramfs-tools/scripts/casper-bottom/34disable_kwallet
+/usr/share/initramfs-tools/scripts/casper-bottom/35fix_language_selecto
+/usr/share/initramfs-tools/scripts/casper-bottom/41apt_cdrom
 /usr/share/initramfs-tools/scripts/casper-bottom/15autologin
 /usr/share/initramfs-tools/scripts/casper-bottom/22gnome_panel_data
 /usr/share/initramfs-tools/scripts/casper-bottom/22screensaver
