@@ -98,7 +98,7 @@ user_pref("flashgot.hide-it", false);
 user_pref("flashgot.hide-options", false);
 user_pref("flashgot.hide-sel", false);
 user_pref("flashgot.tmpDir", "/tmp");
-user_pref("flashgot.version", "0.5.98.070328");
+user_pref("flashgot.version", "0.5.99");
 user_pref("font.name.sans-serif.zh-TW", "DejaVu Sans");
 user_pref("foxtorrent.alreadyInstalled", "true");
 user_pref("general.skins.selectedSkin", "Greycurve");

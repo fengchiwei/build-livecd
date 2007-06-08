@@ -1,0 +1,6 @@
+
+overlay	chrome://browser/content/browser.xul	chrome://foxtorrent/content/browserOverlay.xul
+overlay	chrome://browser/content/browser.xul	chrome://foxtorrent/content/menuOverlay.xul
+content	foxtorrent	jar:chrome/foxtorrent.jar!/content/foxtorrent/
+
+skin	foxtorrent	classic/1.0	jar:chrome/foxtorrent.jar!/skin/classic/foxtorrent/
