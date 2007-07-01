@@ -350,7 +350,7 @@ defmenu("netmenu", {
     menuentry("BBS 連線 (pcmanx)",          "ioncore.exec_on(_, 'pcmanx')"),
     menuentry("P2P 下載 (amule)",          "ioncore.exec_on(_, 'amule')"),
     menuentry("FTP 連線 (gftp)",          "ioncore.exec_on(_, 'gftp')"),
-    menuentry("下載管理員 (wxdfast)", "ioncore.exec_on(_, 'wxdfast')"),
+    menuentry("下載管理員 (Aria)", "ioncore.exec_on(_, 'aria')"),
 })
 
 -- Multimedia application menu
