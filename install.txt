@@ -1,4 +1,4 @@
-# list.txt
+# install.txt
 # PUD GNU/Linux package list for build script
 
 # main component
@@ -42,10 +42,13 @@ thunar xarchive
 epdfview
 xchm
 ndisgtk
-#bittornado-gui
+bittornado-gui
 #wvdial
 smbfs linneighborhood
 xfce4-terminal
+mdadm
+graveman
+rsync
 
 # bluetooth
 bluez-utils bluetooth bluez-pcmcia-support
