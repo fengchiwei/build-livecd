@@ -1,1 +1,0 @@
-({windows:[{tabs:[{entries:[{url:"file:///usr/share/ubuntu-artwork/home/index.html", scroll:"0,0"}], index:1, zoom:1, disallow:"", xultab:"", extData:null, text:""}], selected:1, _closedTabs:[], _hosts:{}, width:"985", height:"987", screenX:"0", screenY:"0", sizemode:"maximized", hidden:"", sidebar:""}], session:{state:"stopped"}})

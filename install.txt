@@ -42,7 +42,8 @@ thunar xarchive
 epdfview
 xchm
 ndisgtk
-bittornado-gui
+#bittornado-gui
+deluge-torrent
 #wvdial
 smbfs linneighborhood
 xfce4-terminal
@@ -57,7 +58,7 @@ bluez-utils bluetooth bluez-pcmcia-support
 avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
 
 # tool 
-
+testdisk
 squashfs-tools mkisofs grub debootstrap syslinux mtools
 #qemu
 subversion 
@@ -69,7 +70,8 @@ wget
 #curl 
 #fdclock 
 #xzgv 
-gqview
+#gqview
+comix
 scrot 
 numlockx
 fuse-utils ntfs-3g
@@ -98,7 +100,7 @@ gpart ddrescue wipe parted
 alsa-oss
 #nfs-kernel-server 
 nfs-common portmap 
-
+acpi
 
 # artwork
 usplash usplash-theme-ubuntu gtk2-engines-ubuntulooks ubuntu-artwork 
