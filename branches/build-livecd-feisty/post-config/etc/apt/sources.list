@@ -20,3 +20,4 @@ deb http://tw.archive.ubuntu.com/ubuntu/ feisty-backports universe main multiver
 deb http://tw.archive.ubuntu.com/ubuntu/ feisty-proposed universe main multiverse restricted
 #deb-src http://tw.archive.ubuntu.com/ubuntu/ feisty-proposed universe main multiverse restricted
 
+deb http://www.getautomatix.com/apt feisty main
