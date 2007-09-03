@@ -349,6 +349,7 @@ defmenu("netmenu", {
     menuentry("即時通訊 (gaim)",          "ioncore.exec_on(_, 'gaim')"), 
     menuentry("BBS 連線 (pcmanx)",          "ioncore.exec_on(_, 'pcmanx')"),
     menuentry("P2P 下載 (amule)",          "ioncore.exec_on(_, 'amule')"),
+    menuentry("BT 下載 (deluge-torrent)",          "ioncore.exec_on(_, 'deluge-torrent')"),
     menuentry("FTP 連線 (gftp)",          "ioncore.exec_on(_, 'gftp')"),
     menuentry("下載管理員 (Aria)", "ioncore.exec_on(_, 'aria')"),
 })
@@ -357,7 +358,7 @@ defmenu("netmenu", {
 defmenu("mediamenu", {
     menuentry("音樂播放 (beep-media-player)",          "ioncore.exec_on(_, 'beep-media-player')"), 
     menuentry("影音播放 (vlc)",          "ioncore.exec_on(_, 'vlc')"), 
-    menuentry("圖片瀏覽 (gqview)",          "ioncore.exec_on(_, 'gqview')"),
+    menuentry("圖片瀏覽 (comix)",          "ioncore.exec_on(_, 'comix')"),
 })
 
 -- Admin application menu
