@@ -1,0 +1,1 @@
+({windows:[{tabs:[{entries:[{url:"file:///usr/share/ubuntu-artwork/home/firefox-index.html", children:[], ID:0, scroll:"0,0"}], index:1, zoom:1, disallow:"", xultab:"", extData:null, text:""}], selected:1, _closedTabs:[], _hosts:{}, width:1270, height:990, screenX:0, screenY:0, sizemode:"normal", hidden:"", sidebar:""}], session:{state:"stopped"}})

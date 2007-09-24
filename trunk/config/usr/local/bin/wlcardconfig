@@ -1,0 +1,284 @@
+#!/bin/bash
+# wlcardconfig - A very light-weight text-based wireless configuration tool.
+# (C) Eckhard Rüggeberg Sep 2002
+# based on  netcardconfig - (C) Klaus Knopper Jun 2001
+# ath*-Modifications by Klaus Knopper Aug. 2004
+
+PATH="/bin:/sbin:/usr/bin:/usr/sbin"
+export PATH
+
+XDIALOG_HIGH_DIALOG_COMPAT=1
+export XDIALOG_HIGH_DIALOG_COMPAT
+
+[ "`id -u`" != "0" ] && exec sudo "$0" "$@"
+
+TMP="/tmp/wlconfig.tmp$$"
+OPTSFILE=/etc/pcmcia/wireless.opts
+
+# Ende mit Schrecken
+bailout(){
+    rm -f "$TMP"
+    exit $1
+}
+
+# Schreibe unsere Zeile 
+writeline(){
+    OURLINE=""
+    if [ -n "$NWID" ]; then 
+	ifconfig $WLDEV up
+	iwconfig $WLDEV nwid "$NWID"
+	OURLINE="$OURLINE NWID=\"$NWID\";"
+    fi
+    if [ -n "$MODE" ]; then 
+	ifconfig $WLDEV up
+	iwconfig $WLDEV mode "$MODE"
+	OURLINE="$OURLINE MODE=\"$MODE\";"
+    fi
+    if [ -n "$CHANNEL" ]; then 
+	ifconfig $WLDEV up
+	iwconfig $WLDEV channel "$CHANNEL"
+	OURLINE="$OURLINE CHANNEL=\"$CHANNEL\";"
+    fi
+    if [ -n "$FREQ" ]; then 
+	ifconfig $WLDEV up
+	iwconfig $WLDEV freq "$FREQ"
+	OURLINE="$OURLINE FREQ=\"$FREQ\";"
+    fi
+    if [ -n "$KEY" ]; then 
+	ifconfig $WLDEV up
+	iwconfig $WLDEV key "$KEY"
+	OURLINE="$OURLINE KEY=\"$KEY\";"
+    fi
+    if [ -n "$IWCONFIG" ]; then 
+	ifconfig $WLDEV up
+	iwconfig $WLDEV $IWCONFIG
+	OURLINE="$OURLINE IWCONFIG=\"$IWCONFIG\";"
+    fi
+    if [ -n "$IWSPY" ]; then 
+	ifconfig $WLDEV up
+	iwspy $WLDEV $IWSPY
+	OURLINE="$OURLINE IWSPY=\"$IWSPY\";"
+    fi
+    if [ -n "$IWPRIV" ]; then 
+	ifconfig $WLDEV up
+	iwpriv $WLDEV $IWPRIV
+	OURLINE="$OURLINE IWPRIV=\"$IWPRIV\";"
+    fi
+    # ESSID als letztes ausführen, aber als erstes eintragen
+    if [ -n "$ESSID" ]; then 
+	ifconfig $WLDEV up
+	iwconfig $WLDEV essid "$ESSID"
+	OURLINE="ESSID=\"$ESSID\"; $OURLINE"
+    fi
+    OURLINE="*,*,*,"$HWADDR") "$OURLINE" ;;"
+    echo $OURLINE >> $OPTSFILE
+}
+
+# Welchen Dialog benutzen wir ?
+DIALOG="dialog"
+[ -n "$DISPLAY" ] && [ -x /usr/bin/Xdialog ] && DIALOG="Xdialog"
+
+
+# Setze LANGUAGE usw.
+[ -f /etc/sysconfig/i18n ] && . /etc/sysconfig/i18n
+
+
+# Setze die Meldungen
+case "$LANGUAGE" in
+    de|at|ch)
+	MESSAGE0="Keine Wireless-Netzwerkkarte gefunden."
+	MESSAGE1="Konfiguration der Wireless-Parameter von"
+	MESSAGE2="Bitte Wireless-Netzwerkkarte auswählen"
+	MESSAGE3="Bitte konfigurieren Sie vorher die IP-Parameter der Karte !"
+	MESSAGE4="Geben Sie die ESSID für"
+	MESSAGE5="ein\n\n\n(leer für 'any', nicht zu empfehlen !!)\n"
+	MESSAGE6="Geben Sie ggf. die NWID (Cell Identifier)\nfür"
+	MESSAGE7="ein, falls es eine gibt\n\n\n"
+	MESSAGE8="Geben Sie den Modus für"
+	MESSAGE9="ein\n\n(Managed(=default), Ad-Hoc, Master,\nRepeater, Secondary, auto)\n"
+	MESSAGE10="Geben Sie den Kanal für"
+	MESSAGE11="ein\n\n(0 bis 16, leer für auto oder Frequenz-\neingabe im nächsten Fenster)\n"
+	MESSAGE12="Geben Sie die Frequenz für"
+	MESSAGE13="ein\n\n(z.B. 2.412G, leer für auto)"
+	MESSAGE14="Geben Sie den Verschlüsselungs-Key\nfür"
+	MESSAGE15="ein\n\n(leer für Klartext, nicht zu empfehlen !!)"
+	MESSAGE16="Geben Sie ggf. zusätzliche Parameter für\n'iwconfig"
+	MESSAGE17="' ein, z.B.\n\n\nsens -80  rts 512  frag 512  rate 5.5M"
+	MESSAGE18="Geben Sie ggf. zusätzliche Parameter für\n'iwspy"
+	MESSAGE19="' ein\n\n\n"
+	MESSAGE20="Geben Sie ggf. zusätzliche Parameter für\n'iwpriv"
+	MESSAGE21="' ein\n\n\n"
+	NWC="Netzwerkkarte_"
+	;;
+    es)
+	MESSAGE0="No se ha encontrado una tarjeta inalámbrica."
+	MESSAGE1="Configuración de los parámetros inalámbricos para"
+	MESSAGE2="Por favor, seleccione un dispositivo de red inalámbrico"
+	MESSAGE3="Por favor, configure primero los parámetros de la IP para la interfaz"
+	MESSAGE4="Teclee el ESSID para"
+	MESSAGE5="\n\n\n(vacío para 'cualquiera', ¡no recomendado!)\n"
+	MESSAGE6="Teclee el NWID (identificador de celda)\npara"
+	MESSAGE7=", si es necesario\n\n\n"
+	MESSAGE8="Teclee el modo para"
+	MESSAGE9="\n\n(Managed(=por_defecto), Ad-Hoc, Master,\nRepeater, Secondary, auto)\n"
+	MESSAGE10="Teclee el número del canal para"
+	MESSAGE11="\n\n(0 bis 16, vacío para auto o si lo prefiere\n teclee la frecuencia seguidamente)\n"
+	MESSAGE12="Teclee la frecuencia para"
+	MESSAGE13="\n\n(ej. 2.412G, vacío para auto)"
+	MESSAGE14="Teclee la clave de encriptación\npara"
+	MESSAGE15="\n\n(vacío para texto plano, ¡¡no recomendado!!)"
+	MESSAGE16="Teclee los parámetros adicionales para\n'iwconfig"
+	MESSAGE17="' Si es necesario, ej.\n\n\nsens -80  rts 512  frag 512  rate 5.5M"
+	MESSAGE18="Teclee los parámetros adicionales para\n'iwspy"
+	MESSAGE19="' si es necesario\n\n\n"
+	MESSAGE20="Teclee los parámetros adicionales para\n'iwpriv"
+	MESSAGE21="' si es necesario\n\n\n"
+	NWC="tarjeta_de_red_"
+	;;
+    *)
+	MESSAGE0="No wireless network card found."
+	MESSAGE1="Configuration of wireless parameters for"
+	MESSAGE2="Please select wireless network device"
+	MESSAGE3="Please configure IP parameters of the interface first"
+	MESSAGE4="Enter the ESSID for"
+	MESSAGE5="\n\n\n(empty for 'any', not recommended !)\n"
+	MESSAGE6="Enter the NWID (cell identifier)\nfor"
+	MESSAGE7=", if needed\n\n\n"
+	MESSAGE8="Enter the mode for"
+	MESSAGE9="\n\n(Managed(=default), Ad-Hoc, Master,\nRepeater, Secondary, auto)\n"
+	MESSAGE10="Enter channel number for"
+	MESSAGE11="\n\n(0 bis 16, empty for auto or if you want to\n enter the frequency next)\n"
+	MESSAGE12="Enter the frequency for"
+	MESSAGE13="\n\n(e.g 2.412G, empty for auto)"
+	MESSAGE14="Enter the encryption key\nfor"
+	MESSAGE15="\n\n(empty for cleartext, not recommended !!)"
+	MESSAGE16="Enter additional parameters for\n'iwconfig"
+	MESSAGE17="' if needed, e.g.\n\n\nsens -80  rts 512  frag 512  rate 5.5M"
+	MESSAGE18="Enter additional parameters for\n'iwspy"
+	MESSAGE19="' if needed\n\n\n"
+	MESSAGE20="Enter additional parameters for\n'iwpriv"
+	MESSAGE21="' if needed\n\n\n"
+	NWC="network_card_"
+	;;
+esac
+
+
+if [ -n "$1" ]; then 
+    WLDEVICES="$1"
+    SECOND=""
+else
+    # Gibt es überhaupt Wireless Karten ? 
+    # WLDEVICES=`grep -v "|" /proc/net/wireless | awk -F: '{print $1}'`
+    # Patch using 'iwconfig' from Florent Beranger
+    WLDEVICES="$(LANG=C LC_MESSAGES=C iwconfig 2>/dev/null | awk '/802\.11|READY/{print $1}')"
+
+    if [ -z "$WLDEVICES" ]; then
+       $DIALOG --msgbox "$MESSAGE0" 10 50
+       bailout
+    fi
+    # Suche eine der Wireless Karten aus, wenn es mehrere gibt, 
+    # sonst (oder bei Übergabe des Namens durch netcardconfig) nur Bestätigung
+    SECOND=`echo $WLDEVICES |  awk '{print $2}'`
+fi
+
+if [ -z "$SECOND" ]; then
+    # Es gibt nur eine
+    WLDEV=`echo $WLDEVICES |  awk '{print $1}'`
+    $DIALOG --msgbox "$MESSAGE1 $WLDEV" 10 50
+else
+    DEVICELIST=""
+    for DEVICE in $WLDEVICES; do 
+        NUMBER="${DEVICE##eth}"
+	NUMBER="${NUMBER##wlan}"
+	NUMBER="${NUMBER##ath}"
+	DEVICELIST="$DEVICELIST ${DEVICE} $NWC${NUMBER}"; done
+    $DIALOG --menu "$MESSAGE2" 18 45 12 $DEVICELIST 2>"$TMP" || bailout
+    read WLDEV <"$TMP" ; rm -f "$TMP"
+fi
+
+
+# Ist sie schon als Netzwerkkarte konfiguriert ?
+ifconfig $WLDEV up 2>/dev/null
+HWADDR=`ifconfig $WLDEV 2>/dev/null | head -1 | awk  '{print $NF}'`
+if [ -z "$HWADDR" ]; then
+    $DIALOG --msgbox "$MESSAGE3" 10 50
+    bailout
+fi
+
+
+# Ist schon ein wireless.opt von uns angelegt ?
+ESSID=""; NWID=""; MODE=""; CHANNEL=""; FREQ=""; SENS=""; RATE=""; KEY=""; RTS=""; FRAG=""
+IWCONFIG=""; IWSPY=""; IWPRIV=""
+MAGIC=`grep "MaGiC nUmBeR" $OPTSFILE`
+if [ -z "$MAGIC" ]; then
+    # noch keins von uns
+    OUR="NO"
+else
+    # ist schon von uns, also nach der aktuellen Karte suchen und Variablen extrahieren
+    OUR="YES"
+    OURLINE=`grep $HWADDR $OPTSFILE | awk -F")" '{print substr($2, 1, length($2) -3)}'`
+    [ -n "$OURLINE" ] && eval "$OURLINE"
+fi
+
+
+# Jetzt haben wir u.U. die Vorgaben aus der letzten Konfiguration dieser Karte, 
+# die wir als Startwerte nehmen
+$DIALOG --inputbox "$MESSAGE4 $WLDEV $MESSAGE5" 15 50 "$ESSID" 2>"$TMP" || bailout 1
+read ESSID <"$TMP" ; rm -f "$TMP"
+[ -z "$ESSID" ] && ESSID="any"
+
+$DIALOG --inputbox "$MESSAGE6 $WLDEV $MESSAGE7" 15 50 "$NWID" 2>"$TMP" || bailout 1
+read NWID <"$TMP" ; rm -f "$TMP"
+
+$DIALOG --inputbox "$MESSAGE8 $WLDEV $MESSAGE9" 15 50 "$MODE" 2>"$TMP" || bailout 1
+read MODE <"$TMP" ; rm -f "$TMP"
+
+$DIALOG --inputbox "$MESSAGE10 $WLDEV $MESSAGE11" 15 50 "$CHANNEL" 2>"$TMP" || bailout 1
+read CHANNEL <"$TMP" ; rm -f "$TMP"
+
+if [ -z $CHANNEL ]; then
+    $DIALOG --inputbox "$MESSAGE12 $WLDEV $MESSAGE13" 15 50 "$FREQ" 2>"$TMP" || bailout 1
+    read FREQ <"$TMP" ; rm -f "$TMP"
+fi
+
+$DIALOG --inputbox "$MESSAGE14 $WLDEV $MESSAGE15" 15 50 "$KEY" 2>"$TMP" || bailout 1
+read KEY <"$TMP" ; rm -f "$TMP"
+
+$DIALOG --inputbox "$MESSAGE16 $WLDEV$MESSAGE17" 15 50 "$IWCONFIG" 2>"$TMP" || bailout 1
+read IWCONFIG <"$TMP" ; rm -f "$TMP"
+
+$DIALOG --inputbox "$MESSAGE18 $WLDEV$MESSAGE19" 15 50 "$IWSPY" 2>"$TMP" || bailout 1
+read IWSPY <"$TMP" ; rm -f "$TMP"
+
+$DIALOG --inputbox "$MESSAGE20 $WLDEV$MESSAGE21" 15 50 "$IWPRIV" 2>"$TMP" || bailout 1
+read IWPRIV <"$TMP" ; rm -f "$TMP"
+
+set -x
+# Jetzt schreiben wir die Parameter weg. Wenn wir wireless.opts noch nicht selber
+# geschrieben hatten, ist das kein Problem. Wenn doch, müssen wir die neue Zeile 
+# reinfrickeln...
+if [ "$OUR" = "NO" ]; then 
+	rm $OPTSFILE
+	echo "# Wireless LAN adapter configuration file /etc/pcmcia/wireless.opts"	 > $OPTSFILE
+	echo "# written by wlcardconfig (C) Eckhard Rüggeberg"				>> $OPTSFILE
+	echo "# Sorry for the clumsy syntax, but I have to have everything in one"	>> $OPTSFILE
+	echo "# line for every card. This is a MaGiC nUmBeR."				>> $OPTSFILE
+	echo "# For the original file see in /KNOPPIX/etc/pcmcia/"			>> $OPTSFILE
+	echo ""										>> $OPTSFILE
+	echo 'case "$ADDRESS" in'							>> $OPTSFILE
+	writeline
+	echo "esac"									>> $OPTSFILE
+else
+
+	mv  $OPTSFILE  $OPTSFILE.old
+	echo "# Wireless LAN adapter configuration file /etc/pcmcia/wireless.opts"	 > $OPTSFILE
+	echo "# written by wlcardconfig (C) Eckhard Rüggeberg"				>> $OPTSFILE
+	echo "# Sorry for the clumsy syntax, but I have to have everything in one"	>> $OPTSFILE
+	echo "# line for every card. This is a MaGiC nUmBeR."				>> $OPTSFILE
+	echo "# For the original file see in /KNOPPIX/etc/pcmcia/"			>> $OPTSFILE
+	echo ""										>> $OPTSFILE
+	echo 'case "$ADDRESS" in'							>> $OPTSFILE
+	writeline
+	grep ";;" $OPTSFILE.old | grep -v $HWADDR 2>/dev/null				>> $OPTSFILE
+	echo "esac"									>> $OPTSFILE
+fi

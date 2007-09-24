@@ -1,0 +1,15 @@
+#!/usr/bin/perl
+
+my ($opt_location) = `cat /proc/cmdline` =~ /opt=(.*?)(\s|$)/ig;
+$opt_location =~ s/\/$//;
+
+print "Loading Opt-Get plugin.\n";
+
+my @opts = `ls -a /cdrom/opt/*.opt`;
+push @opts, `ls -a $opt_location/*.opt` if ( -e "$opt_location" );
+
+for (@opts) { chomp; $list .= "$_ "; }
+
+system("opt-get install $list") if ($list ne '');
+system('touch /etc/.opt-get');
+
