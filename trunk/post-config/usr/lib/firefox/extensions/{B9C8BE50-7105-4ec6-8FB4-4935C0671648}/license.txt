@@ -1,0 +1,13 @@
+                            ==================================
+                              License of the Gspace Software
+                            ==================================
+
+This software that Gspace, LLP is providing for your use, has been developed under the GPL license
+(http://www.fsf.org/licensing/licenses/gpl.html).
+
+This software is free software. You may redistribute and/or change it according to the terms of the
+GNU General Public License as published by the Free Software Foundation, in its current version 2.
+
+This software is distributed in the hope that it will be useful, but WITHOUT ANY GUARANTEE: neither
+the implicit COMMERCIAL guarantee or without guaranteeing the CONVENIENCE FOR PRIVATE USE.
+Please refer to the GNU General Public License for more details.
