@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<r:RDF 	xmlns:r="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	xmlns="http://www.mozilla.org/2004/em-rdf#">
+
+<!-- Dictionary Tooltip -->
+<r:Description about="urn:mozilla:extension:{C6128004-4838-4708-9A97-BB172D17767D}"><!-- GUID of your extension -->
+	<updates> <!-- Everything in the update node is for Firefox v0.10 and newer -->
+		<r:Seq>
+			<r:li>
+				<r:Description>
+					<version>0.9</version><!-- latest version of your extension -->
+
+					<targetApplication>
+						<r:Description>
+							<id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</id><!-- This is the GUID for Firefox -->
+							<minVersion>0.9</minVersion><!-- Minimum version of Firefox your extension works on -->
+							<maxVersion>1.6</maxVersion><!-- Maximum version of Firefox your extension works on -->
+							<updateLink>http://www.rjonna.com/ext/Dictionary-Tooltip_v0.9.1.xpi</updateLink><!-- URL of your extension -->
+						</r:Description>
+
+					</targetApplication>
+				</r:Description>
+			</r:li>
+		</r:Seq>
+	</updates>
+	<!-- The 2 nodes below are for firefox 0.9 and older -->
+	<version>0.9</version><!-- latest version of your extension -->
+	<updateLink></updateLink><!-- URL of your extension -->
+
+</r:Description>
+
+<!-- gspace -->
+<r:Description about="urn:mozilla:extension:{B9C8BE50-7105-4ec6-8FB4-4935C0671648}"><!-- GUID of your extension -->
+	<updates> <!-- Everything in the update node is for Firefox v0.10 and newer -->
+		<r:Seq>
+			<r:li>
+				<r:Description>
+					<version>0.3.2</version><!-- latest version of your extension -->
+
+					<targetApplication>
+						<r:Description>
+							<id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</id><!-- This is the GUID for Firefox -->
+							<minVersion>1.5</minVersion><!-- Minimum version of Firefox your extension works on -->
+							<maxVersion>1.7</maxVersion><!-- Maximum version of Firefox your extension works on -->
+							<updateLink>http://www.rjonna.com/ext/gspace_v0.3.2.xpi</updateLink><!-- URL of your extension -->
+						</r:Description>
+
+					</targetApplication>
+				</r:Description>
+			</r:li>
+		</r:Seq>
+	</updates>
+</r:Description>
+</r:RDF>

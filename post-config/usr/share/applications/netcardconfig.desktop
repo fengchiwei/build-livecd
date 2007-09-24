@@ -1,0 +1,16 @@
+[Desktop Entry]
+Categories=Application;Network;
+Encoding=UTF-8
+Name=Network Card Configuration Tool
+Name[zh_TW]=網路卡設定工具
+Name[zh_CN]=网路卡设定工具
+Exec=sudo netcardconfig
+Icon=gnome-settings
+Type=Application
+Terminal=false
+GenericName=network configuration tool
+GenericName[zh_TW]=網路設定工具
+GenericName[zh_CN]=网路设定工具
+Comment=network configuration tool
+Comment[zh_TW]=網路設定工具
+Comment[zh_CN]=网路设定工具

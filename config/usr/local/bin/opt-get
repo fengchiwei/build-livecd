@@ -1,0 +1,136 @@
+#!/usr/bin/perl
+# opt-get - command line apt interface to install PUD GNU/Linux plugin
+# 
+# Copyright 2006 by Pin-Shiun Chen (penkia) <penkia@gmail.com>
+# This program is free software; 
+# you can redistribute it and/or modify it under the same terms as Perl itself.
+# See http://www.perl.com/perl/misc/Artistic.html
+
+use strict;
+#use warnings;
+use File::Basename;
+
+our($pkg_name, $pkg_list, $snap_id, $snap_dir, $last_path, @opt_list);
+if ($ARGV[0] eq 'moo') {
+
+print 	'         (__) '."\n".
+	'         (oo) '."\n".
+	'   /------\/ '."\n".
+	'  / |    ||   '."\n".
+	' *  /\---/\ '."\n".
+	'    ~~   ~~   '."\n".
+	'...."Have you mooed today?"...'."\n";
+
+}
+
+elsif ($ARGV[0] eq 'install') {
+
+	# check parameter
+	for (1..$#ARGV) { 
+		#if ((fileparse($ARGV[$_], qr/\.[^.]*/))[2] eq '.opt') {
+		if (`file $ARGV[$_] | grep Squashfs`) {
+			push @opt_list, $ARGV[$_];
+		} else {
+			print "$ARGV[$_] is not an Opt file.\n"
+		}
+	}
+
+	# mount opt file
+	for (@opt_list) {
+		#($pkg_name) = basename($_) =~ /(.*)\.opt$/;
+		$pkg_name = fileparse($_, qr/\.[^.]*/);
+		!system("mkdir /opt/$pkg_name") or die "$!\n";
+		!system("mount -o loop $_ /opt/$pkg_name") or die "$!\n";
+	}
+
+	# insert read-only part into unionfs
+	for (@opt_list) {
+		$pkg_name = fileparse($_, qr/\.[^.]*/);
+		($last_path) = (`unionctl / --list`)[-1] =~ /\s*(.+?)\s/;
+		!system("unionctl / --add --after $last_path --mode ro /opt/$pkg_name/branch") or die "$!\n";
+	}
+
+	# copy read-write part to ramdisk
+	for (@opt_list) {
+		$pkg_name = fileparse($_, qr/\.[^.]*/);
+		!system("cp -a /opt/$pkg_name/ramdisk/* /") or die "$!\n";
+	}
+
+	# execute post install and start scripts if exist
+	for (@opt_list) {
+		$pkg_name = fileparse($_, qr/\.[^.]*/);
+		print "Plugin $pkg_name now can be used.\n";
+		if (-e "/opt/$pkg_name/pinst.sh") {
+			!system("sh /opt/$pkg_name/pinst.sh") or die "$!\n";
+		}
+		if (@opt_list == 1 && -e "/opt/$pkg_name/start.sh") {
+			!system("sh /opt/$pkg_name/start.sh") or die "$!\n";
+		}
+	}
+
+} 
+
+elsif ($ARGV[0] eq 'make') {
+
+print "Make sure you have enough free memory and a clean file system.\n";
+
+	for (1..$#ARGV) { 
+	chomp; 	$pkg_list .=" $ARGV[$_]"; 
+	}
+
+!system("apt-get clean; apt-get update") or die "$!\n";
+
+# make snapshot directory
+$snap_id = 0; 
+$snap_dir = "/tmp/snapshot-$snap_id";
+while(-e "$snap_dir") {
+	!system("unionctl / --mode ro $snap_dir") or die "$!\n";
+	$snap_id++;
+}
+!system("mkdir -p $snap_dir") or die "$!\n";
+
+# take a snapshot and start to install packages
+!system("unionctl / --add $snap_dir") or die "$!\n";
+!system("unionctl / --mode ro /cow") or die "$!\n";
+print "Add snapshot directory to system.\n";
+
+!system("apt-get install $pkg_list --yes --force-yes") or die "$!\n";
+print "Clean up snapshot.\n";
+
+# clean some directories
+!system("apt-get clean") or die "$!\n";
+!system("rm -rf /var/log/ /var/lib/ /var/cache/apt/ /var/cache/debconf/ /usr/share/doc/ /usr/share/man/") or die "$!\n";
+
+print "Merge the snapshot into plugin.\n";
+!system("unionctl / --mode rw /cow") or die "$!\n";
+
+!system("mkdir -p /tmp/$ARGV[1]/ramdisk; mkdir -p /tmp/$ARGV[1]/branch") or die "$!\n";
+!system("mv $snap_dir/etc/ /tmp/$ARGV[1]/ramdisk/") or die "$!\n";
+!system("mv $snap_dir/var/ /tmp/$ARGV[1]/ramdisk/") or die "$!\n";
+!system("mv $snap_dir/* /tmp/$ARGV[1]/branch/") or die "$!\n";
+
+# remove "white out" files
+!system("find /tmp/$ARGV[1]/ -name .wh.* -exec rm {} \\;");
+
+print "Pause for add pinst.sh or start.sh (press any key to continue) ";
+getc;
+
+print "Compress plugin to /tmp/$ARGV[1].opt .\n";
+!system("mksquashfs-lzma /tmp/$ARGV[1]/ /tmp/$ARGV[1].opt") or die "$!\n";
+
+print "Plugin /tmp/$ARGV[1].opt now can be used.\n";
+
+} else {
+
+print	"Usage: opt-get install plugin1 [plugin2 ...]\n".
+      	"       opt-get make pkg1 [pkg2 ...]\n".
+      	"\nopt-get is a simple command line apt interface\n".
+	"for making and using plugins from PUD GNU/Linux.\n\n".
+	"Commands: \n".
+	"make - download and make a squashfs compressed plugin\n".
+	"install - mount plugins and add to unionfs\n\n".
+	"See the apt-get(8), sources.list(5) and apt.conf(5) manual\n".
+	"pages for more information and options.\n".
+	"(Don't forget to use the source!) \n".
+	"               This APT has Super Cow Powers.\n";
+}
