@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="urn:mozilla:extension:file:adblock.jar"
+                   em:package="content/" />
+  <RDF:Description RDF:about="rdf:#$ZzuWS1"
+                   em:id="{a463f10c-3994-11da-9945-000d60ca027b}"
+                   em:minVersion="1.0+"
+                   em:maxVersion="1.0+" />
+  <RDF:Description RDF:about="rdf:#$PzuWS1"
+                   em:id="{86c18b42-e466-45a9-ae7a-9b95ba6f5640}"
+                   em:minVersion="1.4"
+                   em:maxVersion="1.8" />
+  <RDF:Description RDF:about="urn:mozilla:install-manifest"
+                   em:id="{34274bf4-1d97-a289-e984-17e546307e4f}"
+                   em:version="0.5.3.043"
+                   em:name="Adblock"
+                   em:description="Filters ads from web-pages"
+                   em:creator="The Adblock Crew"
+                   em:homepageURL="http://adblock.mozdev.org"
+                   em:optionsURL="chrome://adblock/content/settings.xul">
+    <em:targetApplication RDF:resource="rdf:#$KzuWS1"/>
+    <em:targetApplication RDF:resource="rdf:#$PzuWS1"/>
+    <em:targetApplication RDF:resource="rdf:#$UzuWS1"/>
+    <em:targetApplication RDF:resource="rdf:#$ZzuWS1"/>
+    <em:contributor>Henrik Aasted Sorensen</em:contributor>
+    <em:contributor>rue</em:contributor>
+    <em:contributor>Ben Karel</em:contributor>
+    <em:contributor>Michael McDonald</em:contributor>
+    <em:contributor>...</em:contributor>
+    <em:contributor>Kjell Stahl (kstahl)</em:contributor>
+    <em:contributor>(the unnamed one)</em:contributor>
+    <em:contributor>..</em:contributor>
+    <em:contributor>Stefan Kinitz</em:contributor>
+    <em:contributor>Wladimir Palant</em:contributor>
+    <em:file RDF:resource="urn:mozilla:extension:file:adblock.jar"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$UzuWS1"
+                   em:id="{3db10fab-e461-4c80-8b97-957ad5f8ea47}"
+                   em:minVersion="8.0"
+                   em:maxVersion="8.1" />
+  <RDF:Description RDF:about="rdf:#$KzuWS1"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="0.7"
+                   em:maxVersion="2.0.0.*" />
+</RDF:RDF>

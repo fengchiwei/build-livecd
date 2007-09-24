@@ -1,0 +1,41 @@
+# Mozilla search plugin for 教育部國語辭典
+# by wenjie (wenjieh@gmail.com)
+# 搜尋首頁 http://140.111.34.46/dict/
+#
+# Last updated: 2005-03-24
+# This file is released to the public domain.
+#
+# Country: TW
+# Language: zh
+#
+
+
+<search
+   name="EduDict"
+   description="教育部國語辭典"
+   method="GET"
+   action="http://140.111.34.46/cgi-bin/dict/newsearch.cgi"
+   queryCharset="Big5"
+   searchform="http://140.111.34.46"
+>
+
+<input name="QueryString" user>
+<input name="Database" value="dict">
+<input name="QueryScope" value="Name">
+<input name="QueryCommand" value="find">
+# 自然語言近似搜尋，若要使用精確搜尋請將 fsearch 改為 find
+<input name="GraphicWord" value="yes">
+<input name="hidden" value="1">
+
+
+<interpret
+    charset = "Big5"
+    resultEncoding = "2563"
+    browserResultType="result"
+    resultListStart="content_start"
+    resultListEnd="content_end"
+    resultItemStart="<p>"
+    resultItemEnd="</p>"
+>
+
+</search>
