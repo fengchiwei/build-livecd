@@ -12,7 +12,8 @@ discover1 hwdata xresprobe mdetect
 ion3 
 xfdesktop4 xfwm4 xfce4-panel xfce4-session xfce4-mcs-manager xfce4-icon-theme gtk2-engines-xfce
 xfce4-mcs-plugins xfwm4-themes
-xfce4-mixer-alsa xfce4-mixer xfburn
+xfce4-mixer-alsa xfce4-mixer 
+#xfburn
 
 # basic system
 x-ttcidfont-conf 
@@ -47,7 +48,7 @@ deluge-torrent
 #wvdial
 smbfs linneighborhood
 xfce4-terminal
-mdadm
+#mdadm
 graveman
 rsync
 
@@ -101,6 +102,7 @@ alsa-oss
 #nfs-kernel-server 
 nfs-common portmap 
 acpi
+beep
 
 # artwork
 usplash usplash-theme-ubuntu gtk2-engines-ubuntulooks ubuntu-artwork 

@@ -1,8 +1,8 @@
 [Configuration]
-AccelNewTab=<control><shift>t
+AccelNewTab=<control>t
 AccelNewWindow=<control><shift>n
 AccelDetachTab=<control><shift>d
-AccelCloseTab=<control><shift>w
+AccelCloseTab=<control>w
 AccelCloseWindow=<control><shift>q
 AccelCopy=<control><shift>c
 AccelPaste=<control><shift>v
