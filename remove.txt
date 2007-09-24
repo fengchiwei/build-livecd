@@ -204,6 +204,8 @@
 /usr/share/locale/no_NO
 /usr/share/locale/sv_SE
 /usr/share/locale/rw
+/usr/share/locale/yi
+/usr/share/locale/la
 # locales
 /usr/share/i18n/locales/aa_DJ
 /usr/share/i18n/locales/aa_ER
