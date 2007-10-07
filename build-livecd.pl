@@ -151,6 +151,8 @@ print "[$0] PUD-lize the Live CD system...\n";
 &do_chroot('rm -f /etc/rc2.d/S14ppp /etc/rc6.d/K86ppp /etc/rc0.d/K86ppp');
 &do_chroot('rm -f /etc/localtime');
 &do_chroot('ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime');
+&do_chroot('rm -f /etc/alternatives/x-cursor-theme');
+&do_chroot('ln -s /usr/share/themes/Human/cursor.theme /etc/alternatives/x-cursor-theme');
 print "OK.\n";
 
 # post-config
