@@ -190,6 +190,7 @@ for (<R>) {
 close(R);
 
 &do_chroot('dpkg-reconfigure linux-image-generic');
+&do_chroot('depmod -a');
 &do_chroot('update-initramfs -u');
 
 &do_chroot('apt-get clean');
