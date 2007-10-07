@@ -60,6 +60,8 @@ bluez-utils bluetooth bluez-pcmcia-support
 avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
 
 # tool 
+displayconfig-gtk
+network-manager
 testdisk
 squashfs-tools mkisofs grub debootstrap syslinux mtools
 #qemu

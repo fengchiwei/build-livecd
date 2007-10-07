@@ -206,6 +206,11 @@
 /usr/share/locale/rw
 /usr/share/locale/yi
 /usr/share/locale/la
+/usr/share/locale/ast
+/usr/share/locale/en_AU
+/usr/share/locale/fa
+/usr/share/locale/mr
+/usr/share/locale/tlh
 # locales
 /usr/share/i18n/locales/aa_DJ
 /usr/share/i18n/locales/aa_ER
@@ -441,6 +446,17 @@
 /usr/share/i18n/locales/wo_SN
 /usr/share/i18n/locales/xh_ZA
 /usr/share/i18n/locales/yi_US
+/usr/share/i18n/locales/as_IN
+/usr/share/i18n/locales/crh_UA
+/usr/share/i18n/locales/eo
+/usr/share/i18n/locales/ia
+/usr/share/i18n/locales/mai_IN
+/usr/share/i18n/locales/or_IN
+/usr/share/i18n/locales/pa_PK
+/usr/share/i18n/locales/sr_ME
+/usr/share/i18n/locales/sr_RS
+/usr/share/i18n/locales/sr_RS@latin
+/usr/share/i18n/locales/zu_ZA
 # theme
 /usr/share/themes/Adept
 /usr/share/themes/Agualemon
@@ -590,6 +606,7 @@
 /usr/share/X11/locale/tscii-0
 /usr/share/X11/locale/vi_VN.tcvn
 /usr/share/X11/locale/vi_VN.viscii
+/usr/share/X11/locale/ru_RU.UTF-8
 # scim
 /usr/share/scim/tables/Cantonese.bin
 /usr/share/scim/icons/Cantonese.png
@@ -622,7 +639,7 @@
 /usr/share/scim/icons/Simplex.png
 # casper-bottom
 /usr/share/initramfs-tools/scripts/casper-bottom/01integrity_check
-/usr/share/initramfs-tools/scripts/casper-bottom/02_timezone
+/usr/share/initramfs-tools/scripts/casper-bottom/02timezone
 /usr/share/initramfs-tools/scripts/casper-bottom/25configure_init
 /usr/share/initramfs-tools/scripts/casper-bottom/33enable_apport_crashe
 /usr/share/initramfs-tools/scripts/casper-bottom/34disable_kwallet

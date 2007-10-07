@@ -44,7 +44,7 @@ elsif ($ARGV[0] eq 'install') {
 		#($pkg_name) = basename($_) =~ /(.*)\.opt$/;
 		$pkg_name = fileparse($_, qr/\.[^.]*/);
 		!system("mkdir /opt/$pkg_name") or die "$!\n";
-		!system("mount -o loop $_ /opt/$pkg_name") or die "$!\n";
+		!system("mount -o loop -t squashfs $_ /opt/$pkg_name") or die "$!\n";
 	}
 
 	# insert read-only part into unionfs
