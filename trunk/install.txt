@@ -84,6 +84,7 @@ tree
 #lokkit
 libjpeg-progs
 unionfs-tools
+aufs-tools
 aria 
 aumix 
 imagemagick
