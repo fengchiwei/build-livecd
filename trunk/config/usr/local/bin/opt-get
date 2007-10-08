@@ -11,6 +11,11 @@ use strict;
 use File::Basename;
 
 our($pkg_name, $pkg_list, $snap_id, $snap_dir, $last_path, @opt_list, $UCTL);
+
+# check if using aufs
+if(`grep aufs /proc/cmdline`) 
+	{ $UCTL = '/sbin/unionctl.aufs'; } else { $UCTL = '/usr/sbin/unionctl'; }
+
 if ($ARGV[0] eq 'moo') {
 
 print 	'         (__) '."\n".
@@ -24,10 +29,6 @@ print 	'         (__) '."\n".
 }
 
 elsif ($ARGV[0] eq 'install') {
-
-	# check if using aufs
-	if(`grep aufs /proc/cmdline`) 
-		{ $UCTL = '/sbin/unionctl.aufs'; } else { $UCTL = '/usr/sbin/unionctl'; }
 
 	# check parameter
 	for (1..$#ARGV) { 
@@ -65,10 +66,10 @@ elsif ($ARGV[0] eq 'install') {
 		$pkg_name = fileparse($_, qr/\.[^.]*/);
 		print "Plugin $pkg_name now can be used.\n";
 		if (-e "/opt/$pkg_name/pinst.sh") {
-			!system("sh /opt/$pkg_name/pinst.sh") or die "$!\n";
+			!system("sudo sh /opt/$pkg_name/pinst.sh") or die "$!\n";
 		}
 		if (@opt_list == 1 && -e "/opt/$pkg_name/start.sh") {
-			!system("sh /opt/$pkg_name/start.sh") or die "$!\n";
+			!system("sudo sh /opt/$pkg_name/start.sh") or die "$!\n";
 		}
 	}
 
@@ -77,7 +78,7 @@ elsif ($ARGV[0] eq 'install') {
 elsif ($ARGV[0] eq 'make') {
 
 print "Make sure you have enough free memory and a clean file system.\n".
-      "Note: You must using unionfs!\n";
+      "Note: You must using Aufs!\n\n";
 
 	for (1..$#ARGV) { 
 	chomp; 	$pkg_list .=" $ARGV[$_]"; 
@@ -86,32 +87,47 @@ print "Make sure you have enough free memory and a clean file system.\n".
 !system("apt-get clean; apt-get update") or die "$!\n";
 
 # make snapshot directory
-$snap_id = 0; 
-$snap_dir = "/tmp/snapshot-$snap_id";
-while(-e "$snap_dir") {
-	!system("unionctl / --mode ro $snap_dir") or die "$!\n";
-	$snap_id++;
-}
+
+$snap_dir = "/tmp/snapshot";
+
+#$snap_id = 0; 
+#$snap_dir = "/tmp/snapshot-$snap_id";
+#while(-e "$snap_dir") {
+#	!system("$UCTL / --mode ro $snap_dir") or die "$!\n";
+#	$snap_id++;
+#}
+
 !system("mkdir -p $snap_dir") or die "$!\n";
 
 # take a snapshot and start to install packages
-!system("unionctl / --add $snap_dir") or die "$!\n";
-!system("unionctl / --mode ro /cow") or die "$!\n";
+!system("$UCTL / --add $snap_dir") or die "$!\n";
+# !system("$UCTL / --mode ro /cow") or die "$!\n";
+!system("mount -t aufs -o remount,mod=/cow=ro none /") or die "$!\n";
 print "Add snapshot directory to system.\n";
 
 !system("apt-get install $pkg_list --yes --force-yes") or die "$!\n";
-print "Clean up snapshot.\n";
 
+print "Preserve dpkg info.\n";
+!system("mv /var/lib/dpkg/ /tmp") or die "$!\n";
+
+
+print "Clean up snapshot.\n";
 # clean some directories
 !system("apt-get clean") or die "$!\n";
 !system("rm -rf /var/log/ /var/lib/ /var/cache/apt/ /var/cache/debconf/ /usr/share/doc/ /usr/share/man/") or die "$!\n";
 
 print "Merge the snapshot into plugin.\n";
-!system("unionctl / --mode rw /cow") or die "$!\n";
+# !system("$UCTL / --mode rw /cow") or die "$!\n";
+!system("mount -t aufs -o remount,mod=/cow=rw none /") or die "$!\n";
 
 !system("mkdir -p /tmp/$ARGV[1]/ramdisk; mkdir -p /tmp/$ARGV[1]/branch") or die "$!\n";
 !system("mv $snap_dir/etc/ /tmp/$ARGV[1]/ramdisk/") or die "$!\n";
 !system("mv $snap_dir/var/ /tmp/$ARGV[1]/ramdisk/") or die "$!\n";
+
+!system("mkdir -p /tmp/$ARGV[1]/ramdisk/var/lib/") or die "$!\n";
+!system("mv /tmp/dpkg /tmp/$ARGV[1]/ramdisk/var/lib/") or die "$!\n";
+!system("rm -f /tmp/$ARGV[1]/ramdisk/var/lib/dpkg/*-old") or die "$!\n";
+
 !system("mv $snap_dir/* /tmp/$ARGV[1]/branch/") or die "$!\n";
 
 # remove "white out" files
