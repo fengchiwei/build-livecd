@@ -32,7 +32,7 @@ PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 alias ll='ls -al --color=auto'
 alias rm='rm -i'
 alias mv='mv -i'
-alias cp='cp -i'
+alias cp='cp -ip'
 
 # enable bash completion in interactive shells
 if [ -f /etc/bash_completion ]; then

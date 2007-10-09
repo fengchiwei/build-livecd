@@ -141,6 +141,10 @@ print "Compress plugin to /tmp/$ARGV[1].opt .\n";
 
 print "Plugin /tmp/$ARGV[1].opt now can be used.\n";
 
+print "Clean up snapshot directory.\n";
+!system("mount -t aufs -o remount,mod=$snap_dir=ro none /") or die "$!\n";
+!system("$UCTL / --remove /tmp/snapshot") or die "$!\n";
+
 } else {
 
 print	"Usage: opt-get install plugin1 [plugin2 ...]\n".
