@@ -561,6 +561,8 @@
 /usr/share/themes/Xfce-winter
 # icon
 /usr/share/icons/Rodent
+/usr/share/icons/DMZ-White
+/usr/share/icons/DMZ-Black
 # x-locale
 /usr/share/X11/locale/georgian-academy
 /usr/share/X11/locale/armscii-8
