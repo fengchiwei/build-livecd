@@ -559,6 +559,17 @@
 /usr/share/themes/Xfce-smooth
 /usr/share/themes/Xfce-stellar
 /usr/share/themes/Xfce-winter
+/usr/share/themes/Agua
+/usr/share/themes/Alternate
+/usr/share/themes/Daloa
+/usr/share/themes/Emacs
+/usr/share/themes/Kokodi
+/usr/share/themes/Sassandra
+/usr/share/themes/Stoneage
+/usr/share/themes/Raleigh
+/usr/share/themes/Therapy
+/usr/share/themes/Tyrex
+/usr/share/themes/Wallis
 # icon
 /usr/share/icons/Rodent
 /usr/share/icons/DMZ-White
