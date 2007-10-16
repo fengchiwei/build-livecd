@@ -34,16 +34,18 @@ pppoeconf
 gaim 
 # gaim-encryption gaim-guifications
 amule amule-utils
-beep-media-player bmp-alarm
+beep-media-player
+#bmp-alarm
 #mozilla-plugin-pcmanx 
-pcmanx-gtk2 firefox 
+pcmanx-gtk2 
+firefox 
 mozilla-firefox-locale-zh-tw mozilla-firefox-locale-zh-cn
 gftp-gtk
 #pcmanfm
 thunar xarchive
 epdfview
 xchm
-ndisgtk
+ndisgtk wifi-radar
 #bittornado-gui
 deluge-torrent
 #wvdial
@@ -52,6 +54,7 @@ xfce4-terminal
 #mdadm
 graveman
 rsync
+xlockmore
 
 # bluetooth
 bluez-utils bluetooth bluez-pcmcia-support
@@ -60,6 +63,8 @@ bluez-utils bluetooth bluez-pcmcia-support
 avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
 
 # tool 
+hibernate pm-utils uswsusp
+tightvncserver xtightvncviewer openssh-server
 displayconfig-gtk
 network-manager
 testdisk
@@ -74,21 +79,21 @@ wget
 #curl 
 #fdclock 
 #xzgv 
-#gqview
+gqview
 comix
 scrot 
 numlockx
 fuse-utils ntfs-3g
-rxvt-unicode-lite
+#rxvt-unicode-lite
 unrar-free unzip p7zip zip arj
 # lha unp
 tree
-#lokkit
+lokkit
 libjpeg-progs
-unionfs-tools
+#unionfs-tools
 aufs-tools
 aria 
-aumix 
+#aumix 
 imagemagick
 netpbm
 #wine
