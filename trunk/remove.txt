@@ -667,3 +667,4 @@
 # misc
 /usr/share/gdm
 /usr/share/backgrounds
+/etc/rc2.d/S16ssh

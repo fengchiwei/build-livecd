@@ -148,7 +148,7 @@ print "[$0] PUD-lize the Live CD system...\n";
 &do_chroot('ln -s ../init.d/startx /etc/rc2.d/S99startx');
 &do_chroot('ln -s ../init.d/pudata /etc/rc0.d/K02pudata');
 &do_chroot('ln -s ../init.d/pudata /etc/rc6.d/K02pudata');
-&do_chroot('rm -f /etc/rc2.d/S14ppp /etc/rc6.d/K86ppp /etc/rc0.d/K86ppp');
+&do_chroot('rm -f /etc/rc2.d/S01lokkit /etc/rc2.d/S14ppp /etc/rc6.d/K99lokkit /etc/rc0.d/K99lokkit /etc/rc6.d/K86ppp /etc/rc0.d/K86ppp');
 &do_chroot('rm -f /etc/localtime');
 &do_chroot('ln -s /usr/share/zoneinfo/Asia/Taipei /etc/localtime');
 &do_chroot('rm -f /etc/alternatives/x-cursor-theme');

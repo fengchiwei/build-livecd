@@ -34,6 +34,7 @@ case /(ext2|ext3)/ {
 		or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop")); 
 	} 
 
+=pod
 case 'swap' {
 		system("swapon /dev/$device");
 		rmdir("/mnt/$device");
@@ -44,6 +45,8 @@ else 	{
 		!system("mount -o noatime /dev/$device /mnt/$device")
 		or (rmdir("/mnt/$device") && unlink("/home/ubuntu/Desktop/$device.desktop"));
 	}
+=cut
+
 }
 
 }
