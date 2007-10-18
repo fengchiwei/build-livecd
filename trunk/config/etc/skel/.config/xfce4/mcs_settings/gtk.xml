@@ -13,7 +13,7 @@
 	<option name="Net/DndDragThreshold" type="int" value="8"/>
 	<option name="Net/DoubleClickTime" type="int" value="300"/>
 	<option name="Net/IconThemeName" type="string" value="Human"/>
-	<option name="Net/ThemeName" type="string" value="Human"/>
+	<option name="Net/ThemeName" type="string" value="Raleigh"/>
 	<option name="Xft/Antialias" type="int" value="1"/>
 	<option name="Xft/HintStyle" type="string" value="hintfull"/>
 	<option name="Xft/Hinting" type="int" value="1"/>

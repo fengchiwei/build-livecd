@@ -3,5 +3,5 @@ Name=終端機 (xfce4-terminal)\
 Exec=xfce4-terminal
 Terminal=false
 StartupNotify=false
-Icon=/usr/local/share/icons/terminal.png
+X-XFCE-IconCategory=13
 
