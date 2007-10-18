@@ -20,6 +20,6 @@ deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-backports universe main multivers
 deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-proposed universe main multiverse restricted
 #deb-src http://tw.archive.ubuntu.com/ubuntu/ gutsy-proposed universe main multiverse restricted
 
-#deb http://archive.canonical.com/ubuntu gutsy-commercial main
+#deb http://archive.canonical.com/ gutsy partner
 #deb http://www.getautomatix.com/apt gutsy main
 #deb http://medibuntu.sos-sts.com/repo/ gutsy free non-free
