@@ -457,6 +457,9 @@
 /usr/share/i18n/locales/sr_RS
 /usr/share/i18n/locales/sr_RS@latin
 /usr/share/i18n/locales/zu_ZA
+/usr/share/i18n/locales/translit*
+/usr/share/i18n/locales/en_GB
+/usr/share/i18n/locales/tt_RU@iqtelif
 # theme
 /usr/share/themes/Adept
 /usr/share/themes/Agualemon
@@ -672,3 +675,11 @@
 /usr/share/gnome/help
 /usr/share/xfce4/backdrops
 /usr/share/sounds/alsa
+/usr/share/gconf/schemas/desk*
+/usr/share/vim/im71/spell/cleanadd.vim
+/usr/share/vim/im71/spell/en.ascii.spl
+/usr/share/vim/im71/spell/en.ascii.sug
+/usr/share/vim/im71/spell/en.latin1.spl
+/usr/share/vim/im71/spell/en.latin1.sug
+/usr/share/vim/im71/spell/he.vim
+/usr/share/vim/im71/spell/yi.vim

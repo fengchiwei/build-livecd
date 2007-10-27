@@ -346,7 +346,7 @@ defmenu("appmenu", {
 -- Net application menu
 defmenu("netmenu", {
     menuentry("網頁瀏覽 (firefox)",          "ioncore.exec_on(_, 'firefox')"), 
-    menuentry("即時通訊 (gaim)",          "ioncore.exec_on(_, 'gaim')"), 
+    menuentry("即時通訊 (pidgin)",          "ioncore.exec_on(_, 'pidgin')"), 
     menuentry("BBS 連線 (pcmanx)",          "ioncore.exec_on(_, 'pcmanx')"),
     menuentry("P2P 下載 (amule)",          "ioncore.exec_on(_, 'amule')"),
     menuentry("BT 下載 (deluge-torrent)",          "ioncore.exec_on(_, 'deluge')"),
@@ -358,8 +358,9 @@ defmenu("netmenu", {
 defmenu("mediamenu", {
     menuentry("音樂播放 (beep-media-player)",          "ioncore.exec_on(_, 'beep-media-player')"), 
     menuentry("影音播放 (vlc)",          "ioncore.exec_on(_, 'vlc')"), 
-    menuentry("圖片瀏覽 (comix)",          "ioncore.exec_on(_, 'comix')"),
-    menuentry("光碟燒錄 (graveman)",          "ioncore.exec_on(_, 'graveman')"),
+    menuentry("漫畫瀏覽 (comix)",          "ioncore.exec_on(_, 'comix')"),
+    menuentry("圖片瀏覽 (gqview)",          "ioncore.exec_on(_, 'gqview')"),
+    menuentry("光碟燒錄 (gnomebaker)",          "ioncore.exec_on(_, 'gnomebaker')"),
 })
 
 -- Admin application menu
