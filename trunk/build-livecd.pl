@@ -154,6 +154,8 @@ print "[$0] PUD-lize the Live CD system...\n";
 &do_chroot('rm -f /etc/alternatives/x-cursor-theme');
 &do_chroot('update-alternatives --install /etc/alternatives/x-cursor-theme x-cursor-theme /usr/share/themes/Human/cursor.theme 1');
 &do_chroot('update-alternatives --set x-cursor-theme /usr/share/themes/Human/cursor.theme');
+&do_chroot('ln -s /sbin/s2ram /usr/sbin/s2ram');
+&do_chroot('ln -s /sbin/s2disk /usr/sbin/s2disk');
 #&do_chroot('ln -s /usr/share/themes/Human/cursor.theme /etc/alternatives/x-cursor-theme');
 print "OK.\n";
 

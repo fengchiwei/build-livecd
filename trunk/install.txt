@@ -11,8 +11,10 @@ discover1 hwdata xresprobe mdetect
 # window manager
 ############################### ion3 ##################################################
 ion3=20061029-3 
-xfdesktop4 xfwm4 xfce4-panel xfce4-session xfce4-mcs-manager xfce4-icon-theme gtk2-engines-xfce
-xfce4-mcs-plugins xfwm4-themes
+xfdesktop4 xfwm4 xfce4-panel xfce4-session xfce4-mcs-manager 
+#xfce4-icon-theme gtk2-engines-xfce
+xfce4-mcs-plugins 
+#xfwm4-themes
 xfce4-mixer-alsa xfce4-mixer 
 #xfburn
 
@@ -24,7 +26,7 @@ ttf-arphic-uming ttf-sazanami-mincho
 debconf-utils
 
 # application
-
+network-manager-gnome gnome-system-tools
 vlc mozilla-plugin-vlc
 #gxineplugin gxine
 vim vim-perl 
@@ -32,7 +34,7 @@ vim vim-perl
 leafpad
 pppoeconf 
 gaim 
-# gaim-encryption gaim-guifications
+#gaim-encryption gaim-guifications
 amule amule-utils
 beep-media-player
 #bmp-alarm
@@ -45,16 +47,17 @@ gftp-gtk
 thunar xarchive
 epdfview
 xchm
-ndisgtk wifi-radar
+ndisgtk 
+#wifi-radar
 #bittornado-gui
 deluge-torrent
 #wvdial
-smbfs linneighborhood
+#smbfs linneighborhood
 xfce4-terminal
 #mdadm
 graveman
-rsync
-xlockmore
+#rsync
+#xlockmore
 
 # bluetooth
 bluez-utils bluetooth bluez-pcmcia-support
@@ -63,11 +66,11 @@ bluez-utils bluetooth bluez-pcmcia-support
 avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
 
 # tool 
+isomaster
 hibernate pm-utils uswsusp
 tightvncserver xtightvncviewer openssh-server
 displayconfig-gtk
 network-manager
-testdisk
 squashfs-tools mkisofs grub debootstrap syslinux mtools
 #qemu
 subversion 
@@ -106,7 +109,7 @@ menu
 telnet
 dosfstools jfsutils xfsprogs ntfsprogs
 #wipe
-gpart ddrescue wipe parted
+gpart ddrescue wipe parted testdisk
 alsa-oss
 #nfs-kernel-server 
 nfs-common portmap 
