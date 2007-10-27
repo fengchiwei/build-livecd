@@ -1,0 +1,25 @@
+## Gutsy Fawn - Officials Repos
+
+## Base
+deb http://tw.archive.ubuntu.com/ubuntu/ gutsy universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ gutsy universe main multiverse restricted
+
+## Updates
+deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-updates universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ gutsy-updates universe main multiverse restricted
+
+## Security
+deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-security universe main restricted multiverse
+#deb-src http://tw.archive.ubuntu.com/ubuntu gutsy-security main restricted universe multiverse
+
+## Backports
+deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-backports universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ gutsy-backports universe main multiverse restricted
+
+## Proposed
+deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-proposed universe main multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ gutsy-proposed universe main multiverse restricted
+
+#deb http://archive.canonical.com/ gutsy partner
+#deb http://www.getautomatix.com/apt gutsy main
+#deb http://medibuntu.sos-sts.com/repo/ gutsy free non-free

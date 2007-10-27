@@ -1,0 +1,127 @@
+# install.txt
+# PUD GNU/Linux package list for build script
+
+# main component
+casper linux-image-generic 
+xserver-xorg xserver-xorg-core xfonts-base 
+#xfonts-100dpi readahead 
+discover1 hwdata xresprobe mdetect 
+#xdebconfigurator
+
+# window manager
+############################### ion3 ##################################################
+ion3=20061029-3 
+xfdesktop4 xfwm4 xfce4-panel xfce4-session xfce4-mcs-manager 
+#xfce4-icon-theme gtk2-engines-xfce
+xfce4-mcs-plugins 
+#xfwm4-themes
+xfce4-mixer-alsa xfce4-mixer 
+#xfburn
+
+# basic system
+x-ttcidfont-conf 
+scim scim-chewing scim-pinyin scim-tables-zh scim-bridge
+# scim-gtk2-immodule scim-qtimm im-switch
+ttf-arphic-uming ttf-sazanami-mincho
+debconf-utils
+
+# application
+network-manager-gnome gnome-system-tools
+vlc mozilla-plugin-vlc
+#gxineplugin gxine
+vim vim-perl 
+#cream
+leafpad
+pppoeconf 
+gaim 
+#gaim-encryption gaim-guifications
+amule amule-utils
+beep-media-player
+#bmp-alarm
+#mozilla-plugin-pcmanx 
+pcmanx-gtk2 
+firefox 
+mozilla-firefox-locale-zh-tw mozilla-firefox-locale-zh-cn
+gftp-gtk
+#pcmanfm
+thunar xarchive
+epdfview
+xchm
+ndisgtk 
+#wifi-radar
+#bittornado-gui
+deluge-torrent
+#wvdial
+#smbfs linneighborhood
+xfce4-terminal
+#mdadm
+graveman
+#rsync
+#xlockmore
+
+# bluetooth
+bluez-utils bluetooth bluez-pcmcia-support
+
+# avahi
+avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
+
+# tool 
+isomaster
+hibernate pm-utils uswsusp
+tightvncserver xtightvncviewer openssh-server
+displayconfig-gtk
+network-manager
+squashfs-tools mkisofs grub debootstrap syslinux mtools
+#qemu
+subversion 
+xdialog 
+# libstdc++5 rpm
+openssh-client 
+lshw
+wget 
+#curl 
+#fdclock 
+#xzgv 
+gqview
+comix
+scrot 
+numlockx
+fuse-utils ntfs-3g
+#rxvt-unicode-lite
+unrar-free unzip p7zip zip arj
+# lha unp
+tree
+lokkit
+libjpeg-progs
+#unionfs-tools
+aufs-tools
+aria 
+#aumix 
+imagemagick
+netpbm
+#wine
+#mimms
+rdesktop
+lftp
+pump
+menu
+#xloadimage
+telnet
+dosfstools jfsutils xfsprogs ntfsprogs
+#wipe
+gpart ddrescue wipe parted testdisk
+alsa-oss
+#nfs-kernel-server 
+nfs-common portmap 
+acpi
+beep
+
+# artwork
+usplash usplash-theme-ubuntu gtk2-engines-ubuntulooks ubuntu-artwork 
+
+# automount
+ivman dbus hal 
+
+# misc.
+libcrypt-ssleay-perl libwww-mechanize-perl libgtk2-perl libgtk2-gladexml-perl 
+#glade-3
