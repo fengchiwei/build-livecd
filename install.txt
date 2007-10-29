@@ -55,7 +55,8 @@ deluge-torrent
 #smbfs linneighborhood
 xfce4-terminal
 #mdadm
-graveman
+#graveman
+gnomebaker
 #rsync
 #xlockmore
 
