@@ -28,7 +28,16 @@
 
     <!-- mount command.  default is autodetected.  Must be specified with
          umountcommand. -->
+
     <ivm:Option name="mountcommand" value="mount '$hal.block.device$'" />
+
+    <ivm:Match name="hal.volume.fstype" value="vfat">
+    <ivm:Option name="mountcommand" value="mount '$hal.block.device$' -o noatime,iocharset=utf8" />
+    </ivm:Match>
+
+    <ivm:Match name="hal.volume.fstype" value="ntfs">
+    <ivm:Option name="mountcommand" value="ntfs-3g '$hal.block.device$' -o noatime,silent,umask=0,locale=zh_TW.utf8" />
+    </ivm:Match>
 
     <!-- umount command.  default is autodetected.  Must be specified with
          mountcommand. -->

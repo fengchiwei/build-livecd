@@ -27,6 +27,7 @@ debconf-utils
 
 # application
 network-manager-gnome gnome-system-tools
+gwget gnome-mount
 vlc mozilla-plugin-vlc
 #gxineplugin gxine
 vim vim-perl 

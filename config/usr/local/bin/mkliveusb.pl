@@ -160,23 +160,26 @@ close(F);
 $TARGET =~ s/\/dev\///;
 
 sleep 3;
-system("pumount /dev/${TARGET}1");
+system("fdisk -l");
+
+sleep 3;
+system("umount /dev/${TARGET}1");
 !system("mkfs.vfat -F 32 -n pud /dev/${TARGET}1") or die "$!\n";
 
 sleep 3;
-system("pumount /dev/${TARGET}2");
+system("umount /dev/${TARGET}2");
 !system("mkfs.ext2 -b 4096 -L pud-backup /dev/${TARGET}2") or die "$!\n";
 
 sleep 3;
-system("pumount /dev/${TARGET}1");
-system("pumount /dev/${TARGET}2");
+system("umount /dev/${TARGET}1");
+system("umount /dev/${TARGET}2");
 
 # copy files from cdrom
 
 !system("mkdir -p /mnt/${TARGET}1") or die "$!\n";
 !system("mount /dev/${TARGET}1 /mnt/${TARGET}1") or die "$!\n";
 
-!system("cp -r /cdrom/* /mnt/${TARGET}1") or die "$!\n";
+!system("cp -r /cdrom/{autorun.inf,boot,casper,info,initrd.gz,logo.ico,misc,opt,vmlinuz} /mnt/${TARGET}1") or die "$!\n";
 
 # check if set the booting paramter
 
