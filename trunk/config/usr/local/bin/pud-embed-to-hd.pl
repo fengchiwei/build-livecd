@@ -21,8 +21,7 @@ $target = "/mnt/$device" if -e "/mnt/$device/boot.ini";
 if ($target) {
 print "Now embedding PUD to $target...\n";
 
-my $tmp = `grep PUD $target/boot.ini`;
-if (! defined $tmp) {
+unless (`grep PUD $target/boot.ini`) {
 print "Modify $target/boot.ini ...";
 !system("perl -pi -e 's!timeout=30!timeout=10!' $target/boot.ini") or die "$!\n";
 !system(qq{echo 'c:\\grldr="PUD GNU/Linux"' >> $target/boot.ini}) or die "$!\n";
