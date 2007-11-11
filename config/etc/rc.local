@@ -41,18 +41,13 @@ if ($screen) {
 
 if ($wm eq 'en') {
 !system("ln -fs /etc/X11/xinit/xinitrc.en /etc/X11/xinit/xinitrc") or warn "$!\n";
-!system("perl -pi -e 's!網頁瀏覽器!Browser!g' /home/ubuntu/.config/xfce4/panel/launcher-11524750113.rc") or warn "$!\n";
-!system("perl -pi -e 's!終端機!Terminal!g' /home/ubuntu/.config/xfce4/panel/launcher-11524750554.rc") or warn "$!\n";
-!system("perl -pi -e 's!影音播放!Media Player!g' /home/ubuntu/.config/xfce4/panel/launcher-11524751435.rc") or warn "$!\n";
 
 } elsif ($wm eq 'simp') {
 !system("ln -fs /etc/X11/xinit/xinitrc.simp /etc/X11/xinit/xinitrc") or warn "$!\n";
-!system("perl -pi -e 's!Menu!功能表!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or warn "$!\n";
 !system("perl -pi -e 's!menu\.xml!menu.xml.zh_CN!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or warn "$!\n";
 !system("perl -pi -e 's!traditional!simplified!g' /home/ubuntu/.mozilla/firefox/*.default/prefs.js") or warn "$!\n";
 } elsif ($wm eq 'tw') {
 !system("ln -fs /etc/X11/xinit/xinitrc.tw /etc/X11/xinit/xinitrc") or warn "$!\n";
-!system("perl -pi -e 's!Menu!功能表!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or warn "$!\n";
 !system("perl -pi -e 's!menu\.xml!menu.xml.zh_TW!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or warn "$!\n";
 } else {
 !system("ln -fs /etc/X11/xinit/xinitrc.ion3 /etc/X11/xinit/xinitrc") or warn "$!\n";

@@ -28,7 +28,11 @@ debconf-utils
 # application
 network-manager-gnome gnome-system-tools
 gwget gnome-mount
+ubiquity popularity-contest
+gnomebaker
+gparted
 vlc mozilla-plugin-vlc
+exaile
 #gxineplugin gxine
 vim vim-perl 
 #cream
@@ -57,7 +61,6 @@ deluge-torrent
 xfce4-terminal
 #mdadm
 #graveman
-gnomebaker
 #rsync
 #xlockmore
 

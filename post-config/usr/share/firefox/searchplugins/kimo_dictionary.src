@@ -1,7 +1,7 @@
 <search
 	method = "GET"
 	name = "Kimo Dictionary"
-	queryCharset = "big5"
+	queryCharset = "utf8"
 	action = "http://tw.dictionary.yahoo.com/dictionary"
 >
 

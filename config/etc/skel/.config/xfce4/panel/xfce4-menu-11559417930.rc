@@ -3,5 +3,7 @@ menu_file=/etc/xdg/xfce4/desktop/menu.xml
 icon_file=/usr/local/share/icons/logo.png
 show_menu_icons=true
 button_title=Menu
+button_title[zh_TW]=功能表
+button_title[zh_CN]=功能表
 show_button_title=true
 
