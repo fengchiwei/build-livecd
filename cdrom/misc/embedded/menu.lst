@@ -11,22 +11,22 @@ fallback 1
 
 title  PUD GNU/Linux Home Edition (English)
 root (hd0,0)
-kernel /vmlinuz root=/ boot=casper showmounts wm=en splash
+kernel /vmlinuz root=/ boot=casper showmounts wm=en splash quiet aufs
 initrd /initrd.gz
 
 title  PUD GNU/Linux Home Edition (Traditional Chinese)
 root (hd0,0)
-kernel /vmlinuz root=/ boot=casper showmounts wm=tw splash
+kernel /vmlinuz root=/ boot=casper showmounts wm=tw splash quiet aufs
 initrd /initrd.gz
 
 title  PUD GNU/Linux Home Edition (Simplified Chinese)
 root (hd0,0)
-kernel /vmlinuz root=/ boot=casper showmounts wm=simp splash
+kernel /vmlinuz root=/ boot=casper showmounts wm=simp splash quiet aufs
 initrd /initrd.gz
 
 title  PUD GNU/Linux Professional Edition
 root (hd0,0)
-kernel /vmlinuz root=/ boot=casper showmounts wm=ion3 vga=792
+kernel /vmlinuz root=/ boot=casper showmounts wm=ion3 aufs 
 initrd /initrd.gz
 
 # For booting Windows NT or Windows95
