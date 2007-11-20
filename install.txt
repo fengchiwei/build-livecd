@@ -27,7 +27,7 @@ debconf-utils
 
 # application
 network-manager-gnome gnome-system-tools
-gwget gnome-mount
+gwget gnome-mount gnome-ppp
 ubiquity popularity-contest
 gnomebaker
 gparted
