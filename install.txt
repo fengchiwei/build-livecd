@@ -72,6 +72,7 @@ avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
 
 # tool 
 isomaster
+mbr
 hibernate pm-utils uswsusp
 tightvncserver xtightvncviewer openssh-server
 displayconfig-gtk
