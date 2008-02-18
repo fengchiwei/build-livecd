@@ -70,11 +70,6 @@ xfce4-terminal
 # bluetooth
 bluez-utils bluetooth bluez-pcmcia-support
 
-gnome-vfs-obexftp gnome-bluetooth python-bluez 
-fbreader gpicview mozilla-thunderbird evolution
-stardict-gtk 
-blueman blueman-i18n
-
 ##### test
 #brasero 
 gtkam streamtuner grsync gqcam 
