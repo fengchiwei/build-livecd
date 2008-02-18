@@ -24,7 +24,7 @@ our(%VAR, %opts, @action, %act);
 getopts('phc:d:', \%opts);
 
 our($y, $m, $d, $h) = (localtime)[5, 4, 3, 2];
-$VAR{'TARGET_DIR'} 	= $opts{'d'} || sprintf("../pud_builddir/hardy-%.4d%.2d%.2d-%.2d", $y+1900, $m+1, $d, $h);
+$VAR{'TARGET_DIR'} 	= $opts{'d'} || sprintf("../pud_builddir/gutsy-%.4d%.2d%.2d-%.2d", $y+1900, $m+1, $d, $h);
 $VAR{'SYSTEM'} 		= $VAR{'TARGET_DIR'}.'/system';
 $VAR{'CDROM'} 		= $VAR{'TARGET_DIR'}.'/cdrom';
 $VAR{'INFO'} 		= $VAR{'TARGET_DIR'}.'/cdrom/info';
@@ -76,7 +76,7 @@ sub do_chroot {
 }
 
 sub bootstrap {
-&system_call("debootstrap --arch i386 hardy $VAR{'SYSTEM'} http://archive.ubuntu.com/ubuntu");
+&system_call("debootstrap --arch i386 gutsy $VAR{'SYSTEM'} http://tw.archive.ubuntu.com/ubuntu");
 # http://tw.archive.ubuntu.com/ubuntu
 # http://apt.ubuntu.org.tw/ubuntu
 # http://archive.ubuntulinux.org/ubuntu
@@ -122,10 +122,6 @@ print "[$0] install packages\n";
 &do_chroot('debconf-set-selections /preseed.cfg');
 &do_chroot("apt-get install --yes --force-yes $list");
 &do_chroot("apt-get install --yes --force-yes localepurge");
-
-&do_chroot("dpkg -i /deb/*.deb");
-&do_chroot("apt-get install -f");
-&do_chroot("rm -rf /deb");
 &do_chroot("rm -f /preseed.cfg");
 &do_chroot("apt-get remove aptitude ubuntu-minimal -y; dpkg -P aptitude ubuntu-minimal");
 } 
@@ -166,18 +162,15 @@ print "OK.\n";
 # post-config
 print "[$0] Copying post-config files...";
 &system_call("cp -a $VAR{'POST'}/*  $VAR{'SYSTEM'}/");
-#&do_chroot('updatedb');
+&do_chroot('updatedb');
 
 print "OK.\n"; 
  
 # files for cdrom 
 &system_call("cp -a $VAR{'CDROM-TEMP'}/  $VAR{'TARGET_DIR'}/");
 
-# to fix acpid bug
-&do_chroot('apt-get install acpid');
-
-# to fix icon bug
-&do_chroot('/usr/lib/libgtk2.0-0/gtk-update-icon-cache -f /usr/share/icons/hicolor/');
+# to fix hal / ivman bug
+&do_chroot('apt-get install ivman');
 
 &do_chroot('dpkg -l > packages.txt');
 &system_call("mv packages.txt $VAR{'INFO'}/");

@@ -12,16 +12,14 @@ my $pivot, $res;
 
 # fix font path
 for (@xorg) {
+#	s!"/var/lib/defoma/x-ttcidfont-conf\.d/dirs/TrueType"!"/var/lib/defoma/x-ttcidfont-conf\.d/dirs/TrueType"\n\tFontPath\t"/usr/share/fonts/truetype/arphic/"!;
 
-last if s!Section "InputDevice"!Section "Files"
+s!Section "Files"!Section "Files"
 	FontPath	"/usr/share/fonts/X11/util"
 	FontPath	"/usr/share/fonts/X11/encodings"
 	FontPath	"/usr/share/fonts/X11/misc"
         FontPath        "/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType"
         FontPath        "/usr/share/fonts/truetype/arphic/"
-EndSection
-
-Section "InputDevice"
 !;
 
 }
@@ -88,8 +86,7 @@ if ($cmdline =~ m/opt=no(\s|$)/i) {
 system 'laptop-detect -v &> /tmp/laptop';
 if (! `grep not /tmp/laptop`) {
 !system("perl -pi -e 's!numlockx on!numlockx off!g' /etc/X11/xinit/xinitrc") or warn "$!\n";
-!system("perl -pi -e 's/.*battmon.*//' /etc/skel/.config/xfce4/panel/panels.xml") or warn "$!\n";
-} 
+}
 
 # for toram
 if(`grep toram /proc/cmdline`) {
