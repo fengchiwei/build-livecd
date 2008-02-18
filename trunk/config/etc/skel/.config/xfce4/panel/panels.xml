@@ -8,7 +8,7 @@
 			<property name="screen-position" value="11"/>
 			<property name="fullwidth" value="1"/>
 			<property name="xoffset" value="0"/>
-			<property name="yoffset" value="983"/>
+			<property name="yoffset" value="559"/>
 			<property name="handlestyle" value="0"/>
 			<property name="autohide" value="0"/>
 			<property name="transparency" value="20"/>
@@ -24,6 +24,7 @@
 			<item name="pager" id="11572484490"/>
 			<item name="separator" id="11572484761"/>
 			<item name="tasklist" id="11524753989"/>
+			<item name="battmon" id="12033555330"/>
 			<item name="xfce4-mixer" id="11781673940"/>
 			<item name="systray" id="115247547712"/>
 			<item name="clock" id="115247545011"/>
