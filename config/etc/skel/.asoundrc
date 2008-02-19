@@ -14,3 +14,7 @@ pcm.!default {
     type plug
     slave.pcm "dmix"
 }
+
+pcm.bluetooth {
+   type bluetooth
+}
