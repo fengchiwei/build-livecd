@@ -24,7 +24,8 @@ x-ttcidfont-conf
 scim scim-chewing scim-pinyin scim-tables-zh 
 #scim-bridge
 # scim-gtk2-immodule scim-qtimm im-switch
-ttf-arphic-uming ttf-sazanami-mincho
+ttf-arphic-uming=0.1.20060928-2.1ubuntu1
+ttf-sazanami-mincho
 debconf-utils
 
 # application

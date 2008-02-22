@@ -14,7 +14,8 @@ gfxmenu (cd)/boot/grub/message
 
 title  Home Edition (English)
 root (cd)
-kernel /vmlinuz root=/ boot=casper showmounts wm=en aufs splash quiet 
+kernel /vmlinuz root=/ boot=casper showmounts wm=en 
+#aufs splash quiet 
 initrd /initrd.gz
 
 #title  PUD GNU/Linux Home Edition to RAM (experimental)
@@ -26,17 +27,20 @@ initrd /initrd.gz
 
 title  Home Edition (Traditional Chinese) 
 root (cd)
-kernel /vmlinuz root=/ boot=casper showmounts wm=tw aufs splash quiet
+kernel /vmlinuz root=/ boot=casper showmounts wm=tw 
+#aufs splash quiet
 initrd /initrd.gz
 
 title  Home Edition (Simplified Chinese)
 root (cd)
-kernel /vmlinuz root=/ boot=casper showmounts wm=simp aufs splash quiet 
+kernel /vmlinuz root=/ boot=casper showmounts wm=simp 
+#aufs splash quiet 
 initrd /initrd.gz
 
 title  Professional Edition
 root (cd)
-kernel /vmlinuz root=/ boot=casper showmounts wm=ion3 aufs
+kernel /vmlinuz root=/ boot=casper showmounts wm=ion3 
+#aufs
 initrd /initrd.gz
 
 # For booting Windows NT or Windows95
