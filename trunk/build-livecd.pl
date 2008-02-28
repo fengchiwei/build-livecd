@@ -224,7 +224,7 @@ sub make_squashfs {
 &do_chroot('umount /proc');
 
 # compress
-&system_call("./post-config/usr/sbin/mksquashfs $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -info");
+&system_call("./post-config/usr/sbin/mksquashfs $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -ef $VAR{'SYSTEM'}/proc -info");
 #&system_call("$VAR{'SYSTEM'}/usr/sbin/mksquashfs $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -info");
 }
 

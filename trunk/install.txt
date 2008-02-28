@@ -70,6 +70,7 @@ xfce4-terminal
 
 # bluetooth
 bluez-utils bluetooth bluez-pcmcia-support
+bluetooth-alsa
 
 ##### test
 #brasero 
