@@ -180,13 +180,13 @@ sub make_iso {
   
 	# &system_call("cp /usr/lib/grub/i386-pc/stage2_eltorito $VAR{'GRUB'}/");
 	chdir $VAR{'CDROM'};
-	&system_call("mkisofs -R -U -V $VAR{'ISOLABEL'} -b boot/grub/stage2_eltorito -no-emul-boot -boot-load-size 4 -boot-info-table -o ../$VAR{'TARGET_DIR'}.iso .");
+	&system_call("mkisofs -R -U -V $VAR{'ISOLABEL'} -b boot/grub/stage2_eltorito -no-emul-boot -boot-load-size 4 -boot-info-table -o ../$VAR{'TIME'}.iso .");
 }
 
 sub test_iso {
 	chdir "../";
-	&system_call("md5sum $VAR{'TARGET_DIR'}.iso > $VAR{'TARGET_DIR'}.iso.md5");
-	&system_call("qemu -cdrom $VAR{'TARGET_DIR'}.iso &");
+	&system_call("md5sum $VAR{'TIME'}.iso > $VAR{'TIME'}.iso.md5");
+	# &system_call("qemu -cdrom $VAR{'TARGET_DIR'}.iso &");
 }
 
 1;
