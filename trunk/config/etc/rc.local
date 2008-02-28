@@ -43,7 +43,6 @@ if ($screen) {
 
 if ($wm eq 'en') {
 !system("ln -fs /etc/X11/xinit/xinitrc.en /etc/X11/xinit/xinitrc") or warn "$!\n";
-
 } elsif ($wm eq 'simp') {
 !system("ln -fs /etc/X11/xinit/xinitrc.simp /etc/X11/xinit/xinitrc") or warn "$!\n";
 !system("perl -pi -e 's!menu\.xml!menu.xml.zh_CN!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or warn "$!\n";
@@ -51,8 +50,10 @@ if ($wm eq 'en') {
 } elsif ($wm eq 'tw') {
 !system("ln -fs /etc/X11/xinit/xinitrc.tw /etc/X11/xinit/xinitrc") or warn "$!\n";
 !system("perl -pi -e 's!menu\.xml!menu.xml.zh_TW!g' /home/ubuntu/.config/xfce4/panel/xfce4-menu-*.rc") or warn "$!\n";
-} else {
+} elsif ($wm eq 'ion3') {
 !system("ln -fs /etc/X11/xinit/xinitrc.ion3 /etc/X11/xinit/xinitrc") or warn "$!\n";
+} else {
+!system("ln -fs /etc/X11/xinit/xinitrc.en /etc/X11/xinit/xinitrc") or warn "$!\n";
 }
 
 if($load) {
