@@ -170,7 +170,7 @@ sub apt_clean {
 
 sub make_squashfs {
 	# compress
-	&system_call("./post-config/usr/sbin/mksquashfs $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -ef $VAR{'SYSTEM'}/proc -info");
+	&system_call("./post-config/usr/bin/mksquashfs $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -ef $VAR{'SYSTEM'}/proc -info");
 }
 
 sub make_iso {
