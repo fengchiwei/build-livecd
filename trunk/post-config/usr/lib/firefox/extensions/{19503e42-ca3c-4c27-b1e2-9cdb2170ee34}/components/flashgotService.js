@@ -1,7 +1,7 @@
 /***** BEGIN LICENSE BLOCK *****
 
     FlashGot - a Firefox extension for external download managers integration
-    Copyright (C) 2004-2006 Giorgio Maone - g.maone@informaction.com
+    Copyright (C) 2004-2008 Giorgio Maone - g.maone@informaction.com
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -19,6 +19,52 @@
                              
 ***** END LICENSE BLOCK *****/
 
+const CI = Components.interfaces;
+const CC = Components.classes;
+const NS_BINDING_ABORTED = 0x804b0002;
+
+
+// Utilities
+var DOMUtils = {
+  getDocShellFromWindow: function(window) {
+    try {
+      return window.QueryInterface(CI.nsIInterfaceRequestor)
+                   .getInterface(CI.nsIWebNavigation)
+                   .QueryInterface(CI.nsIDocShell);
+    } catch(e) {
+      return null;
+    }
+  },
+  getChromeWindow: function(window) {
+    try {
+      return this.getDocShellFromWindow(window)
+        .QueryInterface(CI.nsIDocShellTreeItem).rootTreeItem
+        .QueryInterface(CI.nsIInterfaceRequestor)
+        .getInterface(CI.nsIDOMWindow).top;
+    } catch(e) {
+      return null;
+    }
+  },
+  updateStyleSheet: function(sheet, enabled) {
+    
+    const sssClass = CC["@mozilla.org/content/style-sheet-service;1"];
+    if (!sssClass) return;
+      
+    const sss = sssClass.getService(CI.nsIStyleSheetService);
+    const uri = CC['@mozilla.org/network/io-service;1'].getService(CI.nsIIOService)
+        .newURI("data:text/css," + sheet, null, null);
+    if (sss.sheetRegistered(uri, sss.USER_SHEET)) {
+      if (!enabled) sss.unregisterSheet(uri, sss.USER_SHEET);
+    } else {
+      try {
+        if (enabled) sss.loadAndRegisterSheet(uri, sss.USER_SHEET);
+      } catch(e) {
+        dump("Error registering stylesheet " + uri + ": " + e + "\n"); 
+      }
+    }
+  }
+};
+
 // *****************************************************************************
 // START DMS CLASSES
 // *****************************************************************************
@@ -27,25 +73,23 @@ const ASK_NEVER = [false, false, false];
 
 // *** Base/Windows DMS ********************************************************
 function FlashGotDM(name) {
-  if(arguments.length > 0) {
+  if (arguments.length > 0) {
     this._init(name);
   }
 }
 
-FlashGotDM.init=function(service) {
+FlashGotDM.init = function(service) {
   FlashGotDM.cleanup();
   FlashGotDM.dms = [];
   FlashGotDM.dmtests = {};
   FlashGotDM.executables = {};
+  FlashGotDM.renewableExes = [];
   FlashGotDM.initDMS(service); 
 };
 
-FlashGotDM.cleanup=function() {
-  if(! ("executables" in FlashGotDM) ) return;
-  var name;
-  for(name in FlashGotDM.executables) {
-    var f=FlashGotDM.executables[name];
-    if(f instanceof Components.interfaces.nsIFile) {
+FlashGotDM.cleanup = function() {
+  for (f in FlashGotDM.renewableExes) {
+    if (f instanceof CI.nsIFile) {
       try { f.remove(true); } catch(ex) {}
     }
   }
@@ -56,10 +100,10 @@ FlashGotDM.prototype = {
     this.name = name;
     const dms = FlashGotDM.dms;
     var pos = dms.length;
-    if(name in dms) {
+    if (name in dms) {
       var other = dms[name];
-      for(var j = pos; j-- > 0;) {
-        if(dms[j] == other) {
+      for (var j = pos; j-- > 0;) {
+        if (dms[j] == other) {
           pos=j;
           break;
         }
@@ -77,88 +121,111 @@ FlashGotDM.prototype = {
   disabledSel: false,
   disabledAll: false,
   exeName: "FlashGot.exe",
+  renewExe: true,
   askPath: ASK_NEVER,
   cookieSupport: true,
-  postSupport: false
+  postSupport: false,
+  priority: ""
 ,  
   _codeName: null,
   get codeName() {
     return this._codeName || (this._codeName = this.name.replace(/\W/g,"_"));
   },
-
+  
+  getPref: function(name, def) {
+    return this.service.getPref("dmsopts." + this.codeName + "." + name, def);
+  },
+  setPref: function(name, value) {
+    this.service.setPref("dmsopts." + this.codeName + "." + name, value);
+  },
+  
+  get asciiFilter() {
+    return this.getPref("asciiFilter", false);
+  },
+  
   get shownInContextMenu() {
-    return this.service.getPref("flashgot.dmsopts." + this.codeName + ".shownInContextMenu", false);
+    return this.getPref("shownInContextMenu", false);
   },
   set shownInContextMenu(b) {
-    this.service.setPref("flashgot.dmsopts." + this.codeName + ".shownInContextMenu", b);
+    this.setPref("shownInContextMenu", b);
     return b;
   }
 ,
   get service() {
     return this._service || (this._service =
-      Components.classes[SERVICE_CTRID].getService(Components.interfaces.nsISupports).wrappedJSObject);
+      CC[SERVICE_CTRID].getService(CI.nsISupports).wrappedJSObject);
   }
 ,
   get cookieManager() {
     return this._cookieManager?this._cookieManager:this._cookieManager=
-      Components.classes["@mozilla.org/cookiemanager;1"
-        ].getService(Components.interfaces.nsICookieManager);
+      CC["@mozilla.org/cookiemanager;1"
+        ].getService(CI.nsICookieManager);
   }
 ,
   get exeFile() {
-    if(typeof(this._exeFile)=="object") return this._exeFile;
-    const exeName=this.exeName;
-    if(!exeName) return this._exeFile=null;
-    if(typeof(FlashGotDM.executables[exeName])=="object") {
-      return this._exeFile=FlashGotDM.executables[exeName];
+    if (typeof(this._exeFile) == "object") return this._exeFile;
+    const exeName = this.exeName;
+    if (!exeName) return this._exeFile = null;
+    if (typeof(FlashGotDM.executables[exeName]) == "object") {
+      return this._exeFile = FlashGotDM.executables[exeName];
     }
     try {
-      const exeFile=Components.classes["@mozilla.org/file/local;1"].createInstance(
-        Components.interfaces.nsILocalFile);
-      exeFile.initWithPath(this.service.globals.profDir.path);
+      const exeFile = CC["@mozilla.org/file/local;1"].createInstance(CI.nsILocalFile);
+      exeFile.initWithPath(this.service.profDir.path);
       exeFile.append(exeName);
-      if(exeFile.exists()) {
+      if (this.renewExe && exeFile.exists()) {
         try { exeFile.remove(true); } catch(ex) { this.log(ex.message); }
+        FlashGotDM.renewableExes.push(exeFile);
       }
-      this._exeFile=this.checkExePlatform(exeFile);
-      if(this._exeFile!=null && this.createExecutable()) {
-        this.log(this._exeFile.path+" created");
+      this._exeFile = this.checkExePlatform(exeFile);
+      if (this._exeFile != null && this.createExecutable()) {
+        this.log(this._exeFile.path + " created");
       }
     } catch(ex) {
       this._exeFile=null;
-      this.log("Can't init "+exeName+":\n"+ex.message);
+      this.log("Can't init " + exeName + ":\n" + ex.message);
     }
-    return FlashGotDM.executables[exeName]=this._exeFile;
+    return FlashGotDM.executables[exeName] = this._exeFile;
   }
 ,
   checkExePlatform: function(exeFile) {
-    return /(\/.*\.exe)|(\\.*\.sh)$/i.test(exeFile.path)?null:exeFile;
+    return (FlashGotDMMac.isMac || /(\/.*\.exe)|(\\.*\.sh)$/i.test(exeFile.path)) ? null : exeFile;
   }
 ,
   get supported() {
-    if(typeof(this._supported) == "boolean") return this._supported;
-    if(this.customSupportCheck && this.customSupportCheck()) return true;
-    if(!this.exeName) return true;
-    if(!this.exeFile) return false;
+    if (typeof(this._supported) == "boolean") return this._supported;
+    if (this.customSupportCheck) {
+      return this._supported = this.customSupportCheck();
+    }
+    return this.baseSupportCheck();
+  },
+  
+  baseSupportCheck: function() {
+    if (!this.exeName) return true;
+    if (!this.exeFile) return false;
     
     var dmtest;
-    if(typeof(FlashGotDM.dmtests[this.exeName])!="string") {
-      const dmtestFile=this.service.tmpDir.clone();
-      dmtestFile.append(this.exeName+".test");
+    if (typeof(FlashGotDM.dmtests[this.exeName]) != "string") {
+      const dmtestFile = this.service.tmpDir.clone();
+      dmtestFile.append(this.exeName + ".test");
       try {
+        if (dmtestFile.exists()) {
+          try { dmtestFile.remove(false); } catch(rex) {}
+        }
         this.launchSupportTest(dmtestFile);
-        this.log(dmtest=this.service.readFile(dmtestFile)); 
+        this.log(dmtest = this.service.readFile(dmtestFile)); 
       } catch(ex) {
         this.log(ex.message);
-        dmtest="";
+        dmtest = "";
       }
-      FlashGotDM.dmtests[this.exeName]=dmtest;
-    } else dmtest=FlashGotDM.dmtests[this.exeName];
+      FlashGotDM.dmtests[this.exeName] = dmtest;
+    } else dmtest = FlashGotDM.dmtests[this.exeName];
     return this._supported = dmtest.indexOf(this.name+"|OK")>-1;
   }
+  
 ,
   launchSupportTest: function (testFile) {
-    this.runNative(["-o",testFile.path],true);
+    this.runNative(["-o", testFile.path], true);
   },
   
   shouldList: function() {
@@ -169,16 +236,15 @@ FlashGotDM.prototype = {
     this.service.log(msg);
   }
 ,
-  updateProgress: function(links, idx , len) {
-   
-    if((idx % 100) == 0) {
-      if(!len) {
+  updateProgress: function(links, idx, len) {
+    if (!links.progress) return;
+    if ((idx % 100) == 0) {
+      if (!len) {
         links.progress.update(100);
         return;
       }
-      links.progress.update(50 + 49 * idx / len);
+      links.progress.update(70 + 29 * idx / len);
     }
-    
   }
 ,
   isValidLink: null
@@ -197,12 +263,12 @@ FlashGotDM.prototype = {
     this.checkCookieSupport();
     var postData = links.postData || "";
  
-    for(var j=0; j<len; j++) {
-      job+="\n"+(url=(l=links[j]).href) + "\n" +
+    for (var j=0; j<len; j++) {
+      job += "\n" + (url=(l=links[j]).href) + "\n" +
            l.description + "\n" +
-           this.getCookie(l,links) + "\n"
+           this.getCookie(l, links) + "\n"
            + postData;
-      this.updateProgress(links,j,len);
+      this.updateProgress(links, j, len);
     }
     return job;
   }
@@ -211,11 +277,11 @@ FlashGotDM.prototype = {
     var job=this.createJobHeader(links,opType) 
     + this.getReferrer(links)
     + this.createJobBody(links)+"\n";
-     if(job.substring(job.length-1)!="\n") {
+     if (job.substring(job.length-1)!="\n") {
       job+="\n";
      }
-    if(typeof(links.document)=="object") {
-      job+= links.document.referrer+ "\n" +links.document.cookie;
+    if (typeof(links.document)=="object") {
+      job += links.document.referrer+ "\n" + links.document.cookie;
     } else {
       job+="\n";
     }
@@ -224,14 +290,13 @@ FlashGotDM.prototype = {
 ,
   _bgJob: true,
   get bgJob() {
-    return this._bgJob && this.service.bgProcessing
-      ; 
+    return this._bgJob && this.service.bgProcessing; 
   }
 ,
   download: function(links, opType) {
     try {
-      links.folder=(links.length>0)?this.selectFolder(links, opType):""; 
-      this.performJob(this.createJob(links,opType));
+      links.folder = links.folder || (links.length > 0 ? this.selectFolder(links, opType) : ""); 
+      this.performDownload(links, opType);
     } catch(ex) {
       this.log(ex.message);
     } finally {
@@ -239,18 +304,28 @@ FlashGotDM.prototype = {
     }
   }
 ,
+  // best override point
+  performDownload: function(links, opType) {
+    this.performJob(this.createJob(links, opType));
+  }
+,
   getReferrer: function(links) {
-    return this.service.getPref("autoReferrer",true) ?
+    if (links.redirProcessedBy) {
+      for (p in links.redirProcessedBy) {
+        if (this.service.getPref("redir.anonymous." + p, false)) return "";
+      }
+    }
+    return this.service.getPref("autoReferrer", true) ?
       (links.referrer || 
-        typeof(links.document)=="object" && links.document.URL ||
+        typeof(links.document) == "object" && links.document.URL ||
         links[0] && links[0].href || 
         "about:blank"
-      ) : this.service.getPref("fakeReferrer","");
+      ) : this.service.getPref("fakeReferrer", "");
   }
 ,
   checkCookieSupport: function() {
-    this.getCookie=this.cookieSupport && !this.service.getPref("omitCookies")
-    ?this._getCookie
+    this.getCookie = this.cookieSupport && !this.service.getPref("omitCookies")
+    ? this._getCookie
     :function() { return ""; }
     ;
   }
@@ -258,29 +333,29 @@ FlashGotDM.prototype = {
   getCookie: function() { return ""; }
 ,
   _getCookie: function(link,links) {
-    if(!this.cookieSupport) return (this.getCookie=function() { return ""; })();
+    if (!this.cookieSupport) return (this.getCookie = function() { return ""; })();
     
-    var host,cookies;
-    if(cookies=links.cookies) {
+    var host, cookies;
+    if (cookies = links.cookies) {
       host=link.host;
-      if(host) {
-        var c=cookies[host];
-        return c?c:"";
+      if (host) {
+        var c = cookies[host];
+        return c ? c : "";
       }
       return "";
     }
     
-    var j,objCookie;
-    const hostCookies={};
+    var j, objCookie;
+    const hostCookies = {};
     
-    var l,parts;
-    for(j=links.length; j-->0;) {
+    var l, parts;
+    for (j=links.length; j-->0;) {
       l = links[j];
       parts = l.href.match(/http[s]{0,1}:\/\/([^\/]+\.[^\/]+)/i); // host?
-      if(parts) {
+      if (parts) {
         host = parts[1];
         var hpos = host.indexOf("@");
-        if(hpos > -1) host = host.substring(hpos + 1);
+        if (hpos > -1) host = host.substring(hpos + 1);
         hostCookies[l.host = host] = "";
       } else {
         l.host=null;
@@ -290,17 +365,17 @@ FlashGotDM.prototype = {
     var cookieHost,cookieTable,tmpCookie;
     const domainCookies={};
 
-    for(var iter = this.cookieManager.enumerator; iter.hasMoreElements();) {
-      if((objCookie=iter.getNext()) instanceof Components.interfaces.nsICookie) {
+    for (var iter = this.cookieManager.enumerator; iter.hasMoreElements();) {
+      if ((objCookie=iter.getNext()) instanceof CI.nsICookie) {
         cookieHost=objCookie.host;
-        if(cookieHost.charAt(0)==".") {
+        if (cookieHost.charAt(0)==".") {
           cookieHost=cookieHost.substring(1);
           cookieTable=domainCookies;
-          if(typeof(tmpCookie=domainCookies[cookieHost])!="string") {
+          if (typeof(tmpCookie=domainCookies[cookieHost])!="string") {
             tmpCookie="";
           }
         } else {
-          if(typeof(tmpCookie=hostCookies[cookieHost])!="string") continue;
+          if (typeof(tmpCookie=hostCookies[cookieHost])!="string") continue;
           cookieTable=hostCookies;
         }
         cookieTable[cookieHost]=tmpCookie.concat(objCookie.name+"="+objCookie.value+"; ");
@@ -308,24 +383,24 @@ FlashGotDM.prototype = {
     }
     
    
-    for(cookieHost in hostCookies) {
+    for (cookieHost in hostCookies) {
       var dotPos;
-      for(host=cookieHost; (dotPos=host.indexOf('.'))>=0; ) { 
-        if(tmpCookie=domainCookies[host]) {
+      for (host=cookieHost; (dotPos=host.indexOf('.'))>=0; ) { 
+        if (tmpCookie=domainCookies[host]) {
           hostCookies[cookieHost]+=tmpCookie;
         }
         host=host.substring(dotPos+1);
       }
     }
     
-    links.cookies=hostCookies;
+    links.cookies = hostCookies;
     return this.getCookie(link, links);
   }
 ,
   createJobFile: function(job) {
-    const jobFile=this.service.tmpDir.clone();
+    const jobFile = this.service.tmpDir.clone();
     jobFile.append("flashgot.fgt");
-    jobFile.createUnique(0,0700);
+    jobFile.createUnique(0, 0700);
     this.service.writeFile(jobFile, job);
     return jobFile;
   }
@@ -336,55 +411,53 @@ FlashGotDM.prototype = {
   }
 ,
   performJob: function(job) {
-    const jobFile=this.createJobFile(job);
-    this.runNative([jobFile.path],this.waitForNative);
+    const jobFile = this.createJobFile(job);
+    this.runNative([jobFile.path], this.waitForNative);
   }
 ,
   createExecutable: function() {
-    const exeFile=this.exeFile;
-    if(!exeFile) return false;
-    
-    const cc=Components.classes;
-    const ci=Components.interfaces;
-    const ios=cc['@mozilla.org/network/io-service;1'].getService(ci.nsIIOService);
-    const bis=cc['@mozilla.org/binaryinputstream;1'].createInstance(ci.nsIBinaryInputStream);
+    const exeFile = this.exeFile;
+    if (!exeFile) return false;
+
+    const ios = CC['@mozilla.org/network/io-service;1'].getService(CI.nsIIOService);
+    const bis = CC['@mozilla.org/binaryinputstream;1'].createInstance(CI.nsIBinaryInputStream);
     
     var channel;
     bis.setInputStream((
-      channel=
-        ios.newChannel("chrome://flashgot/content/"+this.exeName,null,null)
+      channel =
+        ios.newChannel("chrome://flashgot/content/" + this.exeName, null, null)
     ).open())
     ;
-    const bytesCount=channel.contentLength;
+    const bytesCount = channel.contentLength;
     
-    const os=cc["@mozilla.org/network/file-output-stream;1"].createInstance(
-      ci.nsIFileOutputStream);
+    const os = CC["@mozilla.org/network/file-output-stream;1"].createInstance(
+      CI.nsIFileOutputStream);
     
     try {
       
       os.init(exeFile,0x02 | 0x08, 0700, 0);
-      const bos=cc['@mozilla.org/binaryoutputstream;1'].createInstance(ci.nsIBinaryOutputStream);
+      const bos=CC['@mozilla.org/binaryoutputstream;1'].createInstance(CI.nsIBinaryOutputStream);
       bos.setOutputStream(os);
       bos.writeByteArray(bis.readByteArray(bytesCount),bytesCount);
       bos.close();
 
     } catch(ioErr) { // locked?
       try {
-        if(exeFile.exists()) { // security check: it must be the right exe!
-          const testBis=cc['@mozilla.org/binaryinputstream;1'].createInstance(
-            ci.nsIBinaryInputStream);
+        if (exeFile.exists()) { // security check: it must be the right exe!
+          const testBis=CC['@mozilla.org/binaryinputstream;1'].createInstance(
+            CI.nsIBinaryInputStream);
           testBis.setInputStream(
-            (channel=ios.newChannelFromURI(ios.newFileURI(exeFile))).open());
+            (channel = ios.newChannelFromURI(ios.newFileURI(exeFile))).open());
           const error=new Error("Old, corrupt or unlegitemately modified "
-            +exeFile.path
-            +".\nThe file is locked: please delete it manually\n");
-            +ioErr.message;
-          if(channel.contentLength!=bytesCount) throw error;
+            + exeFile.path
+            + ".\nThe file is locked: please delete it manually\n");
+            + ioErr.message;
+          if (channel.contentLength != bytesCount) throw error;
          
-          const legitimateData=bis.readByteArray(bytesCount);
+          const legitimateData = bis.readByteArray(bytesCount);
           const testData=testBis.readByteArray(bytesCount);
-          for(var j=bytesCount; j-->0;) {
-            if(legitimateData[j]!=testData[j]) throw new error;
+          for (var j = bytesCount; j-->0;) {
+            if (legitimateData[j] != testData[j]) throw new error;
           }
         } else throw ioErr;
       } catch(unrecoverableErr) {
@@ -398,17 +471,17 @@ FlashGotDM.prototype = {
     return true;
   }
 ,
-  runNative: function(args,blocking,exeFile) {
+  runNative: function(args, blocking, exeFile) {
     try {
-      if(typeof(exeFile)=="object"
-        || (exeFile=this.exeFile).exists()
+      if (typeof(exeFile)=="object"
+        || (exeFile = this.exeFile).exists()
         || this.createExecutable()) {
-        const proc=Components.classes['@mozilla.org/process/util;1'].createInstance(
-          Components.interfaces.nsIProcess);
+        const proc=CC['@mozilla.org/process/util;1'].createInstance(
+          CI.nsIProcess);
         proc.init(exeFile);
         this.log("Running " + exeFile.path + " " + args.join(" ") + " -- " +(blocking ? "blocking" : "async") );
         proc.run(blocking,args,args.length,{});
-        if(blocking && proc.exitValue != 0) {
+        if (blocking && proc.exitValue != 0) {
           this.log("Warning: native invocation of\n"
             +exeFile.path
             +"\nwith arguments <"
@@ -420,7 +493,8 @@ FlashGotDM.prototype = {
         this.log("Bad executable "+exeFile);
       }
     } catch(err) {
-      this.log("Error running native executable:\n"+exeFile.path+" "+args.join(" ")+"\n"+err.message);
+      this.log("Error running native executable:\n" + exeFile.path + 
+        " "+args.join(" ")+"\n"+err.message);
     }  
     return 0xffffffff;
   }
@@ -430,9 +504,8 @@ FlashGotDM.prototype = {
   }
 ,
   selectFolder: function(links, opType) { 
-    const cc = Components.classes;
-    const ci = Components.interfaces;
-   
+
+
     const autoPref_FF = "browser.download.useDownloadDir";
     const autoPref_Moz = "browser.download.autoDownload";
     
@@ -440,11 +513,11 @@ FlashGotDM.prototype = {
     var downloadDir = null;
     links.quickDownload = false;
     
-    const pref = cc["@mozilla.org/preferences-service;1"].getService(ci.nsIPrefBranch);
+    const pref = CC["@mozilla.org/preferences-service;1"].getService(CI.nsIPrefBranch);
     
     function findDownloadDir(prefName) {
       try {
-        downloadDir = initialDir = pref.getComplexValue(prefName, ci.nsILocalFile);
+        downloadDir = initialDir = pref.getComplexValue(prefName, CI.nsILocalFile);
         return prefName;
       } catch(ex) {
         return "";
@@ -459,7 +532,7 @@ FlashGotDM.prototype = {
                     findDownloadDir("browser.download.defaultFolder") ||
                     "browser.download.dir"; 
     
-    if(isMulti) downloadDirPref = multiDirPref;
+    if (isMulti) downloadDirPref = multiDirPref;
     
     try {
       links.quickDownload = pref.getBoolPref(autoPref_FF);
@@ -469,9 +542,9 @@ FlashGotDM.prototype = {
       } catch(noMozEx) {}
     }
    
-    if(!this.askPath[opType]) return "";
+    if (!this.askPath[opType]) return "";
     
-    if(((!isMulti) || this.service.getPref("multiQuiet", false)) && 
+    if (((!isMulti) || this.service.getPref("multiQuiet", false)) && 
         downloadDir && downloadDir.exists() && downloadDir.isDirectory()  && 
         links.quickDownload) {
       return downloadDir.path;
@@ -479,7 +552,7 @@ FlashGotDM.prototype = {
     
     var title;
     try {
-      var bundle = cc["@mozilla.org/intl/stringbundle;1"].getService(ci.nsIStringBundleService);
+      var bundle = CC["@mozilla.org/intl/stringbundle;1"].getService(CI.nsIStringBundleService);
       bundle = bundle.createBundle("chrome://mozapps/locale/downloads/unknownContentType.properties");
       title = bundle.GetStringFromName("myDownloads");
     } catch(ex) {
@@ -487,20 +560,20 @@ FlashGotDM.prototype = {
     }
     title = "FlashGot (" + this.name + ") - " + title;
     
-    const fp = cc["@mozilla.org/filepicker;1"].createInstance(ci.nsIFilePicker);
-    const win=this.getWindow();
-    fp.init(win, title, ci.nsIFilePicker.modeGetFolder);
+    const fp = CC["@mozilla.org/filepicker;1"].createInstance(CI.nsIFilePicker);
+    const win = this.getWindow();
+    fp.init(win, title, CI.nsIFilePicker.modeGetFolder);
     try {
       if (initialDir &&  initialDir.exists() && initialDir.isDirectory()) {
         fp.displayDirectory = initialDir;
       }
     } catch (ex) { this.log(ex); }
     
-    fp.appendFilters(ci.nsIFilePicker.filterAll);
+    fp.appendFilters(CI.nsIFilePicker.filterAll);
 
-    if (fp.show()==ci.nsIFilePicker.returnOK) {
-      var localFile = fp.file.QueryInterface(ci.nsILocalFile);
-      pref.setComplexValue(downloadDirPref, ci.nsILocalFile, localFile);
+    if (fp.show()==CI.nsIFilePicker.returnOK) {
+      var localFile = fp.file.QueryInterface(CI.nsILocalFile);
+      pref.setComplexValue(downloadDirPref, CI.nsILocalFile, localFile);
       var path=new String(localFile.path);
       path._fgSelected=true;
       return path;
@@ -512,19 +585,23 @@ FlashGotDM.prototype = {
     return a.replace(/([\|\(\) &\^])/g, "^$1"); 
   },
   supportURLList: function(links, argsTemplate) {
-    if(/\[[^\]]*UFILE[^\]]*\]/.test(argsTemplate) && links.length) {
+    if (/\[[^\]]*UFILE[^\]]*\]/.test(argsTemplate) && links.length) {
       // we must create a file list
       var sep = this.service.isWindows ? "\r\n" : "\n";
       var urlList = "";
-      for(j = 0; j < links.length; j++) {
+      for (j = 0; j < links.length; j++) {
         urlList += links[j].href + sep;
       }
       links.length = 1;
       return this.createJobFile(urlList).path
     }
     return null;
+  },
+  nativeUI: null,
+  hideNativeUI: function(document) {
+    if (!(this.nativeUI && this.getPref("hideNativeUI", true))) return;
+    this.service.hideNativeUI(document, this.nativeUI);
   }
-  
 }
 
 
@@ -532,33 +609,52 @@ FlashGotDM.prototype = {
 
 // *** Unix-like DMS ***********************************************************
 function FlashGotDMX(name,cmd,argsTemplate) {
-  if(arguments.length!=0) {
+  if (arguments.length != 0) {
     this._init(name);
     const cmds = FlashGotDMX.prototype.unixCmds;
     cmds[cmds.length] = {longName: name, shortName: cmd};
     this.unixCmd = cmd;
-    if(argsTemplate) this.argsTemplate = argsTemplate;
+    if (argsTemplate) this.argsTemplate = argsTemplate;
+  }
+  if (FlashGotDMMac.isMac) {
+    this.createJobFile = FlashGotDMMac.prototype.createJobFile;
   }
 }
-FlashGotDMX.prototype=new FlashGotDM();
-FlashGotDMX.constructor=FlashGotDMX;
-FlashGotDMX.prototype.exeName="flashgot.sh";
-FlashGotDMX.prototype.cookieSupport=false;
-FlashGotDMX.prototype.askPath=[true,true,true];
-FlashGotDMX.prototype.unixCmds=[];
-FlashGotDMX.prototype.unixShell=null;
-FlashGotDMX.prototype.argsTemplate="[URL]";
-FlashGotDMX.prototype.launchSupportTest=function(testFile) {
+FlashGotDMX.prototype = new FlashGotDM();
+FlashGotDMX.constructor = FlashGotDMX;
+FlashGotDMX.prototype.exeName = "flashgot.sh";
+FlashGotDMX.prototype.cookieSupport = false;
+FlashGotDMX.prototype.askPath = [true, true, true];
+FlashGotDMX.prototype.unixCmds = [];
+FlashGotDMX.prototype._unixShell = null;
+FlashGotDMX.prototype.__defineGetter__("unixShell", function() {
+  if(this._unixShell) return this._unixShell;
+  const f = CC["@mozilla.org/file/local;1"].createInstance(
+    CI.nsILocalFile);
+  try {
+    f.initWithPath("/bin/sh");
+    if (f.exists()) {
+      return FlashGotDMX.prototype._unixShell = f;
+    }
+    this.log(f.path + " not found");
+  } catch(ex) {
+    this.log(ex.message);
+  }
+  return null;
+});
+
+FlashGotDMX.prototype.argsTemplate = "[URL]";
+FlashGotDMX.prototype.launchSupportTest = function(testFile) {
   const cmds = this.unixCmds;
   var script="(\n";
   var cmd;
-  for(var j=cmds.length; j-->0;) {
+  for (var j = cmds.length; j-->0;) {
     cmd=cmds[j];
     script+=" [ -x \"`which '"+cmd.shortName+"'`\" ] && echo '"
       +cmd.longName+"|OK' || echo '"+cmd.longName+"|KO'\n"; 
   }
   script+=") > '"+ testFile.path + "'\n"; 
-  this.performJob(script,true);
+  this.performJob(script, true);
 };
 
 FlashGotDMX.prototype.createCmdLine = function(parms) {
@@ -575,18 +671,18 @@ FlashGotDMX.prototype.createCmdLine = function(parms) {
 FlashGotDMX.prototype.shellEsc = function(s) {
   return s?s.replace(/([\\\*\?\[\]\$&<>\|\(\)\{\};"'`])/g,"\\$1").replace(/\s/g,"\\ "):null;
 };
-FlashGotDMX.prototype.createJob=function(links,opType) {
+FlashGotDMX.prototype.createJob = function(links, opType) {
   const shellEsc = this.shellEsc;
   // basic implementation
 
-  const folder=shellEsc(links.folder);
-  const referrer=shellEsc(this.getReferrer(links));
-  const postData=shellEsc(links.postData);
-  var job="";
+  const folder = shellEsc(links.folder);
+  const referrer = shellEsc(this.getReferrer(links));
+  const postData = shellEsc(links.postData);
+  var job = "";
   var l, url;
   this.checkCookieSupport();
   var urlListFile = this.supportURLList(links, this.argsTemplate);
-  for(var j = 0, len = links.length; j < len; j++) {
+  for (var j = 0, len = links.length; j < len; j++) {
     l = links[j];
     url = l.href;
     job += this.createCmdLine({
@@ -601,29 +697,18 @@ FlashGotDMX.prototype.createJob=function(links,opType) {
   }
   return job;
 };
-FlashGotDMX.prototype.performJob=function(job,blocking) {
-  const jobFile=this.createJobFile("#!"+this.unixShell.path+"\n"+job);
-  jobFile.permissions=0700;
+FlashGotDMX.prototype.performJob = function(job, blocking) {
+  const jobFile = this.createJobFile("#!" + this.unixShell.path + "\n" + job);
+  jobFile.permissions = 0700;
+  var exeFile = FlashGotDMMac.isMac ? FlashGotDMMac.exeFile : jobFile;
   this.runNative([],
-    this.waitForNative || (typeof(blocking)!="undefined" && blocking),
-    jobFile);
+    this.waitForNative || (typeof(blocking) != "undefined" && blocking),
+    exeFile);
 };
-FlashGotDMX.prototype.checkExePlatform=function(exeFile) {
-  const f=Components.classes["@mozilla.org/file/local;1"].createInstance(
-    Components.interfaces.nsILocalFile);
-  try {
-    f.initWithPath("/bin/sh");
-    if(f.exists()) {
-      FlashGotDMX.prototype.unixShell=f;
-      return exeFile;
-    }
-    this.log(f.path+" not found");
-  } catch(ex) {
-    this.log(ex.message);
-  }
-  return null;
+FlashGotDMX.prototype.checkExePlatform = function(exeFile) {
+  return this.unixShell && exeFile;
 };
-FlashGotDMX.prototype.createExecutable=function() {
+FlashGotDMX.prototype.createExecutable = function() {
   return false;
 };
 
@@ -631,66 +716,98 @@ FlashGotDMX.prototype.createExecutable=function() {
 
 // *** Mac OS X DMS ************************************************************
 function FlashGotDMMac(name, creatorId, macAppName) {
-  if(arguments.length!=0) {
+  if (arguments.length != 0) {
     this._initMac(name, creatorId, macAppName);
   }
 }
-FlashGotDMMac.prototype=new FlashGotDM();
-FlashGotDMMac.constructor=FlashGotDMMac;
-FlashGotDMMac.prototype.exeName="flashgot-mac.sh";
+FlashGotDMMac.exeFile = null;
+FlashGotDMMac.appleScriptFile = null;
+FlashGotDMMac.appleScriptName = "flashgot-mac-script";
+FlashGotDMMac.OSASCRIPT = "/usr/bin/osascript";
+FlashGotDMMac.isMac = (function() {
+  const f = CC["@mozilla.org/file/local;1"].createInstance(CI.nsILocalFile);
+  try {
+    f.initWithPath(FlashGotDMMac.OSASCRIPT);
+    return f.exists();
+  } catch(ex) {
+  }
+  return false;
+})();
+FlashGotDMMac.prototype = new FlashGotDM();
+FlashGotDMMac.constructor = FlashGotDMMac;
+FlashGotDMMac.prototype.exeName = "FlashGot";
+FlashGotDMMac.prototype.renewExe = false;
+
 FlashGotDMMac.prototype.cookieSupport=false;
-FlashGotDMMac.prototype.OSASCRIPT="/usr/bin/osascript";
-FlashGotDMMac.prototype.macCreators=[];
+FlashGotDMMac.prototype.macCreators = [];
 FlashGotDMMac.prototype._initMac=function(name, creatorId, macAppName) {
   this._init(name);
-  if(creatorId) {
+ 
+  if (creatorId) {
     const creators=FlashGotDMMac.prototype.macCreators;
     creators[creators.length] = {name: name, id: creatorId};
   }
-  this.macAppName = macAppName?macAppName:name;
-};
-FlashGotDMMac.prototype.createScriptLauncher=function(scriptPath) {
-  return "#!/bin/sh\n"
-    +this.OSASCRIPT+" '"+scriptPath+"'";
-};
-FlashGotDMMac.prototype.checkExePlatform=function(exeFile) {
-  const f=Components.classes["@mozilla.org/file/local;1"].createInstance(
-    Components.interfaces.nsILocalFile);
-  try {
-    f.initWithPath(this.OSASCRIPT);
-    if(f.exists()) return exeFile;
-    this.log(f.path+" not found");
-  } catch(ex) {
-    this.log(ex.message);
+  this.macAppName = macAppName ? macAppName : name;
+  if (!FlashGotDMMac.appleScriptFile) {
+    (FlashGotDMMac.appleScriptFile = this.service.tmpDir.clone())
+      .append(FlashGotDMMac.appleScriptName);
   }
-  return null;
+   FlashGotDMMac.exeFile = this.exeFile;
 };
-FlashGotDMMac.prototype.createExecutable=function() {
-  const exeFile=this.exeFile;
-  if(exeFile) {
-    try {
-     const script=this.service.tmpDir.clone();
-     script.append("flashgot-test.scpt");
-     FlashGotDMMac.prototype.testAppleScript=script;
-     script.createUnique(0,0700);
-     if(exeFile.exists()) exeFile.remove(true);
-     exeFile.create(0,0700);
-     this.service.writeFile(exeFile, this.createScriptLauncher(script.path));
-     exeFile.permissions=0700;
-     return true;
-    } catch(ex) {
-      this.log(ex.message);
-    }
+FlashGotDMMac.prototype.shellEscape = function(s) {
+  return "'" + s.replace(/'/g, '"\'"') + "'"; 
+}
+FlashGotDMMac.prototype.createScriptLauncher = function() {
+  return "#!/bin/sh\n" +
+    "SCRIPT=" + this.shellEscape(FlashGotDMMac.appleScriptFile.path) + "\n" +
+    "USCRIPT=\"$SCRIPT.$$\"\n" + 
+    "mv \"$SCRIPT\" \"$USCRIPT\" || exit 1\n" +
+    "head -n 1 \"$USCRIPT\" | grep '#!' >/dev/null &&  \"$USCRIPT\" || " +
+    FlashGotDMMac.OSASCRIPT + " \"$USCRIPT\"";
+};
+FlashGotDMMac.prototype.checkExePlatform = function(exeFile) {
+  return FlashGotDMMac.isMac && exeFile || null;
+};
+FlashGotDMMac.prototype.createExecutable = function() {
+  const exeFile = this._exeFile;
+  if (!exeFile) return false;
+  try {
+   var scriptLauncher = this.createScriptLauncher();
+   var mustCreate = true;
+   if (exeFile.exists()) {
+     if (this.service.readFile(exeFile) == scriptLauncher) {
+       exists = true;
+       if (exeFile.isExecutable()) return false;
+       mustCreate = false;
+     } else {
+       this.log(exeFile.path + " is corrupted or obsolete, replacing it...");
+       try { exeFile.remove(true); } catch(rex) {} 
+     }
+   } else {
+     this.log(exeFile.path + " not found, creating it...");
+   }
+   if (mustCreate) {
+     this.log("Creating Mac executable");
+     exeFile.create(0, 0700);
+     this.service.writeFile(exeFile, scriptLauncher);
+   }
+   this.log("Setting executable permissions on " + exeFile.path);
+   exeFile.permissions = 0700;
+   return mustCreate;
+  } catch(ex) {
+    this.log("Cannot create Mac executable: " + ex.message);
   }
   return false;
 };
-FlashGotDMMac.prototype.launchSupportTest=function(testFile) {
-  const creators=FlashGotDMMac.prototype.macCreators;
-  const RESP="    do shell script \"echo >>'"+testFile.path+"' '\" & theName & \"|";
+FlashGotDMMac.prototype.launchSupportTest = function(testFile) {
+  const creators = FlashGotDMMac.prototype.macCreators;
+  const RESP = "    do shell script \"echo >>'" 
+    + testFile.path + 
+    "' '\" & theName & \"|";
   function response(msg) {
-    return RESP+msg+"'\"\n";
+    return RESP + msg + "'\"\n";
   }
-  var s="on test(theName, theCreator)\n"
+  var s = "on test(theName, theCreator)\n"
        +" tell app \"Finder\"\n"
        +"  set theResponse to \"KO\"\n"
        +"  try\n"
@@ -704,26 +821,40 @@ FlashGotDMMac.prototype.launchSupportTest=function(testFile) {
        +" end tell\n"
        +"end test\n"
        +"\n";
-  for(var j=creators.length; j-->0;) {
-     s+='get test("'+creators[j].name+'","'+creators[j].id+'")\n'; 
+  for (var j = creators.length; j-- > 0; ) {
+     s += 'get test("' + creators[j].name + '","' +creators[j].id + '")\n'; 
    }
-   this.service.writeFile(this.testAppleScript,s);
-   this.runNative([],true,this.exeFile);
+   this.performJob(s, true);
 };
-FlashGotDMMac.prototype.performJob=function(job) {
-  const script=this.createJobFile(job);
-  const launcher=this.createJobFile(this.createScriptLauncher(script.path));
-  launcher.permissions=0700;
-  this.runNative([],this.waitForNative,launcher);
+FlashGotDMMac.prototype.createJobFile = function(job) {
+  const jobFile = FlashGotDMMac.appleScriptFile;
+  try {
+    jobFile.remove(true);
+  } catch(ex) {}
+  try {
+    jobFile.create(0, 0600);
+    this.service.writeFile(jobFile, job);
+    return jobFile;
+  } catch(ex) {
+    this.log("Cannot write " + (jobFile && jobFile.path) + ex.message);
+  }
+  return null;
+}
+FlashGotDMMac.prototype.performJob = function(job, blocking) {
+  if (this.createJobFile(job)) 
+    this.runNative([], 
+        typeof(blocking) == "boolean" ? blocking : this.waitForNative, 
+        this.exeFile);
 };
-FlashGotDMMac.prototype.createJob=function(links,opType) {
-  const referrer=this.getReferrer(links);
+
+FlashGotDMMac.prototype.createJob = function(links,opType) {
+  const referrer = this.getReferrer(links);
   var job = "tell application \""+ this.macAppName+ "\"\n";
-  for(var j=0,len=links.length; j<len; j++) {
-    job+="GetURL \""+links[j].href+"\" from \""+ referrer  +"\"\n";
+  for (var j = 0, len = links.length; j < len; j++) {
+    job += 'GetURL "' + links[j].href + '" from "' + referrer  + "\"\n";
     this.updateProgress(links, j, len);
   }
-  job+="end tell\n";
+  job += "end tell\n";
   return job;
 };
 
@@ -731,7 +862,7 @@ FlashGotDMMac.prototype.createJob=function(links,opType) {
 
 // *** Custom DMS **************************************************************
 function FlashGotDMCust(name) {
-  if(arguments.length==0 || (!name) || (!name.length)) return;
+  if (arguments.length == 0 || (!name) || (!name.length)) return;
   name = name.replace(/,/g, " ");
   this._init(name);
   this.prefsBase = "custom." + this.codeName + ".";
@@ -739,7 +870,7 @@ function FlashGotDMCust(name) {
 
 FlashGotDMCust.init = function(service) {
   const names = service.getPref("custom", "").split(/\s*,\s*/);
-  for(var j=names.length; j-->0;) {
+  for (var j = names.length; j-->0;) {
     new FlashGotDMCust(names[j]);
   }
 }
@@ -747,33 +878,38 @@ FlashGotDMCust.init = function(service) {
 FlashGotDMCust.persist = function(service) {
   const dms = FlashGotDM.dms;
   const cdms = [];
-  for(var j = dms.length; j-->0;) {
-    if(dms[j].custom) cdms.push(dms[j].name);
+  for (var j = dms.length; j-->0;) {
+    if (dms[j].custom) cdms.push(dms[j].name);
   }
   service.setPref("custom", cdms.join(","));
 }
 
 FlashGotDMCust.prototype = new FlashGotDM();
+FlashGotDMCust.constructor = FlashGotDM;
+
 delete FlashGotDMCust.prototype.launchSupportTest;
 delete FlashGotDMCust.prototype.exeFile;
-
-FlashGotDMCust.constructor = FlashGotDMCust;
+FlashGotDMCust.prototype.PLACEHOLDERS = ["URL", "REFERER", "COOKIE", "FOLDER", "POST", "UFILE", "CFILE"];
 
 FlashGotDMCust.prototype.custom = true;
-FlashGotDMCust.prototype._supported = true;
+FlashGotDMCust.prototype. _supported = true;
+FlashGotDMCust.prototype.cookieSupport = false;
+FlashGotDMCust.prototype.postSupport = true;
+FlashGotDMCust.prototype.askPath = [true, true, true];
+
 FlashGotDMCust.prototype.__defineGetter__("exeFile",function() {
   try {
-    return this.service.prefs.getComplexValue(this.prefsBase+"exe", 
-      Components.interfaces.nsILocalFile);
+    return this.service.prefs.getComplexValue(this.prefsBase + "exe", 
+      CI.nsILocalFile);
   } catch(ex) {
     return null;
   }
 });
 FlashGotDMCust.prototype.__defineSetter__("exeFile",function(v) {
   try {
-    if(v) {
-      this.service.prefs.setComplexValue(this.prefsBase+"exe", 
-          Components.interfaces.nsILocalFile,v);
+    if (v) {
+      this.service.prefs.setComplexValue(this.prefsBase + "exe", 
+          CI.nsILocalFile,v);
       return v;
     }
   } catch(ex) {
@@ -781,36 +917,34 @@ FlashGotDMCust.prototype.__defineSetter__("exeFile",function(v) {
   }
 });
 
-FlashGotDMCust.prototype.__defineGetter__("argsTemplate",function() {
-  if(this.forcedTemplate) return this.forcedTemplate;
-  var t = this.service.getPref(this.prefsBase+"args","[URL]");
+FlashGotDMCust.prototype.__defineGetter__("argsTemplate", function() {
+  if (this.forcedTemplate) return this.forcedTemplate;
+  var t = this.service.getPref(this.prefsBase+"args", "[URL]");
   return /['"`]/.test(t) ? this.argsTemplate = t : t;
 });
 FlashGotDMCust.prototype.__defineSetter__("argsTemplate",function(v) {
-  if(!v) {
-    v="";
+  if (!v) {
+    v = "";
   } else {
     v=v.replace(/['"`]/g,"");
   }
-  this.service.setPref(this.prefsBase+"args",v);
+  this.service.setPref(this.prefsBase + "args", v);
   return v;
 });
 
-FlashGotDMCust.prototype.cookieSupport=false;
-FlashGotDMCust.prototype.askPath=[true,true,true];
 
 FlashGotDMCust.prototype.download = function(links, opType) {
   const t = this.argsTemplate;
-  this.cookieSupport=/\[.*?COOKIE.*?\]/.test(t);
-  this.askPath[opType]=/\[.*?FOLDER.*?\]/.test(t);
-  var exeFile=this.exeFile;
+  this.cookieSupport = /\[.*?COOKIE.*?\]/.test(t);
+  this.askPath[opType] = /\[.*?FOLDER.*?\]/.test(t);
+  var exeFile = this.exeFile;
   // portable hacks
-  if(exeFile && !exeFile.exists()) {
+  if (exeFile && !exeFile.exists()) {
     // try changing the first part of path
     var path = exeFile.path;
     var profPath = this.service.profDir.path;
     var pos1, pos2;g
-    if(path[1] == ":" && profPath[1] == ":") { 
+    if (path[1] == ":" && profPath[1] == ":") { 
       // easy, it's Windows, swap drive letter
       path = profPath[0] + path.substring(1);
     } else if(path.indexOf("/mount/") == 0 && profPath.indexOf("/mount/") == 0) {
@@ -820,9 +954,9 @@ FlashGotDMCust.prototype.download = function(links, opType) {
     } else if((pos1 = path.indexOf("/",1)) > 0 && (pos2 = profPath.indexOf("/", 1)) > 0) {
       path = profPath.substring(0, pos2) + path.substring(pos1);
     } else exeFile = null;
-    if(exeFile) {
-      exeFile = exeFile.clone().QueryInterface(Components.interfaces.nsILocalFile).initWithPath(path);
-      if(!exeFile.exists()) exeFile = null;
+    if (exeFile) {
+      exeFile = exeFile.clone().QueryInterface(CI.nsILocalFile).initWithPath(path);
+      if (!exeFile.exists()) exeFile = null;
     }
   }
   links.exeFile= (exeFile || 
@@ -831,76 +965,75 @@ FlashGotDMCust.prototype.download = function(links, opType) {
 };
 
 FlashGotDMCust.prototype.locateExeFile = function(name) {
-  const cc=Components.classes;
-  const ci=Components.interfaces;
-  if(!name) name=this.name;
-  var title=this.service.getString("custom.exeFile");
-  title='FlashGot ('+name+') - '+title;
-  
-  const fp = cc["@mozilla.org/filepicker;1"].createInstance(ci.nsIFilePicker);
-  const win=this.getWindow();
-  fp.init(win, title, ci.nsIFilePicker.modeOpen);
-  fp.appendFilters(ci.nsIFilePicker.filterApps);
-  fp.appendFilters(ci.nsIFilePicker.filterAll);
 
-  if (fp.show() == ci.nsIFilePicker.returnOK) {
-    var file = fp.file.QueryInterface(ci.nsILocalFile);
-    if(file.exists()) {
+
+  if (!name) name=this.name;
+  var title=this.service.getString("custom.exeFile");
+  title='FlashGot (' + name + ') - ' + title;
+  
+  const fp = CC["@mozilla.org/filepicker;1"].createInstance(CI.nsIFilePicker);
+  const win = this.getWindow();
+  fp.init(win, title, CI.nsIFilePicker.modeOpen);
+  fp.appendFilters(CI.nsIFilePicker.filterApps);
+  fp.appendFilters(CI.nsIFilePicker.filterAll);
+
+  if (fp.show() == CI.nsIFilePicker.returnOK) {
+    var file = fp.file.QueryInterface(CI.nsILocalFile);
+    if (file.exists()) {
       return file;
     }
   }
   return null;
 };
-FlashGotDMCust.prototype.PLACEHOLDERS = ["URL", "REFERER", "COOKIE", "FOLDER", "POST", "UFILE", "CFILE"];
-FlashGotDMCust.prototype.postSupport = true;
+
 FlashGotDMCust.prototype._addParts=function(a, s) {
   var parts=s.split(/\s+/);
   var k, p;
-  for(k in parts) {
-    if((p = parts[k])) {
+  for (k in parts) {
+    if ((p = parts[k])) {
       a[a.length] = p;
     }
   }
 };
-FlashGotDMCust.prototype.makeArgs = function(parms) {
 
+FlashGotDMCust.prototype.makeArgs = function(parms) {
   const args = [];
   var t = this.argsTemplate;
   var j, v, len, s;
   
   var idx;
   
-  for(var m; 
+  for (var m; 
       m = t.match( /\[([\s\S]*?)(\S*)\b(URL|REFERER|COOKIE|FOLDER|POST|CFILE|UFILE)\b(\S*?)([\s\S]*?)\]/); 
       t = t.substring(idx + m[0].length) 
      ) {
 
-    if((idx = m.index) > 0) {
+    if ((idx = m.index) > 0) {
       this._addParts(args, t.substring(0, idx));
     }
     
     v = parms[m[3]];
-    if(!v) continue;
+    if (!v) continue;
     
     this._addParts(args, m[1]);
     args[args.length] = m[2] + v + m[4];
     this._addParts(args, m[5]);
   }
   
-  if(t.length) {
+  if (t.length) {
     this._addParts(args, t);
   }
   return args;
 };
 
-FlashGotDMCust.prototype.createJob=function(links, opType) {
+FlashGotDMCust.prototype.createJob = function(links, opType) {
   return { links: links, opType: opType };
 };
 
-FlashGotDMCust.prototype.performJob=function(job) {
+FlashGotDMCust.prototype.performJob = function(job) {
   const links = job.links;
   const exeFile = links.exeFile;
-  if(links.length < 1 || !exeFile) return;
+  if (links.length < 1 || !exeFile) return;
   
   const folder=links.folder;
   const referrer = this.getReferrer(links);
@@ -908,7 +1041,7 @@ FlashGotDMCust.prototype.performJob=function(job) {
   
   this.checkCookieSupport();
   var cookieFile;
-  if(this.service.getPref("omitCookies")) {
+  if (this.service.getPref("omitCookies")) {
     cookieFile = null;
   } else {
     cookieFile = this.service.profDir.clone();
@@ -917,8 +1050,14 @@ FlashGotDMCust.prototype.performJob=function(job) {
   }
  
   var urlListFile = this.supportURLList(links, this.argsTemplate);
+  var maxLinks = this.service.getPref(this.prefsBase + "maxLinks", 0);
+  if (maxLinks > 0 && links.length > maxLinks) {
+    this.log("Too many links (" + links.length + "), cutting to " 
+        + this.prefsBase + "maxLinks (" + maxLinks + ")");
+    links.length = maxLinks;
+  }
   var l;
-  for(var j = 0, len = links.length; j < len; j++) {
+  for (var j = 0, len = links.length; j < len; j++) {
     l = links[j];
     this.runNative(
       this.makeArgs({
@@ -932,15 +1071,15 @@ FlashGotDMCust.prototype.performJob=function(job) {
        }),
        false, exeFile);
     this.updateProgress(links, j, len);
-  } 
+  }
 };
-FlashGotDMCust.prototype.checkExePlatform=function(exeFile) {
+FlashGotDMCust.prototype.checkExePlatform = function(exeFile) {
   return exeFile;
 };
-FlashGotDMCust.prototype.createExecutable=function() {
+FlashGotDMCust.prototype.createExecutable = function() {
   return false;
 };
-
+// End FlashGotDMCust.prototype
 
 // *****************************************************************************
 // END DMS CLASSES
@@ -948,63 +1087,125 @@ FlashGotDMCust.prototype.createExecutable=function() {
 
 // DMS initialization
 
-FlashGotDM.initDMS=function(service) {
+FlashGotDM.initDMS = function(service) {
+  const isWin = service.isWindows;
   var dm;
-  
+
   new FlashGotDM("BitComet");
 
-  new FlashGotDM("Download Accelerator Plus");
+  dm = new FlashGotDM("Download Accelerator Plus");
+  dm.nativeUI = "#dapctxmenu1, #dapctxmenu2";
   
   new FlashGotDM("Download Master");
   
+  for each (dm in [new FlashGotDM("DTA"), new FlashGotDM("DTA (Turbo)")]) {
+    dm.__defineGetter__("supported", 
+      function() { 
+        return  "dtaIFilterManager" in CI || "@downthemall.net/privacycontrol;1" in CC 
+    });
+    dm.turboDTA = /Turbo/.test(dm.name);
+    dm.nativeUI = dm.turboDTA
+      ? "#context-dta-savelinkt, #context-tdta, #dtaCtxTDTA, #dtaCtxSaveT"
+      : "#context-dta-savelink, #context-dta, #dtaCtxDTA, #dtaCtxSave";
+      
+    dm.performDownload = function(links, opType) {
+      if(!links.document) {
+        this.log("No document found in " + links);
+        return;
+      }
+      var w = links.browserWindow || DOMUtils.getChromeWindow(links.document.defaultView.top);
+      if(!(w && w.DTA_AddingFunctions && w.DTA_AddingFunctions.saveLinkArray)) {
+        this.log("DTA Support problem: " + w + ", " + (w && w.DTA_AddingFunctions) + ", tb:" +
+          w.gBrowser + ", wl:" + w.location + ", wo:" + w.wrappedJSObject + ", " +
+            (w && w.DTA_AddingFunctions && w.DTA_AddingFunctions.saveLinkArray));
+        return;
+      }
+      var mlSupport = w.DTA_getLinkPrintMetalink;
+      var turbo = this.turboDTA;
+      var cs = links.document.characterSet;
+      var anchors = [], images = [], l, arr;
+      var hash, ml;
+      var referrer = this.getReferrer(links);
+      var tag;
+      var single = opType == this.service.OP_ONE;
+      for (var j = 0, len = links.length; j < len; j++) {
+        l = links[j];
+        arr = single || !(tag = l.tagName) || tag.toLowerCase() == "a" ? anchors : images;
+        arr.push({ 
+            url: w.DTA_URL ? new w.DTA_URL(l.href, cs) : l.href,
+            description: l.description,
+            ultDescription: '',
+            referrer: referrer
+        });
+        
+        if (arr == anchors && mlSupport && l.href.indexOf("#") > 0) {
+          hash = l.href.match(/.*#(.*)/)[1];
+          ml = mlSupport(l.href);
+          if (ml) {
+            arr.push({
+              url: w.DTA_URL ? new w.DTA_URL(ml, cs) : ml,
+              description: '[metalink] http://www.metalinker.org/',
+              ultDescription: '',
+              referrer: referrer,
+              metalink: true
+            });
+          }
+        }
+        this.updateProgress(links, j, len);
+      }
+      
+      w.DTA_AddingFunctions.saveLinkArray(turbo, anchors, images);
+    }
+  }
+  
   new FlashGotDM("FlashGet");
   
-  dm=new FlashGotDM("Free Download Manager");
+  dm = new FlashGotDM("Free Download Manager");
   dm._waitForNative=false;
   
   new FlashGotDM("FreshDownload");
   
   dm=new FlashGotDM("GetRight");
   dm.supportsMetalink = true;
-  dm.super_download=FlashGotDM.prototype.download;
-  dm.super_createJob=FlashGotDM.prototype.createJob;
+  dm.super_download = FlashGotDM.prototype.download;
+  dm.super_createJob = FlashGotDM.prototype.createJob;
   dm.download=function(links, opType) {
-    const service=this.service;
-    if(opType == service.OP_ONE && !service.getPref("GetRight.quick")) {
+    const service = this.service;
+    if (opType == service.OP_ONE && !service.getPref("GetRight.quick")) {
       opType = service.OP_SEL;
     }
     this.super_download(links, opType);
   };
-  dm.createJob=function(links, opType) {
+  dm.createJob = function(links, opType) {
     const service=this.service;
     var folder=links.folder;
-    if(!(folder && folder._fgSelected)) folder=false;
+    if (!(folder && folder._fgSelected)) folder = false;
     
-    var referrer=this.getReferrer(links);
+    var referrer = this.getReferrer(links);
     
-    switch(opType) {
+    switch (opType) {
       case service.OP_ONE:
         var job = this.super_createJob(links, opType).replace(/; /g, ";");
-        if(this.service.getPref("GetRight.old")) job+="\nold";
+        if (this.service.getPref("GetRight.old")) job+="\nold";
         return job;
       case service.OP_SEL:
       case service.OP_ALL:
         var urlList = "";
-        var referrerLine=(referrer && referrer.length>0)?"\r\nReferer: "+referrer+"\r\n":"\r\n";
+        var referrerLine = (referrer && referrer.length > 0) ? "\r\nReferer: " + referrer + "\r\n" : "\r\n";
         var l, k, len, decodedURL, urlParts, fileSpec, cookie;
-        for(var j = 0; j < links.length; j++) {
+        for (var j = 0; j < links.length; j++) {
           l=links[j];
           
-          if(folder) {
+          if (folder) {
             decodedURL=l.href;
             try { decodedURL=decodeURI(decodedURL) } catch(ex) {};
-            urlParts=decodedURL.match(/\/\/.+[=\/]([^\/]+\.\w+)/);
-            if(!urlParts) urlParts=l.href.match(/.*\/(.*\w+.*)/);
-            if(urlParts && (fileSpec=urlParts[1])
+            urlParts = decodedURL.match(/\/\/.+[=\/]([^\/]+\.\w+)/);
+            if (!urlParts) urlParts=l.href.match(/.*\/(.*\w+.*)/);
+            if (urlParts && (fileSpec=urlParts[1])
               // && (links.length==1 ||  !/\.(php|[\w]?htm[l]?|asp|jsp|do|xml|rdf|\d+)$/i.test(fileSpec))
              ) {  
               urlParts=fileSpec.match(/(.*\.\w+).*/);
-              if(urlParts) fileSpec=urlParts[1];
+              if (urlParts) fileSpec=urlParts[1];
               fileSpec="File: "+folder+"\\"+fileSpec.replace(/[^\w\.-]/g,'_')+"\r\n";
             } else continue;
           } else fileSpec="";
@@ -1012,20 +1213,20 @@ FlashGotDM.initDMS=function(service) {
           urlList+="URL: "+l.href
             +"\r\nDesc: "+l.description + "\r\n" + fileSpec;
           
-            if(l.md5) {
+            if (l.md5) {
             urlList += "MD5: " + l.md5 + "\r\n";
           }
-          if(l.sha1) {
+          if (l.sha1) {
             urlList += "SHA1: " + l.sha1+ "\r\n";
           }
-          if(l.metalinks) {
-            for(k = 0, len = Math.min(16, l.metalinks.length); k < len; k++) {
+          if (l.metalinks) {
+            for (k = 0, len = Math.min(16, l.metalinks.length); k < len; k++) {
               urlList += "Alt: " + l.metalinks[k] + "\r\n";
             }
           } else {
             urlList += referrerLine;
-            if(cookie=this.getCookie(l, links)) {
-              urlList+="Cookie: " + cookie + "\r\n";
+            if (cookie = this.getCookie(l, links)) {
+              urlList += "Cookie: " + cookie + "\r\n";
             }
           }
           this.updateProgress(links, j, len);
@@ -1036,16 +1237,16 @@ FlashGotDM.initDMS=function(service) {
         var charset=null;
         try {
           charset=service.getPref("GetRight.charset",
-            service.prefService.QueryInterface(Components.interfaces.nsIPrefBranch
+            service.prefService.QueryInterface(CI.nsIPrefBranch
             ).getComplexValue("intl.charset.default",
-              Components.interfaces.nsIPrefLocalizedString).data);
+              CI.nsIPrefLocalizedString).data);
         } catch(ex) {}
         service.writeFile(file, urlList, charset);
-        referrer=file.path;
+        referrer = file.path;
         break;
     }
     var cmdOpts="/Q";
-    if(service.getPref("GetRight.autostart",false)) { // CHECK ME!!!
+    if (service.getPref("GetRight.autostart",false)) { // CHECK ME!!!
       cmdOpts+="\n /AUTO";
     }
     return this.createJobHeader({ length: 0, folder: "" },opType) +
@@ -1059,11 +1260,11 @@ FlashGotDM.initDMS=function(service) {
   new FlashGotDM("InstantGet");
   
   dm = new FlashGotDM("iGetter Win");
-  dm.__defineGetter__("supported", 
-    function() { return  "nsIGetterMoz" in Components.interfaces; });
+  dm.nativeUI = "#all-igetter, #igetter-link";
+  dm.__defineGetter__("supported", function() { return  "nsIGetterMoz" in CI; });
   dm.createJob = function(links, opType) {
     var job = this.getReferrer(links) + "\r\n";
-    for(var j=0; j < links.length; j++) {
+    for (var j=0; j < links.length; j++) {
       job += links[j].href + "\r\n" + links[j].description + "\r\n";
     }
     return job;
@@ -1071,46 +1272,46 @@ FlashGotDM.initDMS=function(service) {
   dm.performJob = function(job) {
     const file = this.createJobFile(job);
     delete job;
-    Components.classes["@presenta/iGetter"]
-              .getService(Components.interfaces.nsIGetterMoz)
+    CC["@presenta/iGetter"]
+              .getService(CI.nsIGetterMoz)
               .NewURL(file.path);
-    if(file.exists()) file.remove(0);
+    if (file.exists()) file.remove(0);
   };
   
   new FlashGotDM("Internet Download Accelerator");
   (new FlashGotDM("Internet Download Manager")).postSupport = true;
 
-  var lg2002=new FlashGotDM("LeechGet 2002");
-  var lg2004=new FlashGotDM("LeechGet");
-  lg2004._bgJob=lg2002._bgJob=false;
+  var lg2002 = new FlashGotDM("LeechGet 2002");
+  var lg2004 = new FlashGotDM("LeechGet");
+  lg2004._bgJob = lg2002._bgJob=false;
   lg2004.super_createJob=lg2002.super_createJob=FlashGotDM.prototype.createJob;
-  lg2004.createJob=lg2002.createJob=function(links, opType) {
+  lg2004.createJob=lg2002.createJob = function(links, opType) {
     const service=this.service;
     var referrer;
-    switch(opType) {
+    switch (opType) {
       case service.OP_ONE:
         return this.super_createJob(links, links.quickDownload?service.OP_ONE:service.OP_SEL);
       case service.OP_SEL:
         var htmlDoc="<html><head><title>FlashGot selection</title></head><body>";
         var l;
-        for(var j=0, len=links.length; j<len; j++) {
-          l=links[j];
-          var des=l.description;
-          var tag=l.tagName?l.tagName.toLowerCase():"";
-          htmlDoc=htmlDoc.concat(tag=="img"
-            ?"<img src=\""+l.href+"\" alt=\""+des
-              +"\" width=\""+l.width+"\" height=\""+l.height+
+        for (var j=0, len=links.length; j<len; j++) {
+          l = links[j];
+          var des = l.description;
+          var tag = l.tagName ? l.tagName.toLowerCase() : "";
+          htmlDoc = htmlDoc.concat(tag == "img"
+            ? '<img src="' + l.href + '" alt="' + des
+              + '" width="' + l.width + '" height="' + l.height +
               "\" />\n"
-            :"<a href=\""+l.href+"\">"+des+"</a>\n");
-          this.updateProgress(links,j,len);
+            : "<a href=\"" + l.href + "\">" + des + "</a>\n");
+          this.updateProgress(links, j, len);
         }
         referrer = service.httpServer.addDoc(
           htmlDoc.concat("</body></html>")
         );
         break;
        default:
-        referrer=links.document.URL;
-        if(referrer.match(/^\s*file:/i)) { // fix for local URLs
+        referrer = links.document.URL;
+        if (referrer.match(/^\s*file:/i)) { // fix for local URLs
           // we serve local URLs through built-in HTTP server...
           return this.createJob(links,service.OP_SEL);
         }
@@ -1124,68 +1325,161 @@ FlashGotDM.initDMS=function(service) {
   new FlashGotDM("Mass Downloader");
   new FlashGotDM("Orbit");
   
-  (new FlashGotDM("ReGet")).postSupport = true;
+  dm = new FlashGotDM("ReGet");
+  dm.postSupport = true;
+  if("@reget.com/regetextension;1" in CC) {
+    try {
+      dm.reGetService = CC["@reget.com/regetextension;1"].createInstance(CI.IRegetDownloadFFExtension);
+      if (dm.reGetService.isExtensionEnabled()) {
+        dm._supported = true;
+        dm.performJob = function() {};
+        dm.createJob = function(links, opType) {
+          this.checkCookieSupport();
+          const rg = this.reGetService;
+          var l;
+          var len = links.length;
+          var ref = links.referrer;
+          if (len == 1) {
+            l = links[0];
+            rg.setUrl(l.href);
+            rg.setInfo(l.description);
+            rg.setCookie(this.getCookie(l, links));
+            rg.setReferer(ref);
+            rg.setPostData(links.postData);
+            rg.setConfirmation(true);
+            rg.addDownload();
+            return;
+          }
+          for (var j = 0; j < len; j++) {
+            l = links[j];
+            rg.addToMassDownloadList(
+              l.href,
+              ref,
+              this.getCookie(l, links),
+              l.description,
+              "");
+            this.updateProgress(links, j, len);
+          }
+          rg.runMassDownloadList();
+        }
+      }
+    } catch(rgEx) {}
+  }
+  
+  if (isWin) {
+    dm = new FlashGotDMCust("Retriever");
+    dm.cookieSupport = true;
+    dm.askPath = ASK_NEVER;
+    dm.custom = false;
+    dm._supported = null;
+    
+    if (service.getPref(dm.prefsBase + "maxLinks", -1000) == -1000) {
+      service.setPref(dm.prefsBase + "maxLinks", 10);
+    }
+    dm.customSupportCheck = function() {
+      var wrk;
+      try {
+        wrk = CC["@mozilla.org/windows-registry-key;1"]
+                        .createInstance(CI.nsIWindowsRegKey);
+        wrk.open(wrk.ROOT_KEY_CLASSES_ROOT,
+             "Retriever.Retriever.jar.HalogenWare\\shell\\Open\\command",
+             wrk.ACCESS_READ);
+        var cmd = wrk.readStringValue("");
+        wrk.close();
+        this.jarPath = cmd.replace(/.*-jar "?(.*?\.jar).*/, "$1");
+        this.argsTemplate = "[URL] [Referer:REFERER] [Cookie:COOKIE] [post:POST]";
+        
+        var exeFile = CC["@mozilla.org/file/directory_service;1"].getService(CI.nsIProperties)
+          .get("WinD", CI.nsIFile);
+        exeFile.append("System32");
+        exeFile.append("javaw.exe");
+        this.exeFile = exeFile;
+        
+        return true;
+      } catch(e) {
+        return false;
+      } finally {
+        try { wrk.close() } catch(e) {}
+      }
+    };
+    
+    dm.makeArgs = function(parms) {
+      return ["-jar", this.jarPath].concat(
+        FlashGotDMCust.prototype.makeArgs.apply(this, arguments)
+      );
+    };
+  }
   
   const httpFtpValidator = function(url) {
     return /^(http:|ftp:)/.test(url);
   };
-  dm=new FlashGotDM("Star Downloader");
-  dm.cookieSupport=false;
-  dm.isValidLink=httpFtpValidator;
-  dm._waitForNative=false;
+  dm = new FlashGotDM("Star Downloader");
+  dm.cookieSupport = false;
+  dm.isValidLink = httpFtpValidator;
+  dm._waitForNative = false;
   
-  dm=new FlashGotDM("TrueDownloader");
-  dm.isValidLink=httpFtpValidator;
-  dm._waitForNative=false;
+  dm = new FlashGotDM("TrueDownloader");
+  dm.isValidLink = httpFtpValidator;
+  dm._waitForNative = false;
   
   new FlashGotDM("Thunder");
   new FlashGotDM("Thunder (Old)");
   
-  dm = new FlashGotDM("WellGet");
-  dm.getRelativeExe = function() {
-    try {
-      return this.service.prefs.getComplexValue("WellGet.path", Components.interfaces.nsILocalFile);
-    } catch(ex) {}
-    return null;
-  };
-  dm.customSupportCheck = function() {
-     try {
-       var wellGetExe = this.getRelativeExe();
-       var currentPath = wellGetExe.path;
-       wellGetExe.initWithPath(this.service.profDir.path.substring(0,2) + dir.path.substring(2));
-       if(wellGetExe.path != currentPath) {
-          this.service.prefs.setComplexValue("WellGet.path", wellGetExe);
-       }
-       return wellGetExe.exists() && wellGetExe.isExecutable();
-     } catch(ex) {
-     }
-     return false;
-  };
-  dm.createJob = function(links, opType) {
-    var job = FlashGotDM.prototype.createJob.call(this, links, opType);
-    var wellGetExe = this.getRelativeExe();
-    if(wellGetExe) job += "\n" + wellGetExe.path;
-    return job;
-  };
-  dm.shouldList = function() { return true; }
-
-  dm=new FlashGotDMX("Aria", "aria", "[-r REFERER] [-d FOLDER] -g [URL]");
-  dm.createJob=function(links,opType) {
+  
+  if (isWin) {
+    dm = new FlashGotDM("WellGet");
+    dm.getRelativeExe = function() {
+      try {
+        return this.service.prefs.getComplexValue("WellGet.path", CI.nsILocalFile);
+      } catch(ex) {}
+      return null;
+    };
+    dm.customSupportCheck = function() {
+      var wellGetExe = this.getRelativeExe();
+      try {
+         var currentPath = wellGetExe.path;
+         if(wellGetExe.exists() && wellGetExe.isExecutable()) return true;
+         
+         wellGetExe.initWithPath(this.service.profDir.path.substring(0,2) +
+           currentPath.substring(2));
+         if (wellGetExe.exists() && wellGetExe.isExecutable()) {
+           if(wellGetExe.path != currentPath) {
+              this.service.prefs.setComplexValue("WellGet.path",  CI.nsILocalFile, wellGetExe);
+           }
+           return true;
+         }
+         return false;
+      } catch(ex) {
+      }
+      
+      return !wellGetExe && this.baseSupportCheck();
+    };
+    dm.createJob = function(links, opType) {
+      var job = FlashGotDM.prototype.createJob.call(this, links, opType);
+      var wellGetExe = this.getRelativeExe();
+      if (wellGetExe) job += "\n" + wellGetExe.path;
+      return job;
+    };
+    dm.shouldList = function() { return true; }
+  }
+  
+  dm = new FlashGotDMX("Aria", "aria", "[-r REFERER] [-d FOLDER] -g [URL]");
+  dm.createJob = function(links,opType) {
     return FlashGotDMX.prototype.createJob.call(this,links,opType) + "\nsleep 4\n" + this.unixCmd+" -s &\n";
   };
-  dm._waitForNative=false;
+  dm._waitForNative = false;
   
-  dm=new FlashGotDMX("Downloader 4 X (nt)","nt");
-  dm.createJob=function(links,opType) {
-    return this.unixCmd+"&\nsleep 1\n" +
+  dm = new FlashGotDMX("Downloader 4 X (nt)", "nt");
+  dm.createJob = function(links,opType) {
+    return this.unixCmd + "&\nsleep 1\n" +
       (links.folder && links.folder._fgSelected
-      ? this.unixCmd + " -d '"+links.folder+"'\n"
+      ? this.unixCmd + " -d '" + links.folder + "'\n"
       :"") + 
       FlashGotDMX.prototype.createJob.call(this,links,opType);
   };
   
-  dm=new FlashGotDMX("Downloader 4 X","d4x","[--referer REFERER] [--directory FOLDER] [-a URL] [--al POST] [COOKIE]");
-  dm.askPath=[false, true, true];
+  dm = new FlashGotDMX("Downloader 4 X","d4x","[--referer REFERER] [--directory FOLDER] [-a URL] [--al POST] [COOKIE]");
+  dm.askPath = [false, true, true];
   dm.postSupport = true;
   dm.createJob = function(links, opType) {
     const service = this.service;
@@ -1196,18 +1490,18 @@ FlashGotDM.initDMS=function(service) {
     const len = links.length;
     var job;
     
-    if(len>0) {
+    if (len>0) {
       
        var urls="";
-       for(var j=0; j<len; j++) {
-         urls+=" "+shellEsc(links[j].href);
+       for (var j = 0; j < len; j++) {
+         urls += " " + shellEsc(links[j].href);
          this.updateProgress(links, j, len);
        }
 
        var promptURLs_fakePost = null;
        var quietURLs_fakeCookie = null;
        
-       if(quiet) {
+       if (quiet) {
          quietURLs_fakeCookie = urls;
          urls = null;
        } else if(len>1) {
@@ -1226,10 +1520,10 @@ FlashGotDM.initDMS=function(service) {
     return job;
   };
   
-  dm=new FlashGotDMX("GNOME Gwget","gwget");
-  dm.askPath=ASK_NEVER;
+  dm = new FlashGotDMX("GNOME Gwget","gwget");
+  dm.askPath = ASK_NEVER;
   dm.createJob=function(links, opType) {
-    if(opType == service.OP_ALL) {
+    if (opType == service.OP_ALL) {
       links.length = 1;
       links[0].href = links.document.URL;
       opType = service.OP_ONE;
@@ -1238,12 +1532,12 @@ FlashGotDM.initDMS=function(service) {
   } 
   
   dm=new FlashGotDMX("KDE KGet","kget");
-  dm.askPath=ASK_NEVER;
+  dm.askPath = ASK_NEVER;
   
-  if(service.isWindows) {
+  if (isWin) {
     new FlashGotDM("wxDownload Fast");
   } else {
-    dm=new FlashGotDMX("wxDownload Fast","wxdfast", "[-reference REFERER] [-destination FOLDER] [-list UFILE]");
+    dm=new FlashGotDMX("wxDownload Fast", "wxdfast", "[-reference REFERER] [-destination FOLDER] [-list UFILE]");
     dm.askPath = ASK_NEVER;
   }
 
@@ -1251,45 +1545,52 @@ FlashGotDM.initDMS=function(service) {
   dm.postSupport = true;
   dm.createJob=function(links,opType) {
     var job="[ -x \"`which 'xterm'`\" ] &&  CURL_CMD='xterm -e curl' || CURL_CMD='curl'\n";
-    if (links.folder) job += "cd '"+links.folder+"'\n";
+    if (links.folder) job += "cd '" + links.folder + "'\n";
     this.unixCmd = "$CURL_CMD";
     return job + FlashGotDMX.prototype.createJob.call(this,links,opType);
   };
-
+  
+  dm =new FlashGotDMX("Wget","wget", '-c [--directory-prefix=FOLDER] [--referer=REFERER] [--post-data=POST] [--load-cookies=CFILE] [--header=Cookie:COOKIE] [--input-file=UFILE]');
+  dm.postSupport = true;
+  dm.createJob=function(links,opType) {
+    var job="[ -x \"`which 'xterm'`\" ] &&  WGET_CMD='xterm -e wget' || WGET_CMD='wget'\n";
+    this.unixCmd = "$WGET_CMD";
+    return job + FlashGotDMX.prototype.createJob.call(this,links,opType);
+  };
 
   function FlashGotDMSD(version) {
     this._initMac(version > 3 ? "Speed Download" : ("Speed Download " + version), "Spee");
     this.version = version;
-    if(version > 2) {
+    if (version > 2) {
       this.cookieSupport = true;
       this.postSupport = true;
     }
   };
   
   FlashGotDMSD.prototype=new FlashGotDMMac();
-  FlashGotDMSD.prototype.createJob=function(links,opType) {
+  FlashGotDMSD.prototype.createJob = function(links,opType) {
     var job = "tell app \""+ this.macAppName+ "\" to AddURL {";
-    var urlList=[];
-    var cookieList=[];
+    var urlList = [];
+    var cookieList = [];
     var l;
-    for(var j=0,len=links.length; j<len; j++) {
+    for (var j=0,len=links.length; j<len; j++) {
       l=links[j];
       urlList[urlList.length] = '"'+l.href+'"';
-      if(this.cookieSupport) {
+      if (this.cookieSupport) {
         cookieList[cookieList.length] = '"'+this.getCookie(l,links)+'"';
       }
       this.updateProgress(links, j, len);
     }
     job+=urlList.join(',')+"}";
-    if(this.postSupport) {
-      if(links.postData) { 
+    if (this.postSupport) {
+      if (links.postData) { 
         job+=' with form data "'+links.postData+'"';
       }
       const referer=this.getReferrer(links);
-      if(referer && referer.length) {
+      if (referer && referer.length) {
         job+=' from "'+referer+'"';
       }
-      if(cookieList.length) {
+      if (cookieList.length) {
         job+=' with cookies {' + cookieList.join(',') + '}';
       }
     }  
@@ -1300,11 +1601,88 @@ FlashGotDM.initDMS=function(service) {
   new FlashGotDMSD(3);
   new FlashGotDMSD(3.5);
   
-  new FlashGotDMMac("iGetter","iGET");
+  new FlashGotDMMac("iGetter", "iGET");
+  
+  if ("nsIDownloadManager" in CI) {
+    dm = new FlashGotDM("(Built In)");
+    dm._supported = true;
+    dm.priority = "zzz"; // put on the bottom of the list
+    dm.internalRenaming = true;
+    dm.askPath = [true, true, true];
+    dm.performDownload = function(links, opType) {
+      var ios = CC["@mozilla.org/network/io-service;1"].getService(CI.nsIIOService);
+      const persistFlags = CI.nsIWebBrowserPersist.PERSIST_FLAGS_AUTODETECT_APPLY_CONVERSION;
+      const dType = CI.nsIDownloadManager.DOWNLOAD_TYPE_DOWNLOAD;
+      var postData = links.postStream || null;
+      var cs = links.document.characterSet;
+      var ref = this.getReferrer(links);
+      var refURI = ref && ios.newURI(ref, cs, null) || null;
+      var uri, folder, file, m;
+      var persist, args;
+      var now = Math.round(Date.now() / 1000);
+      var dm = CC["@mozilla.org/download-manager;1"].getService(CI.nsIDownloadManager);
+      folder = CC["@mozilla.org/file/local;1"].createInstance(CI.nsILocalFile);
+      folder.initWithPath(links.folder);
+      var mozAddDownload;
+      if(dm.startBatchUpdate) {
+        mozAddDownload = typeof(dType) == "undefined" 
+          ? function(src, dest, des, persist) { return dm.addDownload(src, dest, des, null, now, null, persist); }
+          : function(src, dest, des, persist) { return dm.addDownload(dType, src, dest, des, null, null, now, null, persist); }
+          ;
+        dm.startBatchUpdate();
+      } else {
+        mozAddDownload = function(src, dest, des, persist) { return dm.addDownload(dType, src, dest, des, null, now, null, persist); };
+      }
+      var dl;
+      for(var j = 0, len = links.length, l; j < len; j++) {
+        l = links[j];
+        try {
+          uri = ios.newURI(l.href, cs, null);
+          if(!(uri instanceof CI.nsIURL)) continue;
+          file = folder.clone();
+          file.append(uri.fileName || uri.filePath.replace(/.*?([^\/]*)\/?$/, '$1') || uri.host);
+          if(this.internalRenamig)
+            for (;;) {
+              if(!file.exists()) {
+                file.create(0, 0644);
+                break;
+              } else { // rename
+                m = file.leafName.match(/(.*?)(?:\((\d+)\))?(\.[^\.]+$|$)/);
+                file.leafName = m[1] + "(" + ((m[2] && parseInt(m[2]) || 0) + 1) + ")" + m[3]; 
+              }
+            }
+          persist = CC["@mozilla.org/embedding/browser/nsWebBrowserPersist;1"].createInstance(CI.nsIWebBrowserPersist);
+          persist.persistFlags = persistFlags;
+          
+          persist.progressListener = dl = 
+            mozAddDownload(uri, ios.newFileURI(file), l.description, persist)
+              .QueryInterface(CI.nsIWebProgressListener);
+          persist.saveURI(uri, null, // cachekey
+                  refURI, postData, null, file);
+          this.updateProgress(links, j, len);
+        } catch (e) {
+          this.service.log("Skipping link " + l.href + ": " + e);
+        }
+      }
+      if(dm.endBatchUpdate) dm.endBatchUpdate();
+      if(dm.flush) dm.flush();
+      if(this.getPref("showDM", true) && dm.open) { // we skip this for Fx 3 (enough feedback by default)
+        try { // SeaMonkey
+          dm.open(links.browserWindow, dl);
+        } catch(e1) {
+          try { // Firefox 2
+            links.browserWindow.document.getElementById("Tools:Downloads").doCommand();
+          } catch(e2) {}
+        }
+      }
+    };
+  }
   
   FlashGotDMCust.init(service);
+  
   service.sortDMS();
   
+  dm = null;
 };
 
 // *****************************************************************************
@@ -1314,8 +1692,8 @@ FlashGotDM.initDMS=function(service) {
 function HttpInterceptor(service) {
   this.service = service;
 
-  Components.classes["@mozilla.org/uriloader;1"].getService(
-    Components.interfaces.nsIURILoader).registerContentListener(this);
+  CC["@mozilla.org/uriloader;1"].getService(
+    CI.nsIURILoader).registerContentListener(this);
 }
 
 HttpInterceptor.prototype = {
@@ -1329,25 +1707,15 @@ HttpInterceptor.prototype = {
   lastPost: null, // last uploadChannel
  
   interfaces: [
-    Components.interfaces.nsIURIContentListener,
-    Components.interfaces.nsIObserver, 
-    Components.interfaces.nsIWeakReference,
-    Components.interfaces.nsISupportsWeakReference,
-    Components.interfaces.nsISupports
+    CI.nsIURIContentListener,
+    CI.nsIObserver, 
+    CI.nsISupportsWeakReference,
+    CI.nsISupports
   ],
   
   QueryInterface: function(iid) {
      xpcom_checkInterfaces(iid, this.interfaces, Components.results.NS_ERROR_NO_INTERFACE);
      return this;
-  },
-  
-  
-  // fake weak reference support, pretty useless but necessary to avoid a 1.9+ assertion
-  QueryReferent: function(iid) {
-    return this;
-  },
-  GetWeakReference: function() {
-    return this;
   },
   
   setup: function() { // profile initialization
@@ -1356,8 +1724,8 @@ HttpInterceptor.prototype = {
   },
   
   dispose: function() {
-    Components.classes["@mozilla.org/uriloader;1"].getService(
-        Components.interfaces.nsIURILoader).unRegisterContentListener(this);
+    CC["@mozilla.org/uriloader;1"].getService(
+        CI.nsIURILoader).unRegisterContentListener(this);
   },
   
   log: function(msg) {
@@ -1366,56 +1734,58 @@ HttpInterceptor.prototype = {
   
   _shouldIntercept: function(contentType) {
     dump("FG: _shouldIntercept("+contentType+")\n");
-    if(this.bypassAutoStart) return false;
+    if (this.bypassAutoStart) return false;
     const service = this.service;
-    if(!(service.DMS && service.DMS.found)) return false;
-    if(this.forceAutoStart) return true;
+    if (!(service.DMS && service.DMS.found)) return false;
+    if (this.forceAutoStart) return true;
     
-    if(!this.autoStart) return false;
+    if (!this.autoStart) return false;
     
-    if(this.interceptAll &&
+    if (this.interceptAll &&
       !/\bxpinstall|text|xml|vnd\.mozilla\b/.test(contentType)) {
       return true;
     }
 
-    if(contentType == "application/x-unknown-content-type") return false;
-    var ms = Components.classes['@mozilla.org/uriloader/external-helper-app-service;1']
-                     .getService(Components.interfaces.nsIMIMEService);
+    if (contentType == "application/x-unknown-content-type" || /\b(?:xml|rss)\b/.test(contentType)) return false;
+    var ms = CC['@mozilla.org/uriloader/external-helper-app-service;1']
+                     .getService(CI.nsIMIMEService);
     const exts = service.extensions;
-    for(var j = exts.length; j-- > 0;) {
+    for (var j = exts.length; j-- > 0;) {
       try{
-        if(contentType == ms.getTypeFromExtension(exts[j])) return true;
+        if (contentType == ms.getTypeFromExtension(exts[j])) return true;
       } catch(e) {}
     }
   }
 , 
   _willHandle: function(url, contentType) {
-    if(!/^(http|https|ftp|sftp|rtsp|mms):/i.test(url) ) {
-      if((/^\s*javascript/i).test(url)) this.log("JavaScript url intercepted: "+url);
+    if (!/^(http|https|ftp|sftp|rtsp|mms):/i.test(url) ) {
+      if ((/^\s*javascript/i).test(url)) this.log("JavaScript url intercepted: "+url);
       return false;
     }
     return true;
   }
 ,
-  extractPostData: function(channel) {
-    if(channel instanceof Components.interfaces.nsIUploadChannel &&
-       channel.uploadStream instanceof Components.interfaces.nsISeekableStream) {
+  extractPostData: function(channel, res) {
+    res = res || {};
+    res.postData = res.postStream = null;
+    if (channel instanceof CI.nsIUploadChannel &&
+       channel.uploadStream instanceof CI.nsISeekableStream) {
       this.log("Extracting post data...");
       try {
-        channel.uploadStream.seek(0,0);
-        const sis=Components.classes[
-          '@mozilla.org/scriptableinputstream;1'].createInstance(
-          Components.interfaces.nsIScriptableInputStream);
-        sis.init(channel.uploadStream);
-        var postData=sis.read(sis.available()).replace(/\s$/,'').split(/[\r\n]/);
-        return postData[postData.length-1];
+        res.postStream = channel.uploadStream;
+        res.postStream.seek(0, 0);
+        const sis=CC['@mozilla.org/scriptableinputstream;1'].createInstance(CI.nsIScriptableInputStream);
+        sis.init(res.postStream);
+        var postData  = sis.read(sis.available()).replace(/\s$/,'').split(/[\r\n]/);
+        res.postStream.seek(0, 0);
+        res.postData = postData[postData.length - 1];
       } catch(ex) {
         this.log(ex.message);
       } finally {
          sis.close();
       }
     }
-    return null;
+    return res;
   },
   /* nsIURIContentListener */
   
@@ -1426,11 +1796,11 @@ HttpInterceptor.prototype = {
 ,
   lastRequest: null,
   doContent: function(contentType, isContentPreferred, channel, contentHandler) {
-    const ci = Components.interfaces;
-    channel.QueryInterface(ci.nsIChannel);
+
+    channel.QueryInterface(CI.nsIChannel);
     const uri = channel.URI;
     dump("FG: doContent " +contentType + " " + uri.spec + "\n");
-    if(!this._willHandle(uri.spec, contentType)) {
+    if (!this._willHandle(uri.spec, contentType)) {
       throw new Error("FlashGot not interested in " + contentType + " from " + uri.spec);
     }
     
@@ -1445,12 +1815,20 @@ HttpInterceptor.prototype = {
     
     
     
-    if(channel instanceof ci.nsIHttpChannel) {
+    if (channel instanceof CI.nsIHttpChannel) {
       links.referrer = channel.referrer && channel.referrer.spec || "";
-      links.postData = this.extractPostData(channel);
+      this.extractPostData(channel, links);
+      try {
+        links.document = channel.notificationCallbacks.QueryInterface(
+            CI.nsIInterfaceRequestor).getInterface(
+            CI.nsIDOMWindow).document;
+        links.browserWindow = DOMUtils.getChromeWindow(document.defaultView.top);
+      } catch(e) {
+        this.log("Can't set referrer document for " + links[0].href + " from " + links.referrer);
+      }
     } 
     var firstAttempt;
-    if(contentHandler) {
+    if (contentHandler) {
       this.lastRequest = null;
       firstAttempt = true;
       this.forceAutoStart = false;
@@ -1460,25 +1838,26 @@ HttpInterceptor.prototype = {
       this.lastRequest = requestLines;
     }
     
-    if(firstAttempt) {
-      if(this.service.download(links)) {
-        this.log("...interception done!");
-      } else {
-         throw new Error("Can't download from this URL: "+uri.spec);
-      }
+    if (firstAttempt) {
+       var self = this;
+       this.service._delay(function() {
+          self.forceAutoStart = false;
+          if(self.service.download(links))
+            self.log("...interception done!");
+        }, 10);
     } else {
-      dump("Second attempt, skipping.");
+      dump("Second attempt, skipping.\n");
       this.lastRequest = null;
       this.forceAutoStart = false;
     }
     
-    if(!channel.isPending()) { 
+    if (!channel.isPending()) { 
       try {
         channel.requestMethod = "HEAD";
-        channel.loadFlags = ci.nsIChannel.LOAD_RETARGETED | ci.nsIChannel.LOAD_RETARGETED_DOCUMENT_URI | ci.nsICachingChannel.LOAD_ONLY_FROM_CACHE;
+        channel.loadFlags = CI.nsIChannel.LOAD_RETARGETED | CI.nsIChannel.LOAD_RETARGETED_DOCUMENT_URI | CI.nsICachingChannel.LOAD_ONLY_FROM_CACHE;
       } catch(e) {}
     }
-    channel.cancel(0x804b0002 /* NS_BINDING_ABORTED */); 
+    channel.cancel(NS_BINDING_ABORTED); 
 
     this.log("Original request cancelled.");
     
@@ -1504,13 +1883,13 @@ HttpInterceptor.prototype = {
 ,
   /* http-on-modify-request Observer */
   observe: function(channel, topic, data) {
-    if(channel instanceof Components.interfaces.nsIHttpChannel) {
+    if (channel instanceof CI.nsIHttpChannel) {
       
-      if(this.forceAutoStart) {
+      if (this.forceAutoStart) {
         this.doContent("flashgot/forced", true, channel, null);
         return;
       }
-      if(channel instanceof Components.interfaces.nsIUploadChannel) {
+      if (channel instanceof CI.nsIUploadChannel) {
         this.lastPost = channel;
       }
     }
@@ -1524,13 +1903,13 @@ HttpInterceptor.prototype = {
 // XPCOM Service
 // *****************************************************************************
 
-const SHUTDOWN="profile-before-change";
-const STARTUP="profile-after-change";
+const SHUTDOWN = "profile-before-change";
+const STARTUP = "profile-after-change";
 
 function FlashGotService() {
   
-  const osvr=Components.classes['@mozilla.org/observer-service;1'].getService(
-    Components.interfaces.nsIObserverService);
+  const osvr=CC['@mozilla.org/observer-service;1'].getService(
+    CI.nsIObserverService);
   
   osvr.addObserver(this, SHUTDOWN, false);
   osvr.addObserver(this, "xpcom-shutdown", false);
@@ -1548,16 +1927,17 @@ FlashGotService.prototype = {
   OP_ALL: 2,
   OP_QET: 3
 ,
-  VERSION: "0.6.4"
+  VERSION: "0.8.1"
 ,
+  domUtils: DOMUtils,
   get wrappedJSObject() {
     return this;
   }
 ,
   unregister: function() {
     try {
-      const osvr=Components.classes['@mozilla.org/observer-service;1'].getService(
-      Components.interfaces.nsIObserverService);
+      const osvr=CC['@mozilla.org/observer-service;1'].getService(
+      CI.nsIObserverService);
       osvr.removeObserver(this, SHUTDOWN);
       osvr.removeObserver(this, "xpcom-shutdown");
       osvr.removeObserver(this, STARTUP);
@@ -1570,16 +1950,16 @@ FlashGotService.prototype = {
   }
 ,
   QueryInterface: function(iid) {
-     xpcom_checkInterfaces(iid,SERVICE_IIDS,Components.results.NS_ERROR_NO_INTERFACE);
+     xpcom_checkInterfaces(iid, SERVICE_IIDS, Components.results.NS_ERROR_NO_INTERFACE);
      return this;
   }
 ,
   /* nsIObserver */  
   observe: function(subject, topic, data) {
-    if(subject == this.prefs) {
+    if (subject == this.prefs) {
       this.syncPrefs(data);
     } else {
-      switch(topic) {
+      switch (topic) {
         case "xpcom-shutdown":
           this.unregister();
           break;
@@ -1595,14 +1975,14 @@ FlashGotService.prototype = {
   }
 ,
   syncPrefs: function(name) {
-    this.logEnabled=this.getPref("logEnabled",true);
-    if(name) {
-      switch(name) {
+    this.logEnabled = this.getPref("logEnabled", true);
+    if (name) {
+      switch (name) {
         case "hide-icons":
           var w;
-          for(var wins=this.windowMediator.getEnumerator(null); wins.hasMoreElements();) {
+          for (var wins = this.windowMediator.getEnumerator(null); wins.hasMoreElements();) {
              w=wins.getNext();
-             if(typeof(w.gFlashGot)=="object" && w.gFlashGot.toggleMainMenuIcon) {
+             if (typeof(w.gFlashGot)=="object" && w.gFlashGot.toggleMainMenuIcon) {
                w.gFlashGot.toggleMainMenuIcon();
              }
           }
@@ -1636,7 +2016,7 @@ FlashGotService.prototype = {
 ,
 
   get isWindows() {
-    return ("nsIWindowsShellService" in Components.interfaces) || ("@mozilla.org/winhooks;1" in Components.classes);
+    return ("nsIWindowsShellService" in CI) || ("@mozilla.org/winhooks;1" in CC);
   }
 ,
   get DMS() {
@@ -1657,10 +2037,45 @@ FlashGotService.prototype = {
     return arr ? arr:[];
   }
 ,
+  extractIds: function(css) {
+    var ids = css.match(/#[^ ,]+/g);
+    for(var j = ids.length; j-- > 0; ids[j] = ids[j].substring(1));
+    return ids;
+  },
+  hideNativeUI: function(document, selectors) {
+    var s = selectors + " {display: none !important}";
+    if("nsIDownloadManagerUI" in CI) { // Toolkit, sync stylesheets
+      this.domUtils.updateStyleSheet(s, true);
+    } else {
+      for each (var id in this.extractIds(selectors)) try {
+        document.getElementById(id).style.display = "none";
+      } catch(e) {}
+    }
+    (document._FlashGot_NativeUI_styleSheets || 
+      (document._FlashGot_NativeUI_styleSheets = [])
+    ).push(s);
+  },
+  restoreNativeUIs: function(document) {
+     var ss = document._FlashGot_NativeUI_styleSheets;
+     if(!ss) return;
+     var toolkit = "nsIDownloadManagerUI" in CI;
+     var id;
+     for each (var s in ss) {
+       if(toolkit) {
+         this.domUtils.updateStyleSheet(s, false);
+       } else {
+          for each (id in this.extractIds(s)) try {
+            document.getElementById(id).style.display = "";
+          } catch(e) {}
+       }
+     }
+     document._FlashGot_NativeUI_styleSheets = null;
+  },
+  
   addExtension: function(ext) {
-    if(ext) {
+    if (ext) {
       var extensions = this.extensions;
-      if(!this.extensionExists(ext, extensions)) {
+      if (!this.extensionExists(ext, extensions)) {
         extensions[extensions.length] = ext;
         extensions.sort();
         this.extensions=extensions;
@@ -1671,9 +2086,9 @@ FlashGotService.prototype = {
   }
 ,
   removeExtension: function(ext) {
-    var extensions=this.extensions;
+    var extensions = this.extensions;
     var j=this.indexOfExtension(ext,extensions);
-    if(j>-1) {
+    if (j>-1) {
       extensions.splice(j,1);
       this.extensions=extensions;
       return true;
@@ -1687,18 +2102,18 @@ FlashGotService.prototype = {
 ,
   indexOfExtension: function(ext, extensions) {
     var ext = ext.toLowerCase();
-    if(typeof(extensions) != "object") extensions = this.extensions;
-    for(var j=extensions.length; j-->0;) {
-      if(extensions[j].toLowerCase() == ext) return j;
+    if (typeof(extensions) != "object") extensions = this.extensions;
+    for (var j=extensions.length; j-->0;) {
+      if (extensions[j].toLowerCase() == ext) return j;
     }
     return -1;
   }
 ,
   _httpServer: null,
   get httpServer() {
-    if(typeof(FlashGotHttpServer) != "function") {
-      Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-          .getService(Components.interfaces.mozIJSSubScriptLoader)
+    if (typeof(FlashGotHttpServer) != "function") {
+      CC["@mozilla.org/moz/jssubscript-loader;1"]
+          .getService(CI.mozIJSSubScriptLoader)
           .loadSubScript("chrome://flashgot/content/flashgotHttpServer.js", null);
     }
     return ((!this._httpServer) || this._httpServer.isDown) ?
@@ -1709,26 +2124,26 @@ FlashGotService.prototype = {
 ,
   download: function(links, opType, dmName) {
     
-    switch(links.length) {
+    switch (links.length) {
       case 0: 
         return false;
       case 1: 
         opType = this.OP_ONE; 
         break;
       default:
-        if(!opType) opType = this.OP_SEL;
+        if (!opType) opType = this.OP_SEL;
     }
     
-    if(!dmName) dmName=this.defaultDM;
-    const dm=this.DMS[dmName];
-    if(!dm) {
+    if (!dmName) dmName=this.defaultDM;
+    const dm = this.DMS[dmName];
+    if (!dm) {
       this.log("FlashGot error: no download manager selected!");
       return false;
     }
     
     // surrogate missing attributes
     
-    if(!links.progress) {
+    if (!links.progress) {
       links.progress = { update: function() {} };
     } else {
       links.progress.update(12);
@@ -1742,14 +2157,14 @@ FlashGotService.prototype = {
   
   _downloadDelayed: function(links, opType, dm) {
     
-     if(!links.postData) { 
+     if (!links.postData) { 
       links.postData = null;
-    } else if(!dm.postSupported) {
+    } else if(!dm.postSupport) {
       // surrogate POST parameters as query string
       links[0].href += (links[0].href.indexOf("?") > -1 ?  "&" : "?") + links.postData;
     }
 
-    const encodedURLs=this.getPref(dm.codeName+".encode",this.getPref("encode",true));
+    const encodedURLs = this.getPref(dm.codeName+".encode", this.getPref("encode", true));
 
     const extFilter = this.getPref("extfilter", false) && !this.interceptor.interceptAll ?
         new RegExp("\.(" +
@@ -1757,14 +2172,14 @@ FlashGotService.prototype = {
           ")\\b", "i") : null;
     
     var logMsg = "Processing "+links.length+" links ";
-    if(this.logEnabled && typeof(links.startTime) == "number") {
+    if (this.logEnabled && typeof(links.startTime) == "number") {
       logMsg += "scanned in ms" + (Date.now() - links.startTime);
     }
     
     
 
-    var startTime = Date.now();
-    const pg=links.progress;
+    if (!links.startTime) links.startTime = Date.now();
+    const pg = links.progress;
     
     const escapeCheckNo=/(%[0-9a-f]{2,4})/i;
     const escapeCheckYes=/[\s]+/;
@@ -1772,17 +2187,18 @@ FlashGotService.prototype = {
     var len = links.length;
     
     var filters = null;
-    if(len > 1) {
+    
+    if (len > 1) {
       filters = [];
       
       const isValid = dm.isValidLink; 
-      if(isValid)  filters.push(function() { return isValid(href) });
+      if (isValid)  filters.push(function() { return isValid(href) });
       
-      if(extFilter) filters.push(function() { return extFilter.test(href) });
+      if (extFilter) filters.push(function() { return extFilter.test(href) });
       
-      if(filters.length) {
+      if (filters.length) {
         filters.doFilter = function(href) {
-          for(var j = this.length; j-- > 0;) if(!this[j](href)) return false;
+          for (var j = this.length; j-- > 0;) if(!this[j](href)) return false;
           return true;
         }
       } else {
@@ -1798,20 +2214,20 @@ FlashGotService.prototype = {
     var chunkLen = 100;
     const chunks = Math.ceil(len / chunkLen); 
     j = 0;
-    for(k = 1; k <= chunks; k++) {
-      if(k == chunks) chunkLen = len % chunkLen;
-      if(j > 0) {
-        pg.update(10 + 30 * j / len);
+    for (k = 1; k <= chunks; k++) {
+      if (k == chunks) chunkLen = len % chunkLen;
+      if (j > 0) {
+        pg.update(10 + 20 * j / len);
       }
      
-      for(jCount = j + chunkLen; j < jCount; j++) {
+      for (jCount = j + chunkLen; j < jCount; j++) {
         l = links[j];
         l._pos = j;
         href = l.href;
-        if((!filters) || filters.doFilter(href)) {
+        if ((!filters) || filters.doFilter(href)) {
           ol = map[href];
-          if(ol) { // duplicate, keep the longest description
-            if(ol.description.length < l.description.length) {
+          if (ol) { // duplicate, keep the longest description
+            if (ol.description.length < l.description.length) {
               map[href] = l;
               l.href = ol.href; // keep sanitizations
             }
@@ -1820,12 +2236,12 @@ FlashGotService.prototype = {
             
             // encoding checks
             try {
-              if(encodedURLs) { 
-                if(escapeCheckYes.test(href) || !escapeCheckNo.test(href)) { 
+              if (encodedURLs) { 
+                if (escapeCheckYes.test(href) || !escapeCheckNo.test(href)) { 
                   href = encodeURI(href);
                 }
                 // workaround for malformed hash urls
-                while((pos1 = href.indexOf("#")) > -1 // has fragment?
+                while ((pos1 = href.indexOf("#")) > -1 // has fragment?
                   && href[pos1 + 1] != "!" // skip metalinks!
                   && (href.indexOf("?") > pos1 || pos1 != href.lastIndexOf('#')) // fragment before query or double fragment ? 
                 ) {
@@ -1844,23 +2260,49 @@ FlashGotService.prototype = {
         }
       }
     }
-   
-    links.length = 0;
-    for(href in map) links[links.length] = map[href];
     
-    if(this.getPref("httpauth", false)) {
+    links.length = 0;
+    for (href in map) links[links.length] = map[href];
+    
+    if(dm.asciiFilter) {
+      for(j = links.length; j-- > 0;) {
+        l = links[j];
+        if(l.description) 
+          l.description = l.description.replace(/[^\u0020-\u007f]/g, "") || l.href;
+      }
+    }
+    this._processRedirects(links, opType, dm);
+  },
+  
+  _processRedirects: function(links, opType, dm) {
+    links.progress.update(30);
+    var service = this;
+    this._delay(function() {
+      new RedirectContext(links, opType, dm, function(processedBy) {
+        links.redirProcessedBy = processedBy;
+        service._sendToDM(links, opType, dm);
+        service = null;
+      }).process();
+    });
+  },
+  
+  get _redirectContext() { return RedirectContext }, // ease debug
+  
+  _sendToDM: function(links, opType, dm) {
+    
+    if (this.getPref("httpauth", false)) {
       dm.log("Adding authentication info");
       this._addAuthInfo(links);
     }
     
-    if(dm.supportsMetalink && this.getPref("metalink", true)) {
+    if (dm.supportsMetalink && this.getPref("metalink", true)) {
       dm.log("Adding metalink info");
-      if(this._processMetalinks(links)) {
+      if (this._processMetalinks(links)) {
         opType = this.OP_SEL; // force "ask path"
       }
     }
     
-    if(links.length>1) {
+    if (links.length>1) {
       dm.log("Sorting again "+links.length+" links");
       links.sort(function(a,b) {
         a=a._pos; b=b._pos;
@@ -1868,9 +2310,9 @@ FlashGotService.prototype = {
       });
     }
 
-    pg.update(50);
+    links.progress.update(70);
     
-    dm.log("Preprocessing done in ms" + (Date.now() - startTime) );
+    dm.log("Preprocessing done in ms" + (Date.now() - links.startTime) );
     
     // "true" download
     this._delay(function(t) {
@@ -1881,27 +2323,28 @@ FlashGotService.prototype = {
 
         var now = Date.now();
         var logMsg = "Dispatch done in ms" + (now - startTime);
-        if(typeof(links.startTime) == "number") { 
+        if (typeof(links.startTime) == "number") { 
           logMsg += "\nTotal processing time: ms" + (now - links.startTime);
         }  
         dm.log(logMsg);
       });
   },
+  
   _addAuthInfo: function(links) {
-    const httpAuthManager = Components.classes['@mozilla.org/network/http-auth-manager;1']
-                              .getService(Components.interfaces.nsIHttpAuthManager);
-    const ioService = Components.classes["@mozilla.org/network/io-service;1"]
-                        .getService(Components.interfaces.nsIIOService);
+    const httpAuthManager = CC['@mozilla.org/network/http-auth-manager;1']
+                              .getService(CI.nsIHttpAuthManager);
+    const ioService = CC["@mozilla.org/network/io-service;1"]
+                        .getService(CI.nsIIOService);
     var uri;
     var udom = {};
     var uname = {};
     var upwd = {};
     var l;
-    for(var j = links.length; j-- > 0;) {
+    for (var j = links.length; j-- > 0;) {
       l = links[j];
       try {
         uri = ioService.newURI(l.href, null, null);
-        if(l.userPass && l.userPass.indexOf(":") > -1) continue;
+        if (l.userPass && l.userPass.indexOf(":") > -1) continue;
         httpAuthManager.getAuthIdentity(uri.scheme, uri.host, uri.port < 0 ? (uri.scheme == "https" ? 443 : 80) : uri.port, null, null, uri.path, udom, uname, upwd);
         this.log("Authentication data for " + uri + " added.");
         l.href = uri.scheme + "://" + uname.value + ":" + upwd.value + "@" + 
@@ -1912,26 +2355,26 @@ FlashGotService.prototype = {
   _processMetalinks: function(links) {
     var hasMetalinks = false;
     var l, k, href, pos, parts, couple, key;
-    for(var j = links.length; j-- > 0;) {
+    for (var j = links.length; j-- > 0;) {
        l = links[j];
        href = l.href;
        pos = href.indexOf("#!");
-       if(pos < 0) continue;
+       if (pos < 0) continue;
        parts = href.substring(pos + 2).split("#!");
-       if(parts[0].indexOf("metalink3!") == 0) continue; // per Ant request
+       if (parts[0].indexOf("metalink3!") == 0) continue; // per Ant request
        
        hasMetalinks = true;
        l.metalinks = [];
-       for(k = 0; k < parts.length; k++) {
+       for (k = 0; k < parts.length; k++) {
          couple = parts[k].split("!");
-         if(couple.length != 2) continue;
+         if (couple.length != 2) continue;
          key = couple[0].toLowerCase();
-         switch(key) {
+         switch (key) {
            case "md5": case "sha1":
              l[key] = couple[1];
              break;
            case "metalink":
-            if(/^(https?|ftp):/i.test(couple[1])) {
+            if (/^(https?|ftp):/i.test(couple[1])) {
               l.metalinks.push(couple[1]);
             }
             break;
@@ -1943,20 +2386,20 @@ FlashGotService.prototype = {
 ,
   _delay: function(callback, time) {
      var timerCallback = { notify: callback }; 
-     Components.classes["@mozilla.org/timer;1"].createInstance(Components.interfaces.nsITimer)
-              .initWithCallback(timerCallback, time || 0, Components.interfaces.nsITimer.TYPE_ONE_SHOT);
+     CC["@mozilla.org/timer;1"].createInstance(CI.nsITimer)
+              .initWithCallback(timerCallback, time || 0, CI.nsITimer.TYPE_ONE_SHOT);
   }
 ,
   yield: function() {
     try {
-      const eqs = Components.interfaces.nsIEventQueueService;
-      if(eqs) {
-        Components.classes["@mozilla.org/event-queue-service;1"]
+      const eqs = CI.nsIEventQueueService;
+      if (eqs) {
+        CC["@mozilla.org/event-queue-service;1"]
           .getService(eqs).getSpecialEventQueue(eqs.UI_THREAD_EVENT_QUEUE)
           .processPendingEvents();
       } else {
-        const curThread = Components.classes["@mozilla.org/thread-manager;1"].getService().currentThread;
-        while(curThread.hasPendingEvents()) curThread.processNextEvent(false);
+        const curThread = CC["@mozilla.org/thread-manager;1"].getService().currentThread;
+        while (curThread.hasPendingEvents()) curThread.processNextEvent(false);
       }
     } catch(e) {}
   },
@@ -1969,19 +2412,19 @@ FlashGotService.prototype = {
   }
 ,
   get prefService() {
-    return Components.classes["@mozilla.org/preferences-service;1"].getService(
-      Components.interfaces.nsIPrefService);
+    return CC["@mozilla.org/preferences-service;1"].getService(
+      CI.nsIPrefService);
   }
 ,
   savePrefs: function() {
     return this.prefService.savePrefFile(null);
   }
 ,
-  getPref: function(name,def) {
-    const IPC=Components.interfaces.nsIPrefBranch;
-    const prefs=this.prefs;
+  getPref: function(name, def) {
+    const IPC = CI.nsIPrefBranch;
+    const prefs = this.prefs;
     try {
-      switch(prefs.getPrefType(name)) {
+      switch (prefs.getPrefType(name)) {
         case IPC.PREF_STRING:
           return prefs.getCharPref(name);
         case IPC.PREF_INT:
@@ -1995,7 +2438,7 @@ FlashGotService.prototype = {
 ,
   setPref: function(name,value) {
     const prefs=this.prefs;
-    switch(typeof(value)) {
+    switch (typeof(value)) {
       case "string":
           prefs.setCharPref(name,value);
           break;
@@ -2012,7 +2455,7 @@ FlashGotService.prototype = {
 ,
   _bundle: null,
   get bundle() {
-    if(!this._bundle) {
+    if (!this._bundle) {
       function getBundle(url) {
         try {
           var bundle = bs.createBundle(url);
@@ -2024,9 +2467,9 @@ FlashGotService.prototype = {
         return bundle;
       }
       
-      var bs = Components.classes["@mozilla.org/intl/stringbundle;1"].getService(
-        Components.interfaces.nsIStringBundleService);
-      if(! ( 
+      var bs = CC["@mozilla.org/intl/stringbundle;1"].getService(
+        CI.nsIStringBundleService);
+      if (! ( 
             (this._bundle=getBundle("chrome://flashgot/locale/flashgot.properties") )
             || (this._bundle=bs.createBundle("chrome://flashgot/content/en-US/flashgot.properties"))
             )
@@ -2057,7 +2500,7 @@ FlashGotService.prototype = {
 ,
   _logFile: null,
   get logFile() {
-    if(this._logFile==null) {
+    if (this._logFile==null) {
       this._logFile=this.profDir.clone();
       this._logFile.append("flashgot.log");
     }
@@ -2067,19 +2510,19 @@ FlashGotService.prototype = {
   logStream: null,
   logEnabled: false,
   log: function(msg) {
-    if(this.logEnabled) {
+    if (this.logEnabled) {
       try {
-        if(!this.logStream) {
+        if (!this.logStream) {
           const logFile=this.logFile;
-          const logStream=Components.classes["@mozilla.org/network/file-output-stream;1"
-            ].createInstance(Components.interfaces.nsIFileOutputStream );
+          const logStream=CC["@mozilla.org/network/file-output-stream;1"
+            ].createInstance(CI.nsIFileOutputStream );
           logStream.init(logFile, 0x02 | 0x08 | 0x10, 0600, 0 );
           this.logStream=logStream;
           const header="*** Log start at "+new Date().toGMTString()+"\n";
           this.logStream.write(header,header.length);
         }
         
-        if(msg!=null) {
+        if (msg!=null) {
           msg+="\n";
           this.logStream.write(msg,msg.length);
         }
@@ -2096,22 +2539,22 @@ FlashGotService.prototype = {
 ,
   clearLog: function() {
     try {
-      if(this.logStream) {
+      if (this.logStream) {
         try {
           this.logStream.close();
         } catch(eexx) {
           dump(eexx.message);
         }
       }
-      if(this.logFile) this.logFile.remove(true);
+      if (this.logFile) this.logFile.remove(true);
       this.logStream=null;
       this.log(null);
     } catch(ex) { dump(ex.message); }
   } 
 ,
   get windowMediator() {
-    return Components.classes["@mozilla.org/appshell/window-mediator;1"
-      ].getService(Components.interfaces.nsIWindowMediator);
+    return CC["@mozilla.org/appshell/window-mediator;1"
+      ].getService(CI.nsIWindowMediator);
   }
 ,
   getWindow: function() {
@@ -2120,7 +2563,7 @@ FlashGotService.prototype = {
 ,
   _globals: null,
   get globals() {
-    if(!this._initialized) {
+    if (!this._initialized) {
       this.initGlobals();
     }
     return this._globals;
@@ -2130,22 +2573,17 @@ FlashGotService.prototype = {
 ,
   _prefs: null,
   get prefs() {
-    var prefs=this._prefs;
-    if(!prefs) {
-      this._prefs=prefs=this.prefService.getBranch(this.PREFS_BRANCH
-        ).QueryInterface(Components.interfaces.nsIPrefBranchInternal);
-    }
-    return prefs;
+    return this._prefs || (this._prefs = this.prefService.getBranch(this.PREFS_BRANCH).QueryInterface(CI.nsIPrefBranchInternal));
   }
 ,
   _initialized: false,
   initGlobals: function() {
-    if(this._globals || this._initialized) return;
+    if (this._globals || this._initialized) return;
     
     function prepareTmp(t) {
       t.append("flashgot."+encodeURI(profDir.leafName).replace(/%/g,"_"));
-      if(t.exists()) {
-       if(!t.isDirectory()) t.createUnique(1,0700);
+      if (t.exists()) {
+       if (!t.isDirectory()) t.createUnique(1, 0700);
       } else {
         t.create(1,0700);
       }
@@ -2154,19 +2592,18 @@ FlashGotService.prototype = {
     
     try {
       const startTime = Date.now();
-      const prefs=this.prefs;
-      const cc=Components.classes;
-      const ci=Components.interfaces; 
+      const prefs = this.prefs;
 
-      const fileLocator=cc["@mozilla.org/file/directory_service;1"].getService(
-        ci.nsIProperties);
-      const profDir=fileLocator.get("ProfD",ci.nsIFile);
+      
+      const fileLocator = CC["@mozilla.org/file/directory_service;1"].getService(
+        CI.nsIProperties);
+      const profDir = fileLocator.get("ProfD",CI.nsIFile);
      
       var tmpDir;
       try {
-        tmpDir=prepareTmp(prefs.getComplexValue("tmpDir", ci.nsILocalFile));
+        tmpDir = prepareTmp(prefs.getComplexValue("tmpDir", CI.nsILocalFile));
       } catch(ex) {
-        tmpDir=prepareTmp(fileLocator.get("TmpD", ci.nsILocalFile));
+        tmpDir = prepareTmp(fileLocator.get("TmpD", CI.nsILocalFile));
       }
        
       this._globals={
@@ -2182,10 +2619,11 @@ FlashGotService.prototype = {
         
       this._setupLegacyPrefs();
 
-      this._globals.DMS=this.checkDownloadManagers(true, false);
+      this._globals.DMS = this.checkDownloadManagers(true, false);
       this.log("Per-session init done in " + (Date.now() - startTime) + "ms");
     } catch(initEx) {
-      this._initException=initEx;
+      this._initException = initEx;
+      try { this.log(initEx); } catch(e) {}
     }
     this._initialized=true; 
   }
@@ -2199,7 +2637,7 @@ FlashGotService.prototype = {
 ,
   createCustomDM: function(name) {
     const dm = new FlashGotDMCust(name);
-    if(name && name.length) {
+    if (name && name.length) {
       FlashGotDMCust.persist(this);
       this.sortDMS();
       this.checkDownloadManagers(false, false);
@@ -2209,8 +2647,8 @@ FlashGotService.prototype = {
 ,
  removeCustomDM: function(name) {
    const dms = FlashGotDM.dms;
-   for(var j = dms.length; j-->0;) {
-     if(dms[j].custom && dms[j].name == name) {
+   for (var j = dms.length; j-->0;) {
+     if (dms[j].custom && dms[j].name == name) {
        dms.splice(j, 1);
        delete dms[name];
      }
@@ -2220,35 +2658,37 @@ FlashGotService.prototype = {
  }
 ,
   sortDMS: function() {
-    FlashGotDM.dms.sort(function(a,b) { a=a.name.toLowerCase(); b=b.name.toLowerCase(); return a>b?1:a<b?-1:0; });
+    FlashGotDM.dms.sort(function(a,b) { 
+      a = a.priority || a.name.toLowerCase(); 
+      b = b.priority || b.name.toLowerCase();
+      return a > b ? 1 : a < b ?-1 : 0; 
+    });
   }
 , 
   checkDownloadManagers: function(init, detect) {
     
-    if(init || detect) {
-      FlashGotDM.init(this);
-    }
+    if (init || detect) FlashGotDM.init(this);
     
     const dms = FlashGotDM.dms;
     dms.found = false;
     var defaultDM = this.defaultDM;
-    if(!dms[defaultDM]) defaultDM = null;
+    if (!dms[defaultDM]) defaultDM = null;
     
     detect = detect || this.getPref("detect.auto", true);
  
     var j, dm;
     var cache;
     
-    if(!detect) {
+    if (!detect) {
       cache = this.getPref("detect.cache", "").split(",");
-      for(j = dms.length; j-- > 0;) {
+      for (j = dms.length; j-- > 0;) {
         dm = dms[j];
-        if(!dm.custom) dm._supported = false;
+        if (!dm.custom) dm._supported = false;
       }
       var name;
-      for(j = cache.length; j-- > 0;) {
+      for (j = cache.length; j-- > 0;) {
         name = cache[j];
-        if(name.length && typeof(dm = dms[name])=="object" && dm.name == name) {
+        if (name.length && typeof(dm = dms[name])=="object" && dm.name == name) {
           dm._supported = true;
         }
       }
@@ -2257,32 +2697,32 @@ FlashGotService.prototype = {
     cache = [];
     var exclusive;
     var firstSupported=null;
-    for(j=dms.length; j-- >0;) {
+    for (j = dms.length; j-- >0;) {
       dm=dms[j];
-      if(dm.supported) {
+      if (dm.supported) {
         dms.found = true;
         cache[cache.length] = firstSupported = dm.name;
-        if(dm.exclusive) exclusive=true;
+        if (dm.exclusive) exclusive=true;
       } else {
-        this.log("Warning: download manager "+dm.name+" not found");
-        if(defaultDM==dm.name) {
-          defaultDM=null;
-          this.log(dm.name+" was default download manager: resetting.");
+        this.log("Warning: download manager " + dm.name + " not found");
+        if (defaultDM == dm.name) {
+          defaultDM = null;
+          this.log(dm.name + " was default download manager: resetting.");
         }
       }
     }
     
-    this.setPref("detect.cache",cache.join(","));
+    this.setPref("detect.cache", cache.join(","));
     
-    if( (!defaultDM) && firstSupported!=null) {
-      this.defaultDM=firstSupported;
-      this.log("Default download manager set to "+this.defaultDM);
+    if ((!defaultDM) && firstSupported != null) {
+      this.defaultDM = firstSupported;
+      this.log("Default download manager set to " + this.defaultDM);
     } else if(!dms.found) {
       this.log("Serious warning! no supported download manager found...");
     } 
-    if(exclusive) {
-      for(j=dms.length; j-->0;) {
-        if(! (dms[j].custom || dms[j].supported) ) {
+    if (exclusive) {
+      for (j=dms.length; j-->0;) {
+        if (! (dms[j].custom || dms[j].supported) ) {
           dms.splice(j,1);
         }
       }
@@ -2293,9 +2733,9 @@ FlashGotService.prototype = {
 ,
   _referrerSpoofer: null,
   get referrerSpoofer() {
-    if(typeof(ReferrerSpoofer) != "function") {
-      Components.classes["@mozilla.org/moz/jssubscript-loader;1"]
-          .getService(Components.interfaces.mozIJSSubScriptLoader)
+    if (typeof(ReferrerSpoofer) != "function") {
+      CC["@mozilla.org/moz/jssubscript-loader;1"]
+          .getService(CI.mozIJSSubScriptLoader)
           .loadSubScript("chrome://flashgot/content/referrerSpoofer.js", null);
     }
     return (!this._httpServer) ? this._referrerSpoofer = new ReferrerSpoofer() :this._referrerSpoofer;
@@ -2304,11 +2744,11 @@ FlashGotService.prototype = {
   _cleaningup: false
 ,
   cleanup: function() {
-    if(this._cleaningup) return;
+    if (this._cleaningup) return;
     try {
-      this._cleaningup=true;
+      this._cleaningup = true;
       this.log("Starting cleanup");
-      if(this._httpServer) {
+      if (this._httpServer) {
         this._httpServer.shutdown();
       }
       
@@ -2318,54 +2758,53 @@ FlashGotService.prototype = {
         dump(eexx.message);
       }
       
-      if(this._globals && this._globals.tmpDir.exists()) {
+      if (this._globals && this._globals.tmpDir.exists()) {
         try {
           this._globals.tmpDir.remove(true);
         } catch(eexx) {
-          this.log("Can't remove "+this._globals.tmpDir.path+", maybe still in use: "+eexx);
+          this.log("Can't remove " + this._globals.tmpDir.path + ", maybe still in use: " + eexx);
         }
       }
-      this._bundle=null;
+      this._bundle = null;
       this.log("Cleanup done");
-      if(this._logFile) try {
-        if(this.logStream) this.logStream.close();
+      if (this._logFile) try {
+        if (this.logStream) this.logStream.close();
         var maxLogSize=Math.max(Math.min(this.getPref('maxLogSize',100000),1000000),50000);
         const logFile=this.logFile;
         const logSize=logFile.fileSize;
-        if(logSize>maxLogSize) { // log rotation
+        if (logSize>maxLogSize) { // log rotation
           dump("Cutting log (size: "+logSize+", max: "+maxLogSize+")");
-          const cc=Components.classes;
-          const ci=Components.interfaces;
-         
+
+
           const logBak=logFile.clone();
           logBak.leafName=logBak.leafName+".bak";
-          if(logBak.exists()) logBak.remove(true);
-          logFile.copyTo(logBak.parent,logBak.leafName);
-          const is=cc['@mozilla.org/network/file-input-stream;1'].createInstance(
-            ci.nsIFileInputStream);
+          if (logBak.exists()) logBak.remove(true);
+          logFile.copyTo(logBak.parent, logBak.leafName);
+          const is=CC['@mozilla.org/network/file-input-stream;1'].createInstance(
+            CI.nsIFileInputStream);
           is.init(logBak,0x01, 0400, null);
-          is.QueryInterface(ci.nsISeekableStream);
-          is.seek(ci.nsISeekableStream.NS_SEEK_END,-maxLogSize);
-          const sis=cc['@mozilla.org/scriptableinputstream;1'].createInstance(
-          ci.nsIScriptableInputStream);
+          is.QueryInterface(CI.nsISeekableStream);
+          is.seek(CI.nsISeekableStream.NS_SEEK_END,-maxLogSize);
+          const sis=CC['@mozilla.org/scriptableinputstream;1'].createInstance(
+          CI.nsIScriptableInputStream);
           sis.init(is);
           var buffer;
           var content="\n";
           var logStart=-1;
-          while(buffer=sis.read(5000)) {
+          while (buffer=sis.read(5000)) {
             content+=buffer;
-            if((logStart=content.indexOf("\n*** Log start at "))>-1) { 
+            if ((logStart=content.indexOf("\n*** Log start at "))>-1) { 
               content=content.substring(logStart);
               break;
             }
             content=buffer;
           }
-          if(logStart>-1) {
-             const os=cc["@mozilla.org/network/file-output-stream;1"].createInstance(
-              ci.nsIFileOutputStream);
+          if (logStart>-1) {
+             const os=CC["@mozilla.org/network/file-output-stream;1"].createInstance(
+              CI.nsIFileOutputStream);
             os.init(logFile,0x02 | 0x08 | 0x20, 0700, 0);
             os.write(content,content.length);
-            while(buffer=sis.read(20000)) {
+            while (buffer=sis.read(20000)) {
               os.write(buffer,buffer.length);
             } 
             os.close();
@@ -2384,14 +2823,11 @@ FlashGotService.prototype = {
   }
 ,
   readFile: function(file) {
-    const cc=Components.classes;
-    const ci=Components.interfaces; 
-    
-    const is = cc["@mozilla.org/network/file-input-stream;1"].createInstance(
-          ci.nsIFileInputStream );
+    const is = CC["@mozilla.org/network/file-input-stream;1"].createInstance(
+          CI.nsIFileInputStream );
     is.init(file ,0x01, 0400, null);
-    const sis = cc["@mozilla.org/scriptableinputstream;1"].createInstance(
-      ci.nsIScriptableInputStream );
+    const sis = CC["@mozilla.org/scriptableinputstream;1"].createInstance(
+      CI.nsIScriptableInputStream );
     sis.init(is);
     const res=sis.read(sis.available());
     is.close();
@@ -2399,19 +2835,17 @@ FlashGotService.prototype = {
   }
 ,
   writeFile: function(file, content, charset) {
-    const cc=Components.classes;
-    const ci=Components.interfaces;
-    const unicodeConverter = cc["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(
-    ci.nsIScriptableUnicodeConverter);
+    const unicodeConverter = CC["@mozilla.org/intl/scriptableunicodeconverter"].createInstance(
+    CI.nsIScriptableUnicodeConverter);
     try {
-      unicodeConverter.charset = charset?charset:"UTF-8";
+      unicodeConverter.charset = charset ? charset : "UTF-8";
     } catch(ex) {
       unicodeConverter.charset = "UTF-8";
     }
     content=unicodeConverter.ConvertFromUnicode(content);
-    const os=cc["@mozilla.org/network/file-output-stream;1"].createInstance(
-      ci.nsIFileOutputStream);
-    os.init(file,0x02,0700,0);
+    const os=CC["@mozilla.org/network/file-output-stream;1"].createInstance(
+      CI.nsIFileOutputStream);
+    os.init(file, 0x02, 0700, 0);
     os.write(content,content.length);
     os.close();
   }
@@ -2424,20 +2858,14 @@ FlashGotService.prototype = {
   }
 ,
   _setupLegacyPrefs: function() {
+    // check and move flashgot.flashgot.dmsopts branch from previous bug
     try {
-      const file=this._globals.profDir.clone();
-      const defFile=file.clone();
-      file.append("pref");
-      file.append("flashgot.js");
-      defFile.append("prefs.js");
-      if(file.exists() && defFile.exists()) {
-        this.prefService.readUserPrefs(file);
-        this.prefService.readUserPrefs(defFile);
-        this.savePrefs();
-        file.remove(true);
+      for each (var key in this.prefs.getChildList("flashgot.dmsopts.", {})) {
+        this.setPref(key.replace(/^flashgot\./, ""), this.getPref(key));
       }
+      this.prefs.deleteBranch("flashgot.dmsopts.");
     } catch(e) {
-      this.log(e.message);
+      dump(e + "\n");
     }
   }
 ,
@@ -2447,6 +2875,344 @@ FlashGotService.prototype = {
 , 
   dirtyJobsDone: false
 }
+
+var RedirectContext = function(links, opType, dm, onfinish) {
+  this.links = links;
+  this.opType = opType;
+  this.dm = dm;
+  this.onfinish = onfinish || function() {};
+  this.processedBy = {};
+  this.redirects = 0;
+  this.maxRedirects = 1;
+};
+
+RedirectContext.prototype = {
+  process: function(links) {
+    if(!links) links = this.links;
+    try {
+      this.start();
+      for (j = links.length; j-- > 0;) {
+        this.processLink(links[j]);
+      }
+    } catch(e) {
+      dump("FlashGot Error: " + e + "\n");
+    } finally {
+      this.done();
+    }
+  },
+  
+  processLink: function(l) {
+    const processors = this.processors;
+    for (var p = 0, plen = processors.length, j; p < plen; p++) {
+      try {
+        processors[p](l, this);
+      } catch(e) {
+        dump("FlashGot Error on " + p + ": " + e);
+      }
+    }
+  },
+  
+  start: function() {
+    this.redirects++;
+  },
+  done: function() {
+    if(this.redirects > this.maxRedirects) this.maxRedirects = this.redirects;
+    if (--this.redirects <= 0) {
+      this.onfinish(this.processedBy);
+    }
+    if(this.redirects >= 0) {
+      this.links.progress.update(
+          40 + 30 * (this.maxRedirects - this.redirects) / this.maxRedirects);
+    }
+  },
+  change: function(l, newURL) {
+    this.processedBy[arguments.callee.caller.name] = true;
+    if(l.href != newURL) {
+      l.href = newURL;
+      this.processLink(l); // recursive processing
+    }
+  },
+  createReq: function() {
+    return CC["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance(CI.nsIXMLHttpRequest);
+  },
+  processors: [
+    function anonym_to(l, context) {
+      var m = l.href.match(/^http:\/\/anonym\.to(?:\/?.*?)?\?.*?(http.*)/);
+      if (m) {
+        context.change(l, m[1]);
+      }
+    },
+    
+    function depositfiles_com(l, context) {
+      if (!/^http:\/\/depositfiles\.com\//.test(l.href)) return;
+      var req = context.createReq();
+      req.open("GET", l.href, true);
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          try {
+            var m;
+            if (req.status == 200 && 
+                (m = req.responseText.match(/var dwnsrc\s*=\s*["']([^"']+)/))
+            ) {
+              context.change(l, m[1]);
+            }
+          } catch(e) {
+          } finally {
+            context.done();
+          }
+        }
+      }
+      context.start();
+      try {
+        req.send("tiny=" + l.href.replace(/.*lix\.in\//, "") + "&submit=continue"); 
+      } catch(e) {
+        context.done();
+      }
+    },
+    
+    function lix_in(l, context) {
+      if (!/^http:\/\/lix\.in\//.test(l.href)) return;
+      var req = context.createReq();
+      req.open("POST", l.href, true);
+      req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          try {
+            var m;
+            if (req.status == 200 && 
+                (m = req.responseText.match(/<iframe[^>]*src\s*=\s*['"]([^"']+).*/))
+            ) {
+              context.change(l, m[1]);
+            }
+          } catch(e) {
+          } finally {
+            context.done();
+          }
+        }
+      }
+      context.start();
+      try {
+        req.send("tiny=" + l.href.replace(/.*lix\.in\//, "") + "&submit=continue"); 
+      } catch(e) {
+        context.done();
+      }
+    },
+
+    function link_protector_com(l, context) {
+      if (!/^http:\/\/link-protector\.com\//.test(l.href)) return;
+      var req = context.createReq();
+      req.open("GET", l.href, true);
+      req.onreadystatechange = function() {
+        switch (req.readyState) {
+          case 1:
+            if (context.links.referrer) 
+              req.setRequestHeader("Referer", context.links.referrer);
+            break;
+          case 4:
+          try {
+            if (req.status != 200) return;
+            
+            var m = req.responseText.match(/yy\[i\]\s*-(\d+)[\S\s]+stream\(['"]([^'"]+)/);
+            if (m) {
+              function decode(t, x) {
+                function stream(prom){var yy=new Array();for(i=0; i*4 <prom.length; i++){yy[i]=prom.substr(i*4,4);}yy.reverse();var xstream=new String;for (var i = 0; i < yy.length; i++){xstream+=String.fromCharCode(yy[i]-x);}return xstream;}
+                return stream(t);
+              }
+              context.change(l, decode(m[2], m[1]).match(/="(https?:[^" ]+)/)[1]); 
+            } else if((m = req.responseText.match(/<a href="(https?:[^" ]+)/))) {
+              context.change(l, m[1]);
+            }
+          } catch(e) {
+          } finally {
+            context.done();
+          }
+          break;
+        }
+        
+      }
+      context.start();
+      try {
+        if (context.links.referrer) 
+          req.setRequestHeader("Referer", context.links.referrer); // should work, but it doesn't... we'll set it on readystate 1
+        req.send(null); 
+      } catch(e) {
+        context.done();
+      }
+    },
+    
+    function stealth_to(l, context) {
+      var doc = context.links.document;
+      if(!doc) return;
+      
+            var rx = /http:\/\/stealth.to\/.*\?id=/;
+      if (!(rx.test(l.href) || 
+          !context.stealth_to_topChecked && doc && rx.test(doc.URL))) 
+        return;
+      
+      var stealth_to = arguments.callee;
+      if(!context.stealth_to_topChecked) {
+         context.stealth_to_topChecked = true;
+         if(doc && rx.test(doc.URL) && 
+            checkList(doc.documentElement.innerHTML)) 
+           return;
+      }
+      var req = context.createReq();
+      var method, encoding;
+      var postData = context.links.postData || l.href.match(/txtCode=.*/) || null;
+      if(postData) {
+        method = "POST";
+        encoding = "application/x-www-form-urlencoded";
+        l.href = l.href.replace(/&txtCode.*/, '');
+        postData = postData.toString();
+      } else {
+        method = "GET";
+        encoding = null;
+      }
+
+      req.open(method, l.href, true);
+      if(encoding) req.setRequestHeader("Content-type", encoding);
+
+      req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+          if (req.status != 200) return;
+          try {
+            checkAll(req.responseText);
+          } catch(e) {
+          } finally {
+            context.done();
+          }
+        }
+      }
+      context.start();
+      try {
+        req.send(postData); 
+      } catch(e) {
+        context.done();
+      }
+      
+      function checkAll(html) {
+        return checkPopup(html) || checkCaptcha(html) || checkList(html);
+      }
+      
+      function checkPopup(html) {
+        if (/\/popup\.php\?id=\d+/.test(l.href)) {
+          var div = doc.createElement("div");
+          div.innerHTML = html; 
+          context.change(l, div.getElementsByTagName("iframe")[0].src);
+          return true;
+        }
+        return false;
+      }
+      
+      function checkCaptcha(html) {
+        if (/<input.*txtCode/.test(html)) { // captcha page
+          var docURL = l.href.replace(/&.*/, '') + "#FlashGot_Form";
+          var ee, j, f;
+          var renew = null;
+          if(docURL == doc.URL) {
+           renew = doc;
+          } else {
+            ee = doc.getElementsByTagName("iframe");
+          
+            for(j = ee.length; j-- > 0;) 
+              if(ee[j].src == docURL) break;
+            
+            if(j >= 0) {
+             f = ee[j];
+             renew = f.contentDocument;
+            } else {
+              ee = doc.getElementsByTagName("a");
+              for(var j = ee.length; j-- > 0;)
+                if(ee[j].href == l.href) break;
+       
+              var a = j < 0 ? doc.body : ee[j];
+              var f = doc.createElement("iframe");
+              f.style.width="100%";
+              f.style.height="300px";
+              f.style.borderStyle = "solid";
+              f.style.borderColor = "orange";
+              f.style.borderWidth = "2px";
+              f.src = docURL;
+              a.appendChild(f);
+            }
+          }
+          
+          if(renew) {
+            // renew captcha
+            ee = renew.getElementsByTagName("img");
+             for(j = ee.length; j-- > 0;) 
+               ee[j].src = ee[j].src + "?" + new Date().getTime();
+          }
+          
+          context.links.splice(context.links.indexOf(l), 1); 
+          return true;
+        }
+        return false;
+      }
+      
+      function checkList(html) {
+        var m = html.match(/\bpopup\.php\?id=\d+(?=["'])/g);
+        if (m) {
+          
+          var nl, args, p;
+          args = [ context.links.indexOf(l), 1 ]; // Array.splice parameters
+          for each (var href in m) {
+            // copy link;
+            nl = {};
+            for(p in l) nl[p] = l[p];
+            nl.href = "http://stealth.to/" + href;  
+            stealth_to(nl, context);
+            args.push(nl); 
+          }
+          Array.prototype.splice.apply(context.links, args); // replace parent link with children
+          if(/#FlashGot_Form$/.test(doc.URL))
+          {
+            // close iframe
+            var ee = doc.defaultView.parent.document.getElementsByTagName("iframe");
+            for(var j = ee.length; j-- > 0;) {
+              if(ee[j].contentDocument == doc) {
+                ee[j].parentNode.removeChild(ee[j]);
+              }
+            }
+          }
+          return true;
+        }
+        return false;
+      }
+    },
+    
+    function tiny_url(l, context) {
+      if (!/^http:\/\/tinyurl\.com\//.test(l.href)) return;
+      
+      var ch = CC["@mozilla.org/network/io-service;1"].getService(CI.nsIIOService
+        ).newChannel(l.href , null, null);
+      if(!(ch instanceof CI.nsIHttpChannel)) return;
+      ch.requestMethod = "HEAD";
+      ch.asyncOpen(context.redirSniffer, { 
+         context: context, 
+         l: l,
+         get wrappedJSObject() { return this; }
+      });
+      context.start();
+    }
+  ],
+  
+  redirSniffer: {
+    onStartRequest: function(req, ctx) {
+      req.cancel(NS_BINDING_ABORTED);
+    },
+    onDataAvailable: function(req, ctx , stream , offset , count ) {},
+    onStopRequest: function(req, ctx) {
+      ctx = ctx.wrappedJSObject;
+      if(req instanceof CI.nsIHttpChannel) {
+        ctx.context.change(ctx.l, req.URI.spec);
+      }
+      ctx.context.done();
+    }
+  }
+  
+};
+
 
 // XPCOM Scaffolding code
 
@@ -2464,11 +3230,11 @@ const SERVICE_FLAGS = 3; // SINGLETON | THREADSAFE
 // interfaces implemented by this component
 const SERVICE_IIDS = 
 [ 
-Components.interfaces.nsISupports,
-Components.interfaces.nsISupportsWeakReference,
-Components.interfaces.nsIClassInfo,
-Components.interfaces.nsIObserver,
-Components.interfaces.nsIURIContentListener
+CI.nsISupports,
+CI.nsISupportsWeakReference,
+CI.nsIClassInfo,
+CI.nsIObserver,
+CI.nsIURIContentListener
 ];
 
 // Factory object
@@ -2501,8 +3267,8 @@ const SERVICE_FACTORY = {
 };
 
 function xpcom_checkInterfaces(iid,iids,ex) {
-  for(var j=iids.length; j-- >0;) {
-    if(iid.equals(iids[j])) return true;
+  for (var j=iids.length; j-- >0;) {
+    if (iid.equals(iids[j])) return true;
   }
   throw ex;
 }
@@ -2512,11 +3278,11 @@ function xpcom_checkInterfaces(iid,iids,ex) {
 var Module = new Object();
 Module.firstTime=true;
 Module.registerSelf = function (compMgr, fileSpec, location, type) {
-  if(this.firstTime) {
+  if (this.firstTime) {
    
     debug("*** Registering "+SERVICE_CTRID+".\n");
     
-    compMgr.QueryInterface(Components.interfaces.nsIComponentRegistrar
+    compMgr.QueryInterface(CI.nsIComponentRegistrar
       ).registerFactoryLocation(SERVICE_CID,
       SERVICE_NAME,
       SERVICE_CTRID, 
@@ -2524,8 +3290,8 @@ Module.registerSelf = function (compMgr, fileSpec, location, type) {
       location, 
       type);
       
-    Components.classes['@mozilla.org/categorymanager;1'].getService(
-      Components.interfaces.nsICategoryManager
+    CC['@mozilla.org/categorymanager;1'].getService(
+      CI.nsICategoryManager
      ).addCategoryEntry("app-startup",
         SERVICE_NAME, "service," + SERVICE_CTRID, true, true, null);
       
@@ -2533,18 +3299,18 @@ Module.registerSelf = function (compMgr, fileSpec, location, type) {
   } 
 }
 Module.unregisterSelf = function(compMgr, fileSpec, location) {
-  compMgr.QueryInterface(Components.interfaces.nsIComponentRegistrar
+  compMgr.QueryInterface(CI.nsIComponentRegistrar
     ).unregisterFactoryLocation(SERVICE_CID, fileSpec);
-  Components.classes['@mozilla.org/categorymanager;1'].getService(
-      Components.interfaces.nsICategoryManager
+  CC['@mozilla.org/categorymanager;1'].getService(
+      CI.nsICategoryManager
      ).deleteCategoryEntry("app-startup",SERVICE_NAME, true);
 }
 
 Module.getClassObject = function (compMgr, cid, iid) {
-  if(cid.equals(SERVICE_CID))
+  if (cid.equals(SERVICE_CID))
     return SERVICE_FACTORY;
 
-  if (!iid.equals(Components.interfaces.nsIFactory))
+  if (!iid.equals(CI.nsIFactory))
     throw Components.results.NS_ERROR_NOT_IMPLEMENTED;
   
   throw Components.results.NS_ERROR_NO_INTERFACE;

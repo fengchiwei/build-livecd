@@ -1,0 +1,65 @@
+#gspaceToolbarBtn {}
+   #gspaceToolbarBtn, #gspaceToolbarBtn[conn="on"] { 
+    list-style-image: url("chrome://gspace/skin/bicon_big_on.png");
+   }
+   #gspaceToolbarBtn[conn="off"] { 
+    list-style-image: url("chrome://gspace/skin/bicon_big_off.png");
+   }
+toolbar {}
+   toolbar[iconsize="small"] #gspaceToolbarBtn, toolbar[iconsize="small"] #gspaceToolbarBtn[conn="on"] {
+    list-style-image: url("chrome://gspace/skin/bicon_small_on.png");
+   }
+   toolbar[iconsize="small"] #gspaceToolbarBtn[conn="off"] {
+    list-style-image: url("chrome://gspace/skin/bicon_small_off.png");
+   }
+
+#gspace-statusicon {}
+   #gspace-statusicon {
+    width: 25px;
+    height: 20px;
+   }
+   #gspace-statusicon, #gspace-statusicon[conn="off"] {
+    list-style-image: url("chrome://gspace/skin/sicon_off.png");
+   }
+   #gspace-statusicon[conn="on"] {
+    list-style-image: url("chrome://gspace/skin/sicon_on.png");
+   }
+
+#gspace_login {}
+   #gspace_login, #gspace_login[conn="off"] {
+   }
+   #gspace_login[conn="on"] {
+    display: none;
+   }
+
+#gspace_logout {}
+   #gspace_logout, #gspace_logout[conn="on"] {
+   }
+   #gspace_logout[conn="off"] {
+    display: none;
+   }
+
+.gsremotetree::-moz-tree-row(readonly) {
+ background-color: #F1F1F1;
+}
+
+treechildren::-moz-tree-cell(readonly, selected) { 
+ background-color: black; 
+}
+
+.actiontree::-moz-tree-progressmeter {
+ color:#00E900;
+ background-color: White;
+}
+
+.overlayactiontree {
+ background-color:#EBE9ED;
+}
+
+.overlayactiontree::-moz-tree-row {
+ background-color:#EBE9ED;
+}
+
+.overlayactiontree::-moz-tree-cell {
+ background-color:#EBE9ED;
+}
