@@ -89,8 +89,10 @@ if ($cmdline =~ m/opt=no(\s|$)/i) {
 system 'laptop-detect -v &> /tmp/laptop';
 if (! `grep not /tmp/laptop`) {
 !system("perl -pi -e 's!numlockx on!numlockx off!g' /etc/X11/xinit/xinitrc") or warn "$!\n";
-!system("perl -pi -e 's/.*battmon.*//' /etc/skel/.config/xfce4/panel/panels.xml") or warn "$!\n";
-} 
+} else {
+!system("rm -f /etc/rc2.d/S99laptop-mode") or warn "$!\n";
+!system("perl -pi -e 's/.*battmon.*//' /home/ubuntu/.config/xfce4/panel/panels.xml") or warn "$!\n";
+}
 
 # for toram
 if(`grep toram /proc/cmdline`) {
