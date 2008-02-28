@@ -19,6 +19,10 @@ esac
 . /usr/share/initramfs-tools/hook-functions
 
 manual_add_modules unionfs
+manual_add_modules loop
+manual_add_modules sqlzma
+manual_add_modules unlzma
+manual_add_modules aufs
 
 # We need losetup
 copy_exec /sbin/losetup /sbin
@@ -32,7 +36,6 @@ mkdir -p ${DESTDIR}/lib/udev
 copy_exec /lib/udev/cdrom_id /lib/udev
 copy_exec /lib/udev/vol_id /lib/udev
 copy_exec /lib/udev/path_id /lib/udev
-copy_exec /usr/bin/udevinfo /bin
 copy_exec /usr/bin/eject /bin
 
 # cifs boot
@@ -46,10 +49,7 @@ fi
 # squashfs
 manual_add_modules squashfs
 manual_add_modules loop
-manual_add_modules sqlzma
-manual_add_modules unlzma
 
-manual_add_modules aufs
 # random file system modules
 manual_add_modules vfat
 manual_add_modules ext3
