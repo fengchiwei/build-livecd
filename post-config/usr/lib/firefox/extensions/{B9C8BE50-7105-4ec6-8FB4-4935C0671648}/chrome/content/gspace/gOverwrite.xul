@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://gspace/locale/gspace.dtd">
+
+<dialog id="donothing" 
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        buttons="cancel,accept"
+        ondialogaccept="return doOK();"
+        ondialogcancel="return doCancel();"
+        onload="sizeToContent();LoadData();"
+        title="&gs.overwrite.options;">
+
+	<script type="application/x-javascript">
+	<![CDATA[
+		var gs_gFileOpPref, how, owOption;
+		function LoadData()
+		{	
+			gs_gFileOpPref = window.arguments[0];
+			var fileName = window.arguments[1];
+			how = window.arguments[2];
+			
+			var fileStr = window.arguments[3];
+			var alreadyStr = window.arguments[4];
+			
+			if (how == "copy")
+				owOption = "copyOverwriteOption";
+			else	
+				owOption = "overwriteOption";
+				
+			
+			document.getElementById("gspace_overwriteFileName").value = fileStr + " " + fileName + " " + alreadyStr;
+			window.sizeToContent();
+			if (gs_gFileOpPref[owOption] == gs_gFileOpPref.CANCEL)
+				gs_gFileOpPref[owOption] = gs_gFileOpPref.OVERWRITE_SAVE;
+			for (var i = 0; i < document.getElementById("gspace_overwriteOption").childNodes.length; i++)
+			{
+				if (gs_gFileOpPref[owOption] == gs_gFileOpPref[document.getElementById("gspace_overwriteOption").childNodes[i].value])
+				{
+					document.getElementById("gspace_overwriteOption").selectedIndex = i;
+					break;
+				}
+			}	
+		}
+
+		function doOK()
+		{
+			gs_gFileOpPref[owOption] = gs_gFileOpPref[document.getElementById("gspace_overwriteOption").selectedItem.value];
+			return true;
+		}
+
+		function doCancel()
+		{
+			gs_gFileOpPref[owOption] = gs_gFileOpPref.CANCEL;
+			return true;
+		}
+	]]>	
+	</script>
+	
+	<label id="gspace_overwriteFileName" style="font-weight:bold" flex="1"/>
+	<groupbox>
+		<vbox  align="left">
+			<radiogroup id="gspace_overwriteOption">
+				<radio id="gspace_overwrite" value="OVERWRITE_DELETE" label="&gs.overwrite.del;"/>
+				<radio id="gspace_overwrite_all" value="OVERWRITE_DELETE_ALL" label="&gs.overwrite.all;"/>
+				<radio id="gspace_overwrite_save" value="OVERWRITE_SAVE" label="&gs.overwrite.save;"/>
+				<radio id="gspace_overwrite_save_all" value="OVERWRITE_SAVE_ALL" label="&gs.overwrite.saveall;"/>
+				<radio id="gspace_skip" value="SKIP" label="&gs.skip;"/>
+				<radio id="gspace_skip_all" value="SKIP_ALL" label="&gs.skipall;"/>
+			</radiogroup>			
+		</vbox>
+	</groupbox>
+
+</dialog>

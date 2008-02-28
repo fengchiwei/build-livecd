@@ -1,7 +1,7 @@
 const APP_DISPLAY_NAME = "FlashGot";
 const APP_NAME = "flashgot";
 const APP_PACKAGE = "/informaction/flashgot";
-const APP_VERSION = "0.6.4";
+const APP_VERSION = "0.8.1";
 
 const APP_PREFS_FILE="defaults/preferences/flashgot.js";
 const APP_XPCOM_SERVICE="components/flashgotService.js";
@@ -18,7 +18,9 @@ const APP_LOCALES = [
   "nb-NO","ro-RO","sk-SK",
   "fa-IR","sl-SI","ar-JO",
   "bg-BG","da-DK","pt-BR",
-  "pt-PT","sq-AL","en-US"
+  "pt-PT","sq-AL",
+  "am-HY","ar","ar-SA","hi-IN","km-KH","mn-MN","vi-VN",
+  "en-US" 
   ];
 
 const APP_SUCCESS_MESSAGE = APP_DISPLAY_NAME+" should now be available on the context menu when you restart Mozilla.";

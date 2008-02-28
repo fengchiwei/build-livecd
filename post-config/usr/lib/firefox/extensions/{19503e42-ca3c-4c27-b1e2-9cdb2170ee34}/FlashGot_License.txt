@@ -1,5 +1,5 @@
 FlashGot - a Firefox extension for external download managers integration
-Copyright (C) 2004-2007 Giorgio Maone - g.maone@informaction.com
+Copyright (C) 2004-2008 Giorgio Maone - g.maone@informaction.com
 
 This program is released under a *modified* version of the
 GPL General Public License (see ***Exceptions to GPL*** below). 
