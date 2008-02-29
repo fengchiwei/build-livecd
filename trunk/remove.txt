@@ -681,3 +681,4 @@
 /usr/share/vim/im71/spell/en.latin1.sug
 /usr/share/vim/im71/spell/he.vim
 /usr/share/vim/im71/spell/yi.vim
+/var/lib/gconf/defaults/
