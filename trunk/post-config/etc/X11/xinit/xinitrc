@@ -14,7 +14,7 @@ export GTK_IM_MODULE=scim
 scim -d
 #export QT_IM_MODULE=scim
 
-ivman-launch &
+#ivman-launch &
 numlockx on &
 exec ion3
 

@@ -65,11 +65,19 @@ sub apt_install {
 	&do_chroot("apt-get install --yes --force-yes $list");
 	&do_chroot('apt-get install --yes --force-yes localepurge');
 
-	&do_chroot('dpkg -i /deb/*.deb');
-	&do_chroot('apt-get install -f');
-	&do_chroot('rm -rf /deb');
-	&do_chroot('rm -f /preseed.cfg');
-	&do_chroot('apt-get remove --purge aptitude ubuntu-minimal seamonkey-browser -y');
+        open(DEB, 'ls config/deb |') or warn "$!\n";
+        my $debfiles;
+        for (<DEB>) {
+                chomp;
+                $debfiles .= " /deb/$_";
+        }
+        close(DEB);
+
+        &do_chroot("dpkg -i $debfiles");
+        &do_chroot('apt-get install -f');
+        &do_chroot('rm -rf /deb');
+        &do_chroot('rm -f /preseed.cfg');
+        &do_chroot('apt-get remove --purge aptitude ubuntu-minimal seamonkey-browser -y');
 } 
  
 sub pud_lize {
@@ -87,11 +95,12 @@ sub pud_lize {
 	&do_chroot('ln -fs /usr/lib/libesd.so.0 /usr/lib/libesd.so.1');
 	&do_chroot('ln -fs /etc/fonts/conf.d/umingpatch.conf /etc/fonts/conf.d/20-umingpatch.conf');
 	&do_chroot('mv /etc/rc2.d/S99rc.local /etc/rc2.d/S94rc.local');
+	&do_chroot('mv /etc/rc2.d/30gdm /etc/rc2.d/99gdm');
 	&do_chroot('ln -s ../init.d/auto_mount /etc/rc2.d/S95auto_mount');
 	&do_chroot('ln -s ../init.d/load-opt /etc/rc2.d/S96load-opt');
 	&do_chroot('ln -s ../init.d/pudata /etc/rc2.d/S97pudata');
 	&do_chroot('ln -s ../init.d/pudding /etc/rc2.d/S98pudding');
-	&do_chroot('ln -s ../init.d/startx /etc/rc2.d/S99startx');
+#	&do_chroot('ln -s ../init.d/startx /etc/rc2.d/S99startx');
 	&do_chroot('ln -s ../init.d/pudata /etc/rc0.d/K02pudata');
 	&do_chroot('ln -s ../init.d/pudata /etc/rc6.d/K02pudata');
 	&do_chroot('rm -f /etc/rc2.d/S01lokkit /etc/rc2.d/S14ppp /etc/rc6.d/K99lokkit /etc/rc0.d/K99lokkit /etc/rc6.d/K86ppp /etc/rc0.d/K86ppp');

@@ -9,7 +9,7 @@ export LANGUAGE=en_US.UTF8
 export LANG=en_US.UTF8
 export LC_ALL=en_US.UTF8
 
-ivman-launch &
+#ivman-launch &
 
 numlockx on &
 exec startxfce4

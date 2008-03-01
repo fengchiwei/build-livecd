@@ -660,14 +660,17 @@
 /usr/share/initramfs-tools/scripts/casper-bottom/34disable_kwallet
 /usr/share/initramfs-tools/scripts/casper-bottom/35fix_language_selecto
 /usr/share/initramfs-tools/scripts/casper-bottom/41apt_cdrom
-/usr/share/initramfs-tools/scripts/casper-bottom/15autologin
 /usr/share/initramfs-tools/scripts/casper-bottom/22gnome_panel_data
 /usr/share/initramfs-tools/scripts/casper-bottom/22screensaver
 /usr/share/initramfs-tools/scripts/casper-bottom/30accessibility
 /usr/share/initramfs-tools/scripts/casper-bottom/31disable_update_notifier
 /usr/share/initramfs-tools/scripts/casper-bottom/32disable_hibernation
 # misc
-/usr/share/gdm
+/usr/share/gdm/themes/happygnome-list
+/usr/share/gdm/themes/happygnome
+/usr/share/gdm/themes/circles
+/usr/share/gdm/themes/HumanCircle
+/usr/share/gdm/themes/HumanList
 /usr/share/backgrounds
 /etc/rc2.d/S16ssh
 /usr/share/gtk-doc
