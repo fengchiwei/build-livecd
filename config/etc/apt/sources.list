@@ -23,3 +23,4 @@ deb http://archive.ubuntu.com/ubuntu/ hardy-proposed universe main # multiverse 
 deb http://archive.ubuntu.com/ubuntu/ gutsy main
 deb http://archive.ubuntu.com/ubuntu/ gutsy-security main
 deb http://archive.ubuntu.com/ubuntu/ feisty universe main
+deb http://unicap-imaging.org/packages gutsy main contrib

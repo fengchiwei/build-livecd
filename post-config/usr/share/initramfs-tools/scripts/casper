@@ -228,7 +228,7 @@ copy_live_to() {
     echo "mount -t ${fstype} ${mount_options} ${dev} ${copyto}"
     mount -t "${fstype}" ${mount_options} "${dev}" "${copyto}"
     # add by penk
-    for target in autorun.inf boot boot.catalog casper info initrd.gz logo.ico misc opt vmlinuz; do
+    for target in casper info initrd.gz misc opt vmlinuz .disk; do
         cp -a ${copyfrom}/${target} ${copyto} # "cp -a" from busybox also copies hidden files
     done
     umount ${copyfrom}

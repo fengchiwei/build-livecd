@@ -6,7 +6,6 @@ casper linux-image-generic
 xserver-xorg xserver-xorg-core xfonts-base 
 #xfonts-100dpi readahead 
 discover1 hwdata xresprobe mdetect 
-#xdebconfigurator
 
 # window manager
 ############################### ion3 ##################################################
@@ -18,6 +17,7 @@ xfce4-mcs-plugins
 #xfwm4-themes
 xfce4-mixer-alsa xfce4-mixer 
 #xfburn
+gdm
 
 # basic system
 x-ttcidfont-conf 
@@ -32,7 +32,7 @@ debconf-utils
 network-manager-gnome gnome-system-tools
 gwget gnome-mount gnome-ppp
 ubiquity popularity-contest
-gnomebaker
+############### gnomebaker
 gparted
 vlc mozilla-plugin-vlc
 exaile
@@ -73,8 +73,13 @@ bluez-utils bluetooth bluez-pcmcia-support
 bluetooth-alsa
 
 ##### test
-#brasero 
-gtkam streamtuner grsync gqcam 
+brasero
+#xdebconfigurator
+gnome-icon-theme
+ucview
+#gtkam 
+streamtuner grsync 
+#gqcam 
 #gnome-osd 
 hotkeys 
  
@@ -82,7 +87,8 @@ hotkeys
 avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
 
 # tool 
-xfce4-battery-plugin gpaint cheese quodlibet 
+xfce4-battery-plugin gpaint 
+# cheese quodlibet 
 #python-gnome2-extras
 
 acpi-support acpitool laptop-mode-tools
@@ -140,7 +146,8 @@ beep
 usplash usplash-theme-ubuntu gtk2-engines-ubuntulooks ubuntu-artwork 
 
 # automount
-ivman dbus hal 
+#ivman 
+dbus hal thunar-volman
 
 # misc.
 libcrypt-ssleay-perl libwww-mechanize-perl libgtk2-perl libgtk2-gladexml-perl 
