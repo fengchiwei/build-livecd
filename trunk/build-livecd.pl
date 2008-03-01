@@ -49,7 +49,7 @@ if ($opts{'h'}) {
 	# auto build: process all 
 	&init;
 	#&{$act{$_}} for @action;
-	!system("perl make.pl 2>&1 | tee -a $VAR{'TARGET_DIR'}/build.log") or warn "$!\n";
+	!system("perl make.pl 2>&1 | tee -a $VAR{'TARGET_DIR'}/$VAR{'TIME'}.log") or warn "$!\n";
 }
 
 sub usage {
@@ -58,7 +58,7 @@ print 	"Usage: perl build-livecd.pl [OPTION] <command>\n".
 	"\nOptions:\n".
 	"perl build-livecd.pl  \t\t\tautomatically build\n".
 	"perl build-livecd.pl  -c <command>\tstart from the specified command to the end\n".
-	"\t\t\t\t\tvalid commands are:\n\t\t\t\t\tinit, bootstrap, base_config, apt_update,\n".
+	"\t\t\t\t\tvalid commands are:\n\t\t\t\t\tbootstrap, base_config, apt_update,\n".
 	"\t\t\t\t\tapt_install, pud_lize, apt_clean, make_squashfs, make_iso, test_iso\n".
 	"perl build-livecd.pl -c <command> -p\tprocess the specified command\n".
 	"perl build-livecd.pl -d <target_dir>\tspecify target dir\n";
