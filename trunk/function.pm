@@ -185,6 +185,8 @@ sub make_iso {
 
 sub test_iso {
 	chdir "../";
+	chomp(my $pwd = `pwd`);
+	print "Image file: $pwd/$VAR{'TIME'}.iso is created successfully\n";
 	&system_call("md5sum $VAR{'TIME'}.iso > $VAR{'TIME'}.iso.md5");
 	# &system_call("qemu -cdrom $VAR{'TARGET_DIR'}.iso &");
 }
