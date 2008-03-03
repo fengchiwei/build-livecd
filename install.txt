@@ -53,7 +53,7 @@ mozilla-firefox-locale-zh-tw=2.0.0.7+1-0ubuntu2
 mozilla-firefox-locale-zh-cn=2.0.0.7+1-0ubuntu2
 gftp-gtk
 #pcmanfm
-thunar xarchive
+thunar xarchive thunar-thumbnailers
 epdfview
 xchm
 ndisgtk 
