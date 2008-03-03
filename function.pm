@@ -95,7 +95,7 @@ sub pud_lize {
 	&do_chroot('ln -fs /usr/lib/libesd.so.0 /usr/lib/libesd.so.1');
 	&do_chroot('ln -fs /etc/fonts/conf.d/umingpatch.conf /etc/fonts/conf.d/20-umingpatch.conf');
 	&do_chroot('mv /etc/rc2.d/S99rc.local /etc/rc2.d/S94rc.local');
-	&do_chroot('mv /etc/rc2.d/30gdm /etc/rc2.d/99gdm');
+	&do_chroot('mv /etc/rc2.d/S30gdm /etc/rc2.d/S99gdm');
 	&do_chroot('ln -s ../init.d/auto_mount /etc/rc2.d/S95auto_mount');
 	&do_chroot('ln -s ../init.d/load-opt /etc/rc2.d/S96load-opt');
 	&do_chroot('ln -s ../init.d/pudata /etc/rc2.d/S97pudata');
