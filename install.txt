@@ -44,7 +44,8 @@ pppoeconf
 gaim 
 #gaim-encryption gaim-guifications
 amule amule-utils
-beep-media-player
+#beep-media-player
+audacious audacious-plugins-extra 
 #bmp-alarm
 #mozilla-plugin-pcmanx 
 pcmanx-gtk2 
