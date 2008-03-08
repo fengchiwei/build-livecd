@@ -170,16 +170,20 @@ sub apt_clean {
 	&do_chroot('rm -f /var/lib/dpkg/*-old');
 	&do_chroot('rm -f /var/cache/debconf/*-old');
 
-	# solve umount /proc problem ...
-	&do_chroot('/etc/init.d/acpid stop');
-	&do_chroot('umount /proc');
-	&system_call('/etc/init.d/acpid start');
+        # solve umount /proc problem ...
+        &do_chroot('/etc/init.d/acpid stop');
+        &do_chroot('umount /proc');
+        # restart acpid if host acpid is installed
+        if (-e "/etc/init.d/acpid") {
+        	&system_call('/etc/init.d/acpid start');
+        }
+
 	print "OK.\n";
 }  
 
 sub make_squashfs {
 	# compress
-	&system_call("./post-config/usr/bin/mksquashfs $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -ef $VAR{'SYSTEM'}/proc -b 256K");
+	&system_call("./post-config/usr/bin/mksquashfs $VAR{'SYSTEM'} $VAR{'CASPER'}/filesystem.squashfs -b 256K");
 }
 
 sub make_iso {
