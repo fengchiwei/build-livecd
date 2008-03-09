@@ -79,7 +79,8 @@ fi
 if $DIALOG --yesno "$MESSAGE2" 8 45
 then
 echo -n "$MESSAGE3 $DV"
-pump -i $DV
+#pump -i $DV
+dhclient
 rc="$?"
 if [ "$rc" != "0" ]
 then
