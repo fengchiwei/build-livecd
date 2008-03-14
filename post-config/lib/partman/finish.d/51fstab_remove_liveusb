@@ -1,0 +1,7 @@
+#!/bin/sh
+
+[ -f /target/etc/fstab ] || exit 0
+
+sed -i 's/^\/dev\/sd[a-z][0-9].*cdrom[0-9]/#&/g' /target/etc/fstab
+
+logger -t partman-target "Remove live-usb enrty."
