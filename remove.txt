@@ -457,7 +457,6 @@
 /usr/share/i18n/locales/sr_RS
 /usr/share/i18n/locales/sr_RS@latin
 /usr/share/i18n/locales/zu_ZA
-/usr/share/i18n/locales/en_GB
 /usr/share/i18n/locales/tt_RU@iqtelif
 # theme
 /usr/share/themes/Adept
