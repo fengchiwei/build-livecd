@@ -88,7 +88,7 @@ hotkeys
 avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
 
 # tool 
-xfce4-battery-plugin gpaint 
+xfce4-battery-plugin=0.5.0-1ubuntu1 gpaint 
 # cheese quodlibet 
 #python-gnome2-extras
 
