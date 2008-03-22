@@ -195,9 +195,15 @@ fi
 # added by penk
 
 perl -pi -e "s/ ubuntu / $USER /g" $ROOT/etc/event.d/tty*
+
+perl -pi -e "s!/usr/local/bin/mount-disk!#/usr/local/bin/mount-disk!g" $ROOT/etc/initng/system/bootmisc.i
+perl -pi -e "s!/etc/rc\.local!#/etc/rc\.local!g" $ROOT/etc/initng/system/bootmisc.i
+
 rm -f $ROOT/etc/rc2.d/{S95auto_mount,S96load-opt,S97pudata}
 rm -f $ROOT/etc/rc6.d/K02pudata
 rm -f $ROOT/etc/rc.local
+rm -f $ROOT/var/lib/PolicyKit/user-ubuntu.auths
+rm -f $ROOT/usr/sbin/policy-rc.d
 
 # for xinitrc
 cp -f /home/ubuntu/.xsession $ROOT/home/$USER
