@@ -195,7 +195,7 @@ fi
 # added by penk
 
 perl -pi -e "s/ ubuntu / $USER /g" $ROOT/etc/event.d/tty*
-
+perl -pi -e "s/sudo//g" /etc/xdg/autostart/nm-applet.desktop
 perl -pi -e "s!/usr/local/bin/mount-disk!#/usr/local/bin/mount-disk!g" $ROOT/etc/initng/system/bootmisc.i
 perl -pi -e "s!/etc/rc\.local!#/etc/rc\.local!g" $ROOT/etc/initng/system/bootmisc.i
 
