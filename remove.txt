@@ -657,13 +657,19 @@
 /usr/share/initramfs-tools/scripts/casper-bottom/25configure_init
 /usr/share/initramfs-tools/scripts/casper-bottom/33enable_apport_crashe
 /usr/share/initramfs-tools/scripts/casper-bottom/34disable_kwallet
-/usr/share/initramfs-tools/scripts/casper-bottom/35fix_language_selecto
+/usr/share/initramfs-tools/scripts/casper-bottom/35fix_language_selector
 /usr/share/initramfs-tools/scripts/casper-bottom/41apt_cdrom
 /usr/share/initramfs-tools/scripts/casper-bottom/22gnome_panel_data
 /usr/share/initramfs-tools/scripts/casper-bottom/22screensaver
 /usr/share/initramfs-tools/scripts/casper-bottom/30accessibility
 /usr/share/initramfs-tools/scripts/casper-bottom/31disable_update_notifier
 /usr/share/initramfs-tools/scripts/casper-bottom/32disable_hibernation
+/usr/share/initramfs-tools/scripts/casper-bottom/36disable_trackerd
+/usr/share/initramfs-tools/scripts/casper-bottom/38disable_restricted_manager
+/usr/share/initramfs-tools/scripts/casper-bottom/40install_driver_updates
+/usr/share/initramfs-tools/scripts/casper-bottom/41apt_cdrom
+/usr/share/initramfs-tools/scripts/casper-bottom/42disable_apparmor
+/usr/share/initramfs-tools/scripts/casper-bottom/43disable_updateinitramfs
 # misc
 /usr/share/gdm/themes/happygnome-list
 /usr/share/gdm/themes/happygnome
