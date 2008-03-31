@@ -14,7 +14,7 @@ gfxmenu (cd)/boot/grub/message
 
 title  Home Edition (English)
 root (cd)
-kernel /vmlinuz root=/ boot=casper showmounts wm=en
+kernel /vmlinuz root=/ boot=casper showmounts wm=en 
 #splash quiet 
 initrd /initrd.gz
 

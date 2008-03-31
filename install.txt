@@ -2,10 +2,10 @@
 # PUD GNU/Linux package list for build script
 
 # main component
-casper linux-image-generic 
+casper linux-image-generic
 xserver-xorg xserver-xorg-core xfonts-base 
 #xfonts-100dpi readahead 
-discover1 hwdata xresprobe mdetect 
+discover1 hwdata xresprobe mdetect xdebconfigurator
 
 # window manager
 ############################### ion3 ##################################################
@@ -18,6 +18,7 @@ xfce4-mcs-plugins
 xfce4-mixer-alsa xfce4-mixer 
 #xfburn
 gdm
+mingetty
 
 # basic system
 x-ttcidfont-conf 
@@ -27,35 +28,47 @@ scim scim-chewing scim-pinyin scim-tables-zh
 ttf-arphic-uming=0.1.20060928-2.1ubuntu1
 ttf-sazanami-mincho
 debconf-utils
+prelink
+## pulseaudio pulseaudio-module-x11 paman pavucontrol pulseaudio-esound-compat pulseaudio-utils
+
+
+#### GNOME
+#network-manager-gnome gnome-system-tools
+#gwget gnome-mount gnome-ppp
+#brasero
+gnome-icon-theme streamtuner 
+#grsync
+#gparted
 
 # application
-network-manager-gnome gnome-system-tools
-gwget gnome-mount gnome-ppp
+openoffice.org-writer openoffice.org-impress openoffice.org-calc openoffice.org-l10n-zh-tw
+
+cupsys cupsys-client cupsys-bsd cups-pdf
+hal-cups-utils=0.6.13+svn83-0ubuntu1
+system-config-printer=0.7.75+svn1653-0ubuntu2
+network-manager-gnome
 ubiquity popularity-contest
 ############### gnomebaker
-gparted
 vlc mozilla-plugin-vlc
-exaile
+exaile=0.2.10+debian-1.1ubuntu2 python-cddb gstreamer0.10-fluendo-mp3 
+#audacious audacious-plugins-extra
+
 #gxineplugin gxine
 vim vim-perl 
 #cream
 leafpad
 pppoeconf 
-gaim 
-#gaim-encryption gaim-guifications
+pidgin
 amule amule-utils
-#beep-media-player
-audacious audacious-plugins-extra 
-#bmp-alarm
-#mozilla-plugin-pcmanx 
+
 pcmanx-gtk2 
-firefox=2.0.0.12+2nobinonly+2-0ubuntu0.7.10
+firefox=2.0.0.13+1nobinonly-0ubuntu0.7.10
 mozilla-firefox-locale-zh-tw=2.0.0.7+1-0ubuntu2 
 mozilla-firefox-locale-zh-cn=2.0.0.7+1-0ubuntu2
 gftp-gtk
 #pcmanfm
 thunar xarchive thunar-thumbnailers
-epdfview
+epdfview 
 xchm
 ndisgtk 
 #wifi-radar
@@ -70,35 +83,33 @@ xfce4-terminal
 #xlockmore
 
 # bluetooth
-bluez-utils bluetooth bluez-pcmcia-support
-bluetooth-alsa
+bluez-utils bluetooth bluez-pcmcia-support blueman bluetooth-alsa
 
 ##### test
-brasero
 #xdebconfigurator
-gnome-icon-theme
 ucview
 #gtkam 
-streamtuner grsync 
 #gqcam 
 #gnome-osd 
-hotkeys 
+#hotkeys 
+xbindkeys
  
 # avahi
 avahi-discover avahi-utils avahi-dnsconfd avahi-daemon avahi-autoipd
 
 # tool 
-xfce4-battery-plugin=0.5.0-1ubuntu1 gpaint 
+xfce4-xkb-plugin
+xfce4-battery-plugin=0.5.0-1ubuntu1 
+#gpaint 
 # cheese quodlibet 
 #python-gnome2-extras
 
-acpi-support acpitool laptop-mode-tools
+acpi acpi-support acpitool laptop-mode-tools
 isomaster
 mbr
 hibernate pm-utils uswsusp
 tightvncserver xtightvncviewer openssh-server
 displayconfig-gtk
-network-manager
 squashfs-tools mkisofs grub debootstrap syslinux mtools
 #qemu
 subversion 
@@ -108,9 +119,10 @@ openssh-client
 lshw
 wget 
 #curl 
-#fdclock 
+fdclock 
 #xzgv 
-gqview
+#gqview
+gpicview
 comix
 scrot 
 numlockx
@@ -137,10 +149,10 @@ telnet
 dosfstools jfsutils xfsprogs ntfsprogs
 #wipe
 gpart ddrescue wipe parted testdisk
+foremost
 alsa-oss
 #nfs-kernel-server 
 nfs-common portmap 
-acpi
 beep
 
 # artwork

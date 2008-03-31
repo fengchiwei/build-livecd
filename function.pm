@@ -111,6 +111,8 @@ sub pud_lize {
 	&do_chroot('update-alternatives --set x-cursor-theme /usr/share/themes/Human/cursor.theme');
 	&do_chroot('ln -s /sbin/s2ram /usr/sbin/s2ram');
 	&do_chroot('ln -s /sbin/s2disk /usr/sbin/s2disk');
+	&do_chroot('wget http://www.medibuntu.org/sources.list.d/gutsy.list -O /etc/apt/sources.list.d/medibuntu.list');
+	&do_chroot('wget -q http://packages.medibuntu.org/medibuntu-key.gpg -O- | apt-key add -');
 	#&do_chroot('ln -s /usr/share/themes/Human/cursor.theme /etc/alternatives/x-cursor-theme');
 	print "OK.\n";
 
