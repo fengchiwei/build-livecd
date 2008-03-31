@@ -1,0 +1,9 @@
+[Entry 0]
+Name=Terminal (xfce4-terminal)
+Name[zh_TW]=終端機 (xfce4-terminal)
+Name[zh_CN]=终端机 (xfce4-terminal)
+Exec=xfce4-terminal
+Terminal=false
+StartupNotify=false
+Icon=/usr/share/pixmaps/gksu-root-terminal.png
+

@@ -1,0 +1,99 @@
+<!ENTITY gs.removefromq.label "Sıradan Çıkar">
+<!ENTITY gs.upload.label "Yükle">
+<!ENTITY gs.createdirectory.label "Klasör Oluştur">
+<!ENTITY gs.delete.label "Sil">
+<!ENTITY gs.download.label "İndir">
+<!ENTITY gs.gid.label "gmail id:">
+<!ENTITY gs.gpwd.label "gmail şifre:">
+<!ENTITY gs.glogin.label "Giriş">
+<!ENTITY gs.glogout.label "Çıkış">
+<!ENTITY gs.gbrowse.label "Gözat">
+<!ENTITY gs.refreshfolder.tip "Klasörü Yenile">
+<!ENTITY gs.updirectory.tip "Üst Dizin">
+<!ENTITY gs.filesless.tip "20 MB&apos;tan küçük dosyaları göster.">
+<!ENTITY gs.clear.tip "Temizle">
+<!ENTITY gs.gstatus.label "DurumuÇ">
+<!ENTITY gs.usedspace.label "Kullanılan Gmail Alanı:">
+<!ENTITY gs.totalspace.label "Toplam Gmail Alanı:">
+<!ENTITY gs.treefilename.label "Dosya Adı:">
+<!ENTITY gs.treefilesize.label "Dosya Boyutu">
+<!ENTITY gs.treemodifiedtime.label "Değiştirilme Zamanı">
+<!ENTITY gs.treeuploadtime.label "Yükleme Zamanı">
+<!ENTITY gs.treetype.label "Türü">
+<!ENTITY gs.treefrom.label "Gönderen">
+<!ENTITY gs.treeto.label "Alıcı">
+<!ENTITY gs.treeprogress.label "İşlem">
+<!ENTITY gs.treestatus.label "Durum">
+<!ENTITY gs.gegid.label "(ör. kullanici@gmail.com, kullanici@googlemail.com)">
+<!ENTITY gs.gid.tip "googlemail.com kullanıcıları @googlemail.com&apos;u kullanmalıdırlar. (ör. kullanici@googlemail.com)">
+<!ENTITY gs.gremember.label "Hatırla">
+<!ENTITY gs.imagepanel.tooltip "Grafik Paneli Göster">
+<!ENTITY gs.attachsize.label "Eklenti Boyutu (MB)">
+<!ENTITY gs.attachsizenote.label "(Bağlantı hızınız iyiyse, yüksek bir değer seçebilirsiniz)">
+<!ENTITY gs.harmfulext.label "Zararlı Dosya">
+<!ENTITY gs.imageext.label "Grafik Dosyaları">
+<!ENTITY gs.csv.label "(listeyi virgülle ayırın)">
+<!ENTITY gs.preferences.label "Seçenekler">
+<!ENTITY gs.opengspace.label "Gmail Alanını Aç">
+<!ENTITY gs.toolbaricon.label "Araç Çubuğu İkonu&apos;nu göster (yeniden başlatmanız gerekir)">
+<!ENTITY gs.sendto.label "Alıcı:">
+<!ENTITY gs.cut.label "Kes">
+<!ENTITY gs.copy.label "Kopyala">
+<!ENTITY gs.rename.label "Yeniden Adlandır">
+<!ENTITY gs.paste.label "Kopyala">
+<!ENTITY gs.properties.label "Özellikler">
+<!ENTITY gs.addtoplaylist.label "Çalma Listesine Ekle">
+<!ENTITY gs.filetransfer.label "Dosya Transfer Modu">
+<!ENTITY gs.player.label "Oynatma Modu">
+<!ENTITY gs.photo.label "Grafik Modu">
+<!ENTITY gs.previous.label "Önceki">
+<!ENTITY gs.play.label "Oynat">
+<!ENTITY gs.next.label "Sonraki">
+<!ENTITY gs.remotepath.label "Server Dizini">
+<!ENTITY gs.logged.in.user.name "Giriş yapan kullanıcı:">
+<!ENTITY gs.gmaildrivemode.label "Gmail Sürücüsü Modu">
+<!ENTITY gs.preview "Önizleme">
+<!ENTITY gs.manageaccounts "Hesap Yönetimi">
+<!ENTITY gs.from "Gönderen">
+<!ENTITY gs.accountmanager.title "Gspace Hesab Yönetici">
+<!ENTITY gs.accountpreferences.label "Gspace Hesabı Seçenekleri">
+<!ENTITY gs.gmailid.label "Gmail ID">
+<!ENTITY gs.password.label "Şifre">
+<!ENTITY gs.rememberpassword.label "Şifremi Hatırlar">
+<!ENTITY gs.add.label "Ekle">
+<!ENTITY gs.remove.label "Kaldır">
+<!ENTITY gs.clear.label "Temizle">
+<!ENTITY gs.hint.label "İpucu: Yeni bir hesap eklemek için &apos;Temizle&apos; butonuna basın">
+<!ENTITY gs.note.label "Not: Doğru bir domain adı girdiğinize emin olun.">
+<!ENTITY gs.useremail.label "Kullanıcı Email">
+<!ENTITY gs.overwrite.options "Var olan dosyalar için Üzerine Yazma Seçenekleri">
+<!ENTITY gs.overwrite.del "Üzerine yaz, eski dosyayı sil.">
+<!ENTITY gs.overwrite.all "Hepsinin üzerine yaz, eski dosyaların hepsini sil.">
+<!ENTITY gs.overwrite.save "Üzerine yaz, eski dosyayı kaydet(önerilir)">
+<!ENTITY gs.overwrite.saveall "Hepsinin üzerine yaz, eski dosyaların hepsini kaydet.(önerilir)">
+<!ENTITY gs.skip "Atla">
+<!ENTITY gs.skipall "Hepsini atla">
+<!ENTITY gs.gspace.preferences "Gspace Seçenekleri">
+<!ENTITY gs.clickproperties.label "Dosya/Klasör Zaman Dilimini göster(Yavaş bağlantılar için önerilmez)">
+<!ENTITY gs.gspath.label "İlk *_gs dosyası için dosya dizini:">
+<!ENTITY gs.browse.label "Gözat">
+<!ENTITY gs.join.label "Gir">
+<!ENTITY gs.joinhint.label "Gmail&apos;den bölümler halinde dosya indirdiğinizde">
+<!ENTITY gs.thumbnails.label "Resimlerde önizleme göster. ( hızlı bağlantılarda daha iyi sonuç alınır )">
+<!ENTITY gs.gspace.help "Yardım">
+<!ENTITY gs.gmaillocale.tip "gMail dilini ingilizce yap. ( eğer sorun yaşıyorsanız bu ayarı uygulayın )">
+<!ENTITY gs.gmaillocale.label "İngilizce">
+<!ENTITY gs.openinbox.label "Gelen Kutusu">
+<!ENTITY gs.openinbox.tooltip "Gmail Gelen Kutusu&apos;nu yeni pencerede aç.">
+<!ENTITY gs.showstatusicon.label "Durum çubuğunda ikon göster(önerilir.yeni pencere açtığınızda etkileşir)">
+<!ENTITY gs.downloadto.label "Şuraya İndir">
+<!ENTITY gs.makereadonly.label "Sadece Okuma İzni Ver">
+<!ENTITY gs.remoteview.label "Server Görünümü">
+<!ENTITY gs.transferview.label "Transfer Görünümü">
+<!ENTITY gs.opengspacepanel.tooltip "Gspace Panelini Aç">
+<!ENTITY gs.ok.label "Tamam">
+<!ENTITY gs.opencredits.label "Krediler">
+<!ENTITY gs.iface.mycomputer.label "Bilgisayarım">
+<!ENTITY gs.iface.mygspace.label "Gspace Alanım">
+<!ENTITY gs.iface.mytransfers.label "Transferler">
+<!ENTITY gs.iface.mystatus.label "Durum">

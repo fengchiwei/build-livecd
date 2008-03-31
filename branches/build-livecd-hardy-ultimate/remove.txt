@@ -655,7 +655,7 @@
 /usr/share/initramfs-tools/scripts/casper-bottom/01integrity_check
 /usr/share/initramfs-tools/scripts/casper-bottom/02timezone
 /usr/share/initramfs-tools/scripts/casper-bottom/25configure_init
-/usr/share/initramfs-tools/scripts/casper-bottom/33enable_apport_crashe
+/usr/share/initramfs-tools/scripts/casper-bottom/33enable_apport_crashes
 /usr/share/initramfs-tools/scripts/casper-bottom/34disable_kwallet
 /usr/share/initramfs-tools/scripts/casper-bottom/35fix_language_selector
 /usr/share/initramfs-tools/scripts/casper-bottom/41apt_cdrom
@@ -690,4 +690,10 @@
 /usr/share/vim/im71/spell/en.latin1.sug
 /usr/share/vim/im71/spell/he.vim
 /usr/share/vim/im71/spell/yi.vim
-/var/lib/gconf/defaults/
+/var/lib/gconf/defaults
+/usr/share/gconf/schemas
+/usr/lib/openoffice/share/template
+/usr/lib/openoffice/share/gallery
+/usr/lib/openoffice/share/samples
+/usr/lib/openoffice/share/Scripts
+/usr/lib/openoffice/share/basic

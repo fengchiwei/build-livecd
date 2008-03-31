@@ -1,0 +1,20 @@
+pcm.dsp0 {
+    type plug
+    slave.pcm "dmix"   # <-- this line has been altered!
+}
+
+# mixer0 can stay unchanged, because it isn't used anyway, I guess ;)
+ctl.mixer0 {
+    type hw
+    card 0
+}
+
+# I also had to add/alter the following, making ALSA use dmix by default
+pcm.!default {
+    type plug
+    slave.pcm "dmix"
+}
+
+pcm.bluetooth {
+   type bluetooth
+}

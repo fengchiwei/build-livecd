@@ -1,0 +1,9 @@
+[Entry 0]
+Name=Web Browser (firefox)
+Name[zh_TW]=網頁瀏覽器 (firefox)
+Name[zh_CN]=网页浏览器 (firefox)
+Exec=firefox
+Terminal=false
+StartupNotify=false
+Icon=/usr/share/pixmaps/firefox.png
+

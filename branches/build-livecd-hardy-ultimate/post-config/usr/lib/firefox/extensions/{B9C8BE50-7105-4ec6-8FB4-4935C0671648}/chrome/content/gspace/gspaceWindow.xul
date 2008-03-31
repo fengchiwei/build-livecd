@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://gspace/skin/gspace.css" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://gspace/locale/gspace.dtd">
+<window id="gspace-window"
+  title="Gspace"
+  orient="vertical"
+  persist="width height screenX screenY sizemode"
+  onload="gs_gSession.gInitialize(false)"
+  ondragdrop="event.preventBubble();"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"	>
+
+ <script src="chrome://global/content/nsDragAndDrop.js"/>
+ <script src="chrome://global/content/nsTransferable.js"/>
+
+ <script type="application/x-javascript" src="chrome://gspace/content/xmlhttpNew.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gremotetree.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/glocaltree.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gactiontree.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gplaylisttree.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gactions.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gspace.js" />
+ <script type="application/x-javascript" src="chrome://global/content/contentAreaUtils.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/common.js" />
+
+ <stringbundleset id="stringbundleset">
+  <stringbundle id="gspace_strings" src="chrome://gspace/locale/gspace.properties"/>
+ </stringbundleset>
+
+ <popupset>
+  <popup id="gspace_actContextMenu">
+   <menuitem oncommand="gs_gActionTreeView.RemoveFromQ()" label="&gs.removefromq.label;"/>
+  </popup>
+
+  <popup id="gspace_localContextMenu">
+   <menuitem oncommand="gs_gActionTreeView.AddToActionQ('upload');" label="&gs.upload.label;"/>
+   <menuseparator/>
+   <menuitem oncommand="gs_gLocalTreeView.AddFolder();" label="&gs.createdirectory.label;"/>
+   <menuitem oncommand="gs_gLocalTreeView.DeleteSelected();" label="&gs.delete.label;"/>
+  </popup>
+
+  <popup id="gspace_remoteContextMenu" onpopupshown="gs_gRemoteTreeView.PopupContextMenu();">
+   <menuitem oncommand="gs_gActionTreeView.AddToActionQ('download');" label="&gs.download.label;"/>
+   <menuitem id="gspace_preview" oncommand="gs_gRemoteTreeView.ShowPreview();" disabled="true" label="&gs.preview;"/>
+   <menuseparator/>
+   <menuitem id="gspace_remoteFolderAccess" oncommand="gs_gRemoteTreeView.ChangeFolderAccess();" label="&gs.makereadonly.label;"/>
+   <menuseparator/>
+   <menuitem id="gspace_remoteSendTo" oncommand="gs_gRemoteTreeView.SendTo();" label="&gs.sendto.label;"/>
+   <menuitem id="gspace_remoteCutFiles"  oncommand="gs_gRemoteTreeView.CutFiles();" label="&gs.cut.label;"/>
+   <menuitem id="gspace_remoteCopyFiles"  oncommand="gs_gRemoteTreeView.CopyFiles();" label="&gs.copy.label;"/>
+   <menuitem id="gspace_remotePaste" disabled="true" oncommand="gs_gRemoteTreeView.ParsePasteFiles();" label="&gs.paste.label;"/>
+   <menuseparator/>
+   <menuitem id="gspace_remoteRename"  oncommand="gs_gRemoteTreeView.RenameFileObject();" label="&gs.rename.label;"/>
+   <menuseparator/>
+   <menuitem id="gspace_remoteDeleteSelected"  oncommand="gs_gRemoteTreeView.DeleteSelected();" label="&gs.delete.label;"/>
+   <menuitem id="gspace_remoteAddFolder"  oncommand="gs_gRemoteTreeView.AddFolder();" label="&gs.createdirectory.label;"/>
+   <menuitem id="gspace_remoteProperties" oncommand="gs_gRemoteTreeView.ShowProperties();" label="&gs.properties.label;"/>
+  </popup>
+
+  <popup id="gspace_playlistRemoteContextMenu">
+   <menuitem oncommand="gs_gPlaylistTreeView.AddToPlayQ();" label="&gs.addtoplaylist.label;"/>
+  </popup>
+
+  <popup type="autocomplete" id="gspace_gmailIdPopup" onclick="GetPasswordForUser(gs_get('gmail_id').value);"/>
+ </popupset>
+
+ <vbox flex="1" >
+
+  <toolbar style="padding: 0px 1px; -moz-box-align: center">
+   <grid>
+    <columns><column/><column/><column/><column/><column/><column/></columns>
+     <rows>
+      <row>
+       <hbox>
+        <image src="chrome://gspace/skin/gs_logo.png" tooltiptext="go to the Gspace site" onclick="window.open('http://www.getgspace.com/');"/>
+       </hbox>
+       <spacer style="width: 10px"/>
+       <hbox>
+        <toolbarbutton  label="&gs.manageaccounts;" image="chrome://gspace/skin/accounts.png"  oncommand="gs_gSession.ManageAccounts();"/>
+        <menulist id="gspace_accountsList" label="  " oncommand="gs_gSession.changeAccounts();">
+         <menupopup id="gspace_accountsListPopup" />
+        </menulist>
+        <toolbarbutton id="gspace_login"  label="&gs.glogin.label;" oncommand="gs_gSession.LoginUser();" observes="gspace-broadcaster-connection-status"/>
+        <toolbarbutton id="gspace_logout" label="&gs.glogout.label;" oncommand="gs_viewHandler.DoLogout();" observes="gspace-broadcaster-connection-status"/>
+        <toolbarbutton id="gspace_pref" label="&gs.preferences.label;" oncommand="gs_viewHandler.OpenPreferences();"/>
+        <toolbarbutton id="gspace_inbox" label="&gs.openinbox.label;" oncommand="gs_viewHandler.openInbox();" tooltiptext="&gs.openinbox.tooltip;"/>
+        <menulist id="gspace_visualMode" oncommand="gs_gSession.ChangeMode();">
+         <menupopup id="gspace_visualModePopup" >
+          <menuitem label="&gs.filetransfer.label;"/>
+          <menuitem label="&gs.player.label;"/>
+          <menuitem label="&gs.photo.label;"/>
+          <menuitem label="&gs.gmaildrivemode.label;"/>
+         </menupopup>
+        </menulist>
+       </hbox>
+       <hbox>
+        <toolbarbutton label="FAQ" oncommand="window.open('http://www.getgspace.com/faq.html');"/>
+        <toolbarbutton label="Tutorial" oncommand="window.open('http://www.getgspace.com/howitworks.html');"/>
+        <label value="" style="color:blue;" id="gspace_gMesg" class="box-padded"/>
+       </hbox>
+       <spacer style="width: 50px"/>
+       <hbox>
+        <image src="chrome://gspace/skin/fonfriendly_logo.png" tooltiptext="go to the FON site" onclick="window.open('http://www.fon.com/');"/>
+       </hbox>
+      </row>
+     </rows>
+   </grid>
+  </toolbar>
+
+  <box flex="10">
+   <deck flex="1" id="gspace_modeHolder">
+
+    <vbox flex="1"  id="gspace_gLocalTreeHolder">
+     <label style="font-size: 1.2em; font-weight: bold; color:#3333FF" value="&gs.iface.mycomputer.label;"/>
+     <toolbar style="padding: 0px 3px; -moz-box-align: center">
+      <textbox id="gspace_localPath" style="padding: 0px 4px; -moz-box-align: center;height:20px;" flex="2"
+        onkeypress="if (event.keyCode == 13) gs_gLocalTreeView.ChangeFolder(this.value);"/>
+      <toolbarbutton label="&gs.gbrowse.label;" oncommand="gs_gLocalTreeView.GetPath();" />
+      <toolbarbutton image="chrome://gspace/skin/reload.png"  style="-moz-box-orient:horizontal;-moz-box-pack:center;" oncommand="gs_gLocalTreeView.RefreshFolder()" tooltiptext="&gs.refreshfolder.tip;"/>
+      <toolbarbutton image="chrome://gspace/skin/upbutton.png" style="-moz-box-pack:center;" oncommand="gs_gLocalTreeView.GotoParentFolder();" tooltiptext="&gs.updirectory.tip;"/>
+      <toolbarbutton image="chrome://gspace/skin/folder_new.png"  tooltiptext="&gs.createdirectory.label;" oncommand="gs_gLocalTreeView.AddFolder();"/>
+      <toolbarbutton image="chrome://gspace/skin/delete.png"  tooltiptext="&gs.delete.label;" oncommand="gs_gLocalTreeView.DeleteSelected();"/>
+      <toolbarbutton id="gspace_localFilter" image="chrome://gspace/skin/filter.png" style="-moz-box-pack:center;" autoCheck="true" checked="true" type="checkbox" oncommand="gs_gLocalTreeView.ToggleFilter();" tooltiptext="&gs.filesless.tip;"/>
+     </toolbar>
+     <tree  id="gspace_localTree" onkeypress="gs_gLocalTreeView.keyPress(event)"  flex="1">
+      <treecols>
+       <treecol id="gspace_localFileName" label="&gs.treefilename.label;" flex="1" sortDirection="ascending" persist="width ordinal hidden sortDirection"/>
+       <splitter class="tree-splitter"/>
+       <treecol id="gspace_localFileSize" label="&gs.treefilesize.label;" flex="1" persist="width ordinal hidden sortDirection" />
+       <splitter class="tree-splitter"/>
+       <treecol id="gspace_localModifiedTime" label="&gs.treemodifiedtime.label;" flex="1" persist="width ordinal hidden sortDirection" />
+      </treecols>
+      <treechildren id="gspace_gLocalTreeChildren" ondblclick="gs_gLocalTreeView.dblClick(event)" context="gspace_localContextMenu" />
+     </tree>
+    </vbox>
+
+    <vbox flex="1"  id="gspace_songHolder">
+     <browser src="chrome://gspace/content/img.htm" id="gspace_songBrowser" style="height:190px;overflow:auto"/>
+     <toolbar id="gspace_playlistToolbar">
+      <spacer flex="1"/>
+      <toolbarbutton image="chrome://gspace/skin/en.png"     label="&gs.gmaillocale.label;" tooltiptext="&gs.gmaillocale.tip;" oncommand="gs_viewHandler.setGmailEnglishLocale();"/>
+      <toolbarbutton image="chrome://gspace/skin/clear.png"  label="&gs.clear.tip;" oncommand="gs_gPlaylistTreeView.ClearItems();"/>
+     </toolbar>
+     <tree id="gspace_playlistTree" flex="1" enableColumnDrag="true" >
+      <treecols>
+       <treecol id="gspace_playlistFileName" label="&gs.treefilename.label;" flex="1" />
+       <splitter class="tree-splitter"/>
+       <treecol id="gspace_playlistRemotePath" label="&gs.remotepath.label;" flex="1" />
+      </treecols>
+      <treechildren id="gspace_playlistTreeChildren" />
+     </tree>
+    </vbox>
+
+    <vbox flex="1" id="gspace_imageHolder">
+     <toolbar>
+      <toolbarbutton image="chrome://gspace/skin/window_new.png"  oncommand="gs_viewHandler.OpenNewWindow();"/>
+      <toolbarbutton id="gspace_gZoom" image="chrome://gspace/skin/imagezoom-fit.png" zoomfit="true" oncommand="gs_viewHandler.MagnifyImage(false);"/>
+     </toolbar>
+     <browser flex="2" src="chrome://gspace/content/img.htm" id="gspace_gImg" onload="gs_viewHandler.ImageLoad()" style="overflow:auto"/>
+    </vbox>
+   </deck>
+
+   <splitter  style="width: 4px; max-width: 4px;" collapse="before" resizebefore="closest" resizeafter="farthest">
+    <grippy id="gspace_leftgrippy"/>
+   </splitter>
+   <vbox pack="center">
+    <button id="gspace_btnUpload" tooltiptext="&gs.upload.label;"  image="chrome://gspace/skin/forward.png" style="min-width:0px;margin:0px;margin-bottom:10px"
+      oncommand="gs_gActionTreeView.AddToActionQ('upload')"/>
+    <button id="gspace_btnDownload"  tooltiptext="&gs.download.label;" image="chrome://gspace/skin/back.png" style="min-width:0px;margin:0px;margin-bottom:10px"
+      oncommand="gs_gActionTreeView.AddToActionQ('download')"/>
+    <button id="gspace_btnAddPlaylist" hidden="true"  tooltiptext="&gs.addtoplaylist.label;" image="chrome://gspace/skin/back.png" style="min-width:0px;margin:0px;margin-bottom:10px"
+      oncommand="gs_gPlaylistTreeView.AddToPlayQ('download')"/>
+   </vbox>
+   <splitter style="width: 4px; max-width: 4px;" collapse="after" resizebefore="farthest" resizeafter="closest">
+    <grippy/>
+   </splitter>
+
+   <vbox flex="1">
+    <label style="font-size: 1.2em; font-weight: bold; color:#3333FF" value="&gs.iface.mygspace.label;"/>
+    <toolbar id="gspace_remoteToolbar" align="right">
+     <textbox id="gspace_remotePath" style="padding: 0px 4px; -moz-box-align: center;height:20px;" flex="2"
+       onkeypress="if (event.keyCode == 13) gs_gRemoteTreeView.ChangeFolder(this.value);" disabled="true"/>
+     <toolbarbutton image="chrome://gspace/skin/upbutton.png" style="-moz-box-pack:center;" oncommand="gs_gRemoteTreeView.GotoParentFolder();" tooltiptext="&gs.updirectory.tip;"/>
+     <toolbarbutton image="chrome://gspace/skin/folder_new.png"  tooltiptext="&gs.createdirectory.label;" oncommand="gs_gRemoteTreeView.AddFolder();"/>
+     <toolbarbutton image="chrome://gspace/skin/delete.png"  tooltiptext="&gs.delete.label;" oncommand="gs_gRemoteTreeView.DeleteSelected();"/>
+     <toolbarbutton image="chrome://gspace/skin/reload.png"  tooltiptext="&gs.refreshfolder.tip;" oncommand="gs_gRemoteTreeView.RefreshFolder();"/>
+    </toolbar>
+    <tree id="gspace_remoteTree" onkeypress="gs_gRemoteTreeView.keyPress(event)" enableColumnDrag="true" flex="3" >
+     <treecols>
+      <treecol id="gspace_remoteFileName" label="&gs.treefilename.label;" flex="1" sortDirection="ascending" persist="width ordinal hidden sortDirection" />
+      <splitter class="tree-splitter"/>
+      <treecol id="gspace_remoteFileSize" label="&gs.treefilesize.label;" flex="1" persist="width ordinal hidden sortDirection" />
+      <splitter class="tree-splitter"/>
+      <treecol id="gspace_uploadTime" label="&gs.treeuploadtime.label;" flex="1" persist="width ordinal hidden sortDirection" />
+      <splitter class="tree-splitter"/>
+      <treecol id="gspace_remoteFrom" label="&gs.from;" flex="1" persist="width ordinal hidden sortDirection" />
+     </treecols>
+     <treechildren flex="1" id="gspace_remoteTreeChildren" class="gsremotetree" onclick="gs_gRemoteTreeView.click(event)" ondblclick="gs_gRemoteTreeView.dblClick(event)" context="gspace_remoteContextMenu" />
+    </tree>
+    <splitter id="gspace_photoPanelSplitter" style="width: 2px;height:2px" hidden="true" collapse="after" resizeafter="closest">
+     <grippy/>
+    </splitter>
+
+    <iframe id="gspace_photoPanel" src="chrome://gspace/content/photothumbnail.htm" collapsed="true" style="width:90%;height:225px;overflow:auto;"/>
+   </vbox>
+  </box>
+
+  <splitter id="gspace_actSplitter" style="width: 4px; max-height: 4px;" persist="state"  collapse="after" resizeafter="closest">
+   <grippy/>
+  </splitter>
+
+  <box flex="8" id="gspace_actionTreeHolder">
+   <vbox flex="3">
+    <label style="font-size: 1.2em; font-weight: bold; color:#3333FF" value="&gs.iface.mytransfers.label;"/>
+    <toolbar id="gspace_actionToolbar" align="right">
+<!--     <toolbarbutton image="chrome://gspace/skin/clear.png" label="&gs.clear.tip;" oncommand="gs_gActionTreeView.ClearItems();"/>-->
+     <toolbarbutton label="&gs.clear.tip;" oncommand="gs_gActionTreeView.ClearItems();"/>
+    </toolbar>
+    <tree id="gspace_actionTree" enableColumnDrag="true" flex="1">
+     <treecols>
+      <treecol id="gspace_actFileName" label="&gs.treefilename.label;" flex="1" persist="width ordinal hidden"/>
+      <treecol id="gspace_actType" label="&gs.treetype.label;" flex="1" persist="width ordinal hidden"/>
+      <splitter class="tree-splitter"/>
+      <treecol id="gspace_actUploadFrom" label="&gs.treefrom.label;" flex="1" persist="width ordinal hidden"/>
+      <splitter class="tree-splitter"/>
+      <treecol id="gspace_actDownloadTo" label="&gs.treeto.label;" flex="1" persist="width ordinal hidden"/>
+      <splitter class="tree-splitter"/>
+      <treecol id="gspace_actProgress" label="&gs.treeprogress.label;" type="progressmeter"  flex="1" persist="width ordinal hidden"/>
+      <splitter class="tree-splitter"/>
+      <treecol id="gspace_actStatus" label="&gs.treestatus.label;" flex="1" persist="width ordinal hidden"/>
+      </treecols>
+     <treechildren id="gspace_actionQTreeChildren" class="actiontree" context="gspace_actContextMenu" />
+    </tree>
+   </vbox>
+   <splitter style="width: 4px; max-width: 4px;" collapse="after" persist="true" resizebefore="closest" resizeafter="farthest">
+    <grippy/>
+   </splitter>
+
+   <vbox flex="2">
+    <label style="font-size: 1.2em; font-weight: bold; color:#3333FF" value="&gs.iface.mystatus.label;"/>
+    <vbox flex="1" style="background-color:white;" >
+     <browser id="gspace_gProp" flex="1" src="chrome://gspace/content/blank.htm"/>
+    </vbox>
+   </vbox>
+  </box>
+ </vbox>
+ <splitter id="gspace_adSplitter" style="width: 2px;height:2px"  collapse="after" resizeafter="closest">
+  <grippy/>
+ </splitter>
+ <hbox id="gspace_gAdHolder" pack="center" height="90px" style="border:1px solid darkblue;background-color:#DFF2FD;" >
+  <iframe id="gspace_gAd" flex="1" style="overflow:visible;" src=""/>
+ </hbox>
+ <vbox id="gspace_tabbrowser" >
+  <browser id="gspace_gUpFrame" name="gspace_gUpFrame" style="width:0px; height:0px; border: 1px" src=""></browser>
+  <browser id="gspace_gEnumFrame" name="gspace_gEnumFrame" style="width:0px; height:0px; border: 1px" src=""></browser>
+ </vbox>
+
+ <broadcasterset id="gspaceBroadcasterSet">
+  <broadcaster id="gspace-broadcaster-connection-status" conn="off"/>
+ </broadcasterset>
+
+ <statusbar>
+  <statusbarpanel id="gspace_gStatusLabel" flex="1" style="text-align:right;min-width:60px;" label="&gs.gstatus.label;"/>
+  <statusbarpanel id="gspace_gStatus" style="color:red" value=""/>
+  <statusbarpanel id="gspace_gLoginStatus" label="&gs.logged.in.user.name;"/>
+  <statusbarpanel id="gspace_gLoginUserName" style="text-align:left;max-width:180px; min-width:200px;color:red" value=""/>
+  <statusbarpanel id="gspace_gLoginStatusSpace" label="&gs.usedspace.label;"/>
+  <statusbarpanel id="gspace_gLoginUsedSpace" style="text-align:center;max-width:120px; min-width:60px;color:red" label=""/>
+  <statusbarpanel id="gspace_gLoginUsedSpace" style="text-align:center;max-width:150px; min-width:120px"  label="&gs.totalspace.label;"/>
+  <statusbarpanel id="gspace_gLoginTotalSpace" style="text-align:center;max-width:120px; min-width:60px;color:red"/>
+  <statusbarpanel flex="1" />
+ </statusbar>
+</window>

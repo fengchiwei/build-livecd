@@ -1,0 +1,9 @@
+[Entry 0]
+Name=Media Player (vlc)
+Name[zh_TW]=影音播放 (vlc)
+Name[zh_CN]=影音播放 (vlc)
+Exec=vlc
+Terminal=false
+StartupNotify=false
+Icon=/usr/share/pixmaps/vlc.png
+

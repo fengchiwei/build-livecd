@@ -1,0 +1,16 @@
+# This file lists authorizations for user ubuntu
+# 
+# File format may change at any time; do not rely on it. To manage
+# authorizations use polkit-auth(1) instead.
+
+scope=grant:action-id=org.freedesktop.systemtoolsbackends.set:when=1204224847:granted-by=0
+scope=grant:action-id=org.freedesktop.systemtoolsbackends.self.set:when=1204224864:granted-by=0
+scope=grant:action-id=org.freedesktop.policykit.grant:when=1204224876:granted-by=0
+scope=grant:action-id=org.freedesktop.hal.storage.unmount-others:when=1204224889:granted-by=0
+scope=grant:action-id=org.freedesktop.hal.storage.mount-removable:when=1204224895:granted-by=0
+scope=grant:action-id=org.freedesktop.hal.storage.mount-fixed:when=1204224900:granted-by=0
+scope=grant:action-id=org.freedesktop.hal.storage.eject:when=1204224905:granted-by=0
+scope=grant:action-id=org.freedesktop.hal.power-management.reboot-multiple-sessions:when=1204224922:granted-by=0
+scope=grant:action-id=org.freedesktop.hal.power-management.reboot:when=1204224928:granted-by=0
+scope=grant:action-id=org.freedesktop.hal.power-management.shutdown-multiple-sessions:when=1204224940:granted-by=0
+scope=grant:action-id=org.freedesktop.hal.power-management.shutdown:when=1204224946:granted-by=0
