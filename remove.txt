@@ -661,6 +661,7 @@
 /usr/share/initramfs-tools/scripts/casper-bottom/41apt_cdrom
 /usr/share/initramfs-tools/scripts/casper-bottom/22gnome_panel_data
 /usr/share/initramfs-tools/scripts/casper-bottom/22screensaver
+/usr/share/initramfs-tools/scripts/casper-bottom/23etc_modules
 /usr/share/initramfs-tools/scripts/casper-bottom/30accessibility
 /usr/share/initramfs-tools/scripts/casper-bottom/31disable_update_notifier
 /usr/share/initramfs-tools/scripts/casper-bottom/32disable_hibernation
