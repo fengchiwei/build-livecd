@@ -1,7 +1,9 @@
 #!/bin/sh
 
-/etc/init.d/dbus start &
-/etc/init.d/udev start &
-/etc/init.d/hal start &
-/etc/rc.local &
-/usr/local/bin/mount-disk.pl &
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
+
+if [ -f /cdrom/services.sh ]; then
+    . /cdrom/services.sh
+fi
+
+exit 0
