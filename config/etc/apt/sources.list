@@ -6,11 +6,11 @@
 #deb http://tw.archive.ubuntu.com/ubuntu/ hardy-backports universe main
 deb http://ppa.launchpad.net/ubuntu-mobile/ubuntu hardy main
 
-deb http://192.168.1.11/ubuntu/ hardy universe main multiverse
-deb http://192.168.1.11/ubuntu/ hardy-updates universe main
-deb http://192.168.1.11/ubuntu/ hardy-security universe main
-deb http://192.168.1.11/ubuntu/ hardy-backports universe main
-deb http://192.168.1.11/ubuntu/ hardy-proposed universe main
+#deb http://192.168.1.11/ubuntu/ hardy universe main multiverse
+#deb http://192.168.1.11/ubuntu/ hardy-updates universe main
+#deb http://192.168.1.11/ubuntu/ hardy-security universe main
+#deb http://192.168.1.11/ubuntu/ hardy-backports universe main
+#deb http://192.168.1.11/ubuntu/ hardy-proposed universe main
 
 deb http://archive.ubuntu.com/ubuntu/ hardy universe main multiverse
 deb http://archive.ubuntu.com/ubuntu/ hardy-updates universe main multiverse
@@ -45,13 +45,13 @@ deb http://ppa.launchpad.net/lxde/ubuntu hardy main
 
 #deb http://people.linux.org.tw/~andrew/debian/lxde/ ./
 
-#deb http://tw.archive.ubuntu.com/ubuntu/ gutsy main universe
-#deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-security main universe
-#deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-updates universe main
+deb http://tw.archive.ubuntu.com/ubuntu/ gutsy main universe
+deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-security main universe
+deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-updates universe main
 
-deb http://192.168.1.11/ubuntu/ gutsy universe main multiverse
-deb http://192.168.1.11/ubuntu/ gutsy-security universe main
-deb http://192.168.1.11/ubuntu/ gutsy-updates universe main
+#deb http://192.168.1.11/ubuntu/ gutsy universe main multiverse
+#deb http://192.168.1.11/ubuntu/ gutsy-security universe main
+#deb http://192.168.1.11/ubuntu/ gutsy-updates universe main
 
 deb http://debian.o-hand.com gutsy/
 
