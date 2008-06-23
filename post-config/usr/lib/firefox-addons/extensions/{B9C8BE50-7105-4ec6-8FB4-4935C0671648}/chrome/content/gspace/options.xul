@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE window SYSTEM "chrome://gspace/locale/gspace.dtd">
+
+
+<dialog id="gspace_optGSpace"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        buttons="accept,cancel"
+        ondialogaccept="return doOK();"
+        ondialogcancel="return true;"
+        title="&gs.gspace.preferences;"
+	onload="sizeToContent();LoadPrefs();"
+	buttonlabelaccept="&gs.ok.label;">
+
+	<script type="application/x-javascript"
+		   src="chrome://gspace/content/gspace.js" />
+	<script type="application/x-javascript"
+		   src="chrome://gspace/content/common.js" />
+	<script type="application/x-javascript"
+		   src="chrome://gspace/content/options.js" />
+
+	<stringbundleset id="stringbundleset">
+	   <stringbundle id="gspace_strings" src="chrome://gspace/locale/gspace.properties"/>
+	</stringbundleset>
+
+	<vbox  align="left">
+		<groupbox>
+			<caption id="gspace_groupbox_caption" label="&gs.preferences.label;"/>
+			<vbox>
+				<hbox pack="right">
+					<checkbox id="gspace_gToolbarIcon" label="&gs.toolbaricon.label;"/>
+					<spacer flex="1"/>
+					<button oncommand="window.open('http://www.getgspace.com/faq.html');" label="&gs.gspace.help;"/>
+				</hbox>
+				<checkbox id="gspace_gClickProperties" label="&gs.clickproperties.label;"/>
+				<checkbox id="gspace_gShowThumbnails" label="&gs.thumbnails.label;"/>
+				<checkbox id="gspace_gShowStatusIcon" label="&gs.showstatusicon.label;"/>
+			</vbox>
+			<grid>
+				<columns>
+					<column/>
+					<column flex="1"/>
+				</columns>
+
+				<rows>
+
+					<row align="center">
+						<label control="gspace_gAttachmentSize" value="&gs.attachsize.label;"/>
+						<textbox id="gspace_gAttachmentSize" maxlength="2" cols="8" size="8"/>
+						<label control="gspace_gAttachmentSize" value="(1-19)"/>
+
+					</row>
+					<row>
+						<label control="gspace_gAttachmentSize" value=""/>
+						<label control="gspace_gAttachmentSize" value="&gs.attachsizenote.label;"/>
+
+					</row>
+					<row align="center">
+						<label control="gspace_gHarmfulExtList" value="&gs.harmfulext.label;"/>
+						<textbox id="gspace_gHarmfulExtList" size="40"/>
+						<label control="gspace_gHarmfulExtList" value="&gs.csv.label;"/>
+					</row>
+					<row align="center">
+						<label control="gspace_gViewExtList" value="&gs.imageext.label;"/>
+						<textbox id="gspace_gViewExtList" size="40"/>
+						<label control="gspace_gViewExtList" value="&gs.csv.label;"/>
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+
+		<vbox>
+			<hbox align="center">
+				<label control="gspace_gPath" value="&gs.gspath.label;"/>
+				<textbox id="gspace_gPath" size="40"/>
+				<button oncommand="doBrowse()" label="&gs.browse.label;"/>
+			</hbox>
+            <vbox align="center">
+				<label control="gspace_gPath" value="&gs.joinhint.label;" />
+            </vbox>
+			<hbox pack="center">
+				<button oncommand="doJoin()" label="&gs.join.label;"/>
+				<spacer/>
+			</hbox>
+		</vbox>
+
+
+
+	</vbox>
+
+</dialog>
+
