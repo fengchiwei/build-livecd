@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://gspace/skin/gspace.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://gspace/locale/gspace.dtd">
+
+<overlay id="gspace" 
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:html="http://www.w3.org/1999/xhtml" >
+
+ <script type="application/x-javascript" src="chrome://gspace/content/gactions.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gspace.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/xmlhttp.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gspaceOverlay.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/webcontrol.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/xmlhttpNew.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gremotetree.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/glocaltree.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gactiontree.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gplaylisttree.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gactions.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/gspace.js" />
+ <script type="application/x-javascript" src="chrome://gspace/content/common.js" />
+ <script src="chrome://global/content/nsDragAndDrop.js"/>
+ <script src="chrome://global/content/nsTransferable.js"/>
+
+ <stringbundleset id="stringbundleset">
+  <stringbundle id="gspace_strings" src="chrome://gspace/locale/gspace.properties"/>
+ </stringbundleset>
+
+ <menupopup id="menu_ToolsPopup">
+  <menuitem id="gspace" oncommand="gs_viewHandler.opengSpace();" 
+    insertafter="javascriptConsole,devToolsSeparator" label="Gspace"/>
+ </menupopup>
+
+ <popupset id="mainPopupSet">
+  <popup id="gspace_remoteContextMenu" onpopupshown="gs_gRemoteTreeView.PopupContextMenu();">
+   <menuitem oncommand="gs_gActionTreeView.DownloadTo();" label="&gs.downloadto.label;"/>
+   <menuitem id="gspace_preview" oncommand="gs_gRemoteTreeView.ShowPreview();" disabled="true" label="&gs.preview;"/>
+   <menuseparator/>
+   <menuitem id="gspace_remoteFolderAccess" oncommand="gs_gRemoteTreeView.ChangeFolderAccess();" label="gs.makereadonly.label"/>
+   <menuseparator/>
+   <menuitem id="gspace_remoteSendTo" oncommand="gs_gRemoteTreeView.SendTo();" label="&gs.sendto.label;"/>
+   <menuitem id="gspace_remoteCutFiles"  oncommand="gs_gRemoteTreeView.CutFiles();" label="&gs.cut.label;"/>
+   <menuitem id="gspace_remoteCopyFiles"  oncommand="gs_gRemoteTreeView.CopyFiles();" label="&gs.copy.label;"/>
+   <menuitem id="gspace_remotePaste" disabled="true" oncommand="gs_gRemoteTreeView.ParsePasteFiles();" label="&gs.paste.label;"/>
+   <menuseparator/>
+   <menuitem id="gspace_remoteRename"  oncommand="gs_gRemoteTreeView.RenameFileObject();" label="&gs.rename.label;"/>
+   <menuseparator/>
+   <menuitem id="gspace_remoteDeleteSelected"  oncommand="gs_gRemoteTreeView.DeleteSelected();" label="&gs.delete.label;"/>
+   <menuitem id="gspace_remoteAddFolder"  oncommand="gs_gRemoteTreeView.AddFolder();" label="&gs.createdirectory.label;"/>
+  </popup>
+ </popupset>
+
+ <window id="main-window">
+  <vbox id="gspace-panel" ondragdrop="nsDragAndDrop.drop(event, gs_PanelDropObserver)" 
+    ondragover="nsDragAndDrop.dragOver(event,gs_PanelDropObserver)" hidden="true" style="position:fixed;border:1px solid darkblue;background-color:#F1F1F1;width:530px;height:330px;">
+   <vbox flex="1" style="width:530px">
+    <toolbar  flex="1"  style="padding: 0px 1px; -moz-box-align: center">
+     <image src="chrome://gspace/skin/hide.png" style="cursor:pointer" onclick="gs_Overlay.hide();"/>
+     <spacer width="5px"/>
+     <toolbarbutton label="&gs.manageaccounts;" image="chrome://gspace/skin/accounts.png"  oncommand="gs_gSession.ManageAccounts();"/>
+     <menulist id="gspace_accountsList" label="  " oncommand="gs_gSession.changeAccounts();">
+      <menupopup id="gspace_accountsListPopup" />
+     </menulist>
+     <toolbarbutton id="gspace_login" label="&gs.glogin.label;" oncommand="gs_gSession.LoginUser();" observes="gspace-broadcaster-connection-status"/>
+     <toolbarbutton id="gspace_logout" label="&gs.glogout.label;" oncommand="gs_viewHandler.DoLogout();" observes="gspace-broadcaster-connection-status"/>
+     <spacer flex="1"/>
+    </toolbar>
+    <spacer style="width: 10px"/>
+    <hbox style="height:26px;width:100px;overflow:hidden;">
+     <hbox flex="1">
+      <label value="" style="color:blue;" id="gspace_status" class="box-padded"/>
+      <label value="" style="color:blue;" id="gspace-file-name" class="box-padded"/>
+      <label value="" style="color:blue;" id="gspace-file-status" class="box-padded"/>
+     </hbox>
+    </hbox>
+   </vbox>
+   <hbox>
+    <tabbox style="margin:5px">
+     <tabs>
+      <tab label="&gs.remoteview.label;"/>
+      <tab label="&gs.transferview.label;"/>
+      <progressmeter style="width:100px" id="gspace-uploadprogress" orient="horizontal" mode="determined" value="0"/>
+      <spacer width="5px"/>
+      <label value="" style="color:blue;" id="gspace_gMesg" class="box-padded"/>
+     </tabs>
+     <tabpanels>
+      <tabpanel style="height:225px;">
+       <vbox style="width:500px">
+        <toolbar id="gspace_remoteToolbar" align="right">
+         <textbox id="gspace_remotePath" style="padding: 0px 4px; -moz-box-align: center;height:20px;" flex="2"
+           onkeypress="if (event.keyCode == 13) gs_gRemoteTreeView.ChangeFolder(this.value);"/>
+         <toolbarbutton image="chrome://gspace/skin/upbutton.png" style="-moz-box-pack:center;" oncommand="gs_gRemoteTreeView.GotoParentFolder();" tooltiptext="&gs.updirectory.tip;"/>
+         <toolbarbutton image="chrome://gspace/skin/folder_new.png"  tooltiptext="&gs.createdirectory.label;" oncommand="gs_gRemoteTreeView.AddFolder();"/>
+         <toolbarbutton image="chrome://gspace/skin/delete.png"  tooltiptext="&gs.delete.label;" oncommand="gs_gRemoteTreeView.DeleteSelected();"/>
+         <toolbarbutton image="chrome://gspace/skin/reload.png"  tooltiptext="&gs.refreshfolder.tip;" oncommand="gs_gRemoteTreeView.RefreshFolder();"/>
+        </toolbar>
+        <tree  id="gspace_remoteTree"  onkeypress="gs_gRemoteTreeView.keyPress(event)" enableColumnDrag="true" flex="3" >
+         <treecols>
+          <treecol id="gspace_remoteFileName" label="&gs.treefilename.label;" flex="1" sortDirection="ascending" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter"/>
+          <treecol id="gspace_remoteFileSize" label="&gs.treefilesize.label;" flex="1" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter"/>
+          <treecol id="gspace_uploadTime" label="&gs.treeuploadtime.label;" flex="1" persist="width ordinal hidden sortDirection" />
+          <splitter class="tree-splitter"/>
+          <treecol id="gspace_remoteFrom" label="&gs.from;" hidden="true" flex="1" persist="width ordinal hidden sortDirection" />
+         </treecols>
+         <treechildren id="gspace_remoteTreeChildren" class="gsremotetree" onclick="gs_gRemoteTreeView.click(event)" ondblclick="gs_gRemoteTreeView.dblClick(event)" context="gspace_remoteContextMenu" />
+        </tree>
+       </vbox>
+      </tabpanel>
+      <tabpanel>
+       <tree  id="gspace_actionTree" enableColumnDrag="true" flex="1">
+        <treecols>
+         <treecol id="gspace_actFileName" label="&gs.treefilename.label;" flex="1" persist="width ordinal hidden"/>
+         <splitter class="tree-splitter"/>
+         <treecol id="gspace_actType" hidden="true" label="&gs.treetype.label;" flex="1" persist="width ordinal hidden"/>
+         <splitter class="tree-splitter"/>
+         <treecol id="gspace_actUploadFrom" hidden="true" label="&gs.treefrom.label;" flex="1" persist="width ordinal hidden"/>
+         <splitter class="tree-splitter"/>
+         <treecol id="gspace_actDownloadTo" hidden="true" label="&gs.treeto.label;" flex="1" persist="width ordinal hidden"/>
+         <splitter class="tree-splitter"/>
+         <treecol id="gspace_actProgress" label="&gs.treeprogress.label;" type="progressmeter"  flex="1" persist="width ordinal hidden"/>
+         <splitter class="tree-splitter"/>
+         <treecol id="gspace_actStatus" label="&gs.treestatus.label;" flex="1" persist="width ordinal hidden"/>
+        </treecols>
+        <treechildren id="gspace_actionQTreeChildren" class="actiontree" context="gspace_actContextMenu" />
+       </tree>
+      </tabpanel>
+     </tabpanels>
+    </tabbox>
+   </hbox>
+  </vbox>
+  <vbox id="gspace_tabbrowser" >
+   <browser id="gspace_gUpFrame" name="gspace_gUpFrame" style="width:0px; height:0px; border: 1px" src=""></browser>
+   <browser id="gspace_gEnumFrame" name="gspace_gEnumFrame" style="width:0px; height:0px; border: 1px" src=""></browser>
+   </vbox>
+ </window>
+
+ <toolbarpalette id="BrowserToolbarPalette">
+  <toolbarbutton id="gspaceToolbarBtn" label="Gspace" oncommand="gs_viewHandler.opengSpace();" observes="gspace-broadcaster-connection-status" tooltiptext="&gs.opengspace.label;"/>
+ </toolbarpalette>
+
+ <broadcasterset id="mainBroadcasterSet">
+  <broadcaster id="gspace-broadcaster-connection-status" conn="off"/>
+ </broadcasterset>
+
+ <statusbar id="status-bar">
+  <statusbarpanel observes="gspace-broadcaster-connection-status" id="gspace-statusicon" oncommand="gs_Overlay.openGspacePanel();" class="statusbarpanel-iconic" tooltiptext="&gs.opengspacepanel.tooltip;" />
+ </statusbar>
+
+</overlay>

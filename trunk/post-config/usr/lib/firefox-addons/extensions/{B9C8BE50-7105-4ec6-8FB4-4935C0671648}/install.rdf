@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="rdf:#$xagTO1"
+                   em:id="{a463f10c-3994-11da-9945-000d60ca027b}"
+                   em:minVersion="0.4"
+                   em:maxVersion="0.8" />
+  <RDF:Description RDF:about="rdf:#$sagTO1"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="1.5"
+                   em:maxVersion="3.0.*" />
+  <RDF:Description RDF:about="urn:mozilla:install-manifest"
+                   em:id="{B9C8BE50-7105-4ec6-8FB4-4935C0671648}"
+                   em:version="0.5.94"
+                   em:type="2"
+                   em:name="Gmail Space"
+                   em:description="Gspace"
+                   em:creator="Rahul Jonna"
+                   em:developer="FON Labs"
+                   em:contributor="http://www.babelzilla.org/"
+                   em:homepageURL="http://www.getgspace.com/"
+                   em:optionsURL="chrome://gspace/content/options.xul"
+                   em:iconURL="chrome://gspace/skin/icon.png">
+    <em:targetApplication RDF:resource="rdf:#$sagTO1"/>
+    <em:targetApplication RDF:resource="rdf:#$xagTO1"/>
+  </RDF:Description>
+</RDF:RDF>

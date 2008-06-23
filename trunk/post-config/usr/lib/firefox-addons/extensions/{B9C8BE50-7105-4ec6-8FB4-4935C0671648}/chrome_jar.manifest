@@ -1,0 +1,14 @@
+content	 gspace  jar:chrome/gspace.jar!/content/gspace/
+
+# overlays
+overlay	 chrome://browser/content/browser.xul	chrome://gspace/content/overlay.xul
+
+# locales
+locale   gspace  es-ES  jar:chrome/gspace.jar!/locale/gspace/es-ES/
+locale   gspace  en-US  jar:chrome/gspace.jar!/locale/gspace/en-US/
+
+# skin
+skin     gspace  classic/1.0  jar:chrome/gspace.jar!/skin/classic/gspace/
+
+# style for toolbar
+style  chrome://global/content/customizeToolbar.xul   chrome://gspace/skin/gspace.css
