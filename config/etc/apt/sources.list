@@ -1,0 +1,26 @@
+## Feisty Fawn - Officials Repos
+
+## Base
+deb http://archive.ubuntu.com/ubuntu/ hardy universe main # multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ hardy universe main multiverse restricted
+
+## Updates
+deb http://archive.ubuntu.com/ubuntu/ hardy-updates universe main # multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ hardy-updates universe main multiverse restricted
+
+## Security
+deb http://archive.ubuntu.com/ubuntu/ hardy-security universe main # restricted multiverse
+#deb-src http://tw.archive.ubuntu.com/ubuntu hardy-security main restricted universe multiverse
+
+## Backports
+deb http://archive.ubuntu.com/ubuntu/ hardy-backports universe main # multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ hardy-backports universe main multiverse restricted
+
+## Proposed
+deb http://archive.ubuntu.com/ubuntu/ hardy-proposed universe main # multiverse restricted
+#deb-src http://tw.archive.ubuntu.com/ubuntu/ hardy-proposed universe main multiverse restricted
+
+deb http://archive.ubuntu.com/ubuntu/ gutsy main
+deb http://archive.ubuntu.com/ubuntu/ gutsy-security main
+deb http://archive.ubuntu.com/ubuntu/ feisty universe main
+deb http://unicap-imaging.org/packages gutsy main contrib

@@ -1,0 +1,17 @@
+# UrMap plug-in by oda@olemap.com
+
+<search 
+   name="UrMap你的地圖網"
+   sourceTextEncoding="2"
+   description="UrMap電子地圖搜尋引擎"
+   method="GET"
+   action="http://www.urmap.com/"
+   update="http://www.urmap.com/firefox/urmap.src"
+   updateCheckDays=7
+   queryEncoding="Big5"
+   queryCharset="Big5"
+>
+
+<input name="qs" user>
+<input name="qt" value="0">
+</search>

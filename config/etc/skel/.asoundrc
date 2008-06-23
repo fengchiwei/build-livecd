@@ -1,0 +1,48 @@
+pcm.headset {
+	@args [BDADDR TIMEOUT]
+	
+	# The Bluetooth device address for target headset, used for Audio Gateway (PC) initiated connections
+        # Please note that this value is ignored when the connection is Headset initiated
+	@args.BDADDR {
+		type string
+		# default "00:0D:18:A0:2A:0B"
+		default "00:07:A4:1C:89:31"
+	}
+
+	# This value represents how long we will try to reach the headset, until we give up.
+	# Value is in milliseconds
+	@args.TIMEOUT {
+		type integer
+		default 6000
+	}
+
+	type        sco
+	bdaddr      $BDADDR
+	timeout     $TIMEOUT
+}
+
+ctl.headset {
+	type sco
+}
+
+# A2DPD must be started first
+pcm.a2dpd {
+        type a2dpd
+}
+
+# This entry allows the plugin to appear in mixer applications
+# This way, the sound level can be controlled by software outside the player
+# This works but unfortunately sound is broken at first sight
+# So it needs more study
+pcm.a2dpdsoftvol {
+        type softvol
+        slave {
+                pcm "a2dpd"
+        }
+
+        control {
+                name "Bluetooth Headset"
+                card 0
+                count 1
+        }
+}

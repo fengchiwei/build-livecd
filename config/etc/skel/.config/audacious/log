@@ -1,0 +1,94 @@
+
+** LOGGING STARTED AT Wed Mar  5 20:39:10 2008
+
+Loaded plugin (/usr/lib/audacious/Output/null.so)
+Loaded plugin (/usr/lib/audacious/Output/jackout.so)
+Loaded plugin (/usr/lib/audacious/Output/ESD.so)
+Loaded plugin (/usr/lib/audacious/Output/arts.so)
+Loaded plugin (/usr/lib/audacious/Output/pulse_audio.so)
+Loaded plugin (/usr/lib/audacious/Output/ALSA.so)
+Loaded plugin (/usr/lib/audacious/Output/filewriter.so)
+Loaded plugin (/usr/lib/audacious/Output/OSS.so)
+Loaded plugin (/usr/lib/audacious/Input/wavpack.so)
+Loaded plugin (/usr/lib/audacious/Input/vtx.so)
+Loaded plugin (/usr/lib/audacious/Input/tta.so)
+Loaded plugin (/usr/lib/audacious/Input/tonegen.so)
+Loaded plugin (/usr/lib/audacious/Input/timidity.so)
+Loaded plugin (/usr/lib/audacious/Input/sid.so)
+Loaded plugin (/usr/lib/audacious/Input/sexypsf.so)
+Loaded plugin (/usr/lib/audacious/Input/musepack.so)
+Loaded plugin (/usr/lib/audacious/Input/modplug.so)
+Loaded plugin (/usr/lib/audacious/Input/metronom.so)
+Loaded plugin (/usr/lib/audacious/Input/cuesheet.so)
+Loaded plugin (/usr/lib/audacious/Input/console.so)
+Loaded plugin (/usr/lib/audacious/Input/adplug.so)
+Loaded plugin (/usr/lib/audacious/Input/amidi-plug.so)
+Loaded plugin (/usr/lib/audacious/Input/wma.so)
+Loaded plugin (/usr/lib/audacious/Input/wav.so)
+Loaded plugin (/usr/lib/audacious/Input/vorbis.so)
+Loaded plugin (/usr/lib/audacious/Input/madplug.so)
+Loaded plugin (/usr/lib/audacious/Input/flacng.so)
+Loaded plugin (/usr/lib/audacious/Input/cdaudio-ng.so)
+Loaded plugin (/usr/lib/audacious/Input/alac.so)
+Loaded plugin (/usr/lib/audacious/Input/aac.so)
+Loaded plugin (/usr/lib/audacious/Effect/voice_removal.so)
+Loaded plugin (/usr/lib/audacious/Effect/stereo.so)
+Loaded plugin (/usr/lib/audacious/Effect/sndstretch.so)
+Loaded plugin (/usr/lib/audacious/Effect/ladspa.so)
+Loaded plugin (/usr/lib/audacious/Effect/echo.so)
+Loaded plugin (/usr/lib/audacious/Effect/audiocompress.so)
+Loaded plugin (/usr/lib/audacious/General/evdev-plug.so)
+Loaded plugin (/usr/lib/audacious/General/song_change.so)
+Loaded plugin (/usr/lib/audacious/General/scrobbler.so)
+Loaded plugin (/usr/lib/audacious/General/hotkey.so)
+Loaded plugin (/usr/lib/audacious/General/gnomeshortcuts.so)
+Loaded plugin (/usr/lib/audacious/General/lirc.so)
+Loaded plugin (/usr/lib/audacious/General/mtp_up.so)
+Loaded plugin (/usr/lib/audacious/General/aosd.so)
+Loaded plugin (/usr/lib/audacious/General/alarm.so)
+Loaded plugin (/usr/lib/audacious/General/statusicon.so)
+Loaded plugin (/usr/lib/audacious/Visualization/spectrum.so)
+Loaded plugin (/usr/lib/audacious/Visualization/rootvis.so)
+Loaded plugin (/usr/lib/audacious/Visualization/rocklight.so)
+Loaded plugin (/usr/lib/audacious/Visualization/projectm-1.0.so)
+Loaded plugin (/usr/lib/audacious/Visualization/paranormal.so)
+Loaded plugin (/usr/lib/audacious/Visualization/blur_scope.so)
+Loaded plugin (/usr/lib/audacious/Container/xspf.so)
+Loaded plugin (/usr/lib/audacious/Container/pls.so)
+Loaded plugin (/usr/lib/audacious/Container/m3u.so)
+Loaded plugin (/usr/lib/audacious/Transport/lastfm.so)
+Loaded plugin (/usr/lib/audacious/Transport/stdio.so)
+Loaded plugin (/usr/lib/audacious/Transport/neon.so)
+Loaded plugin (/usr/lib/audacious/Transport/mms.so)
+device: default
+fmt 5, channels: 2
+playlistwin_update_list: assertion `playlistwin_list' failed
+playlistwin_update_list: assertion `playlistwin_list' failed
+dbus_g_proxy_add_signal: assertion `DBUS_IS_G_PROXY (proxy)' failed
+dbus_g_proxy_add_signal: assertion `DBUS_IS_G_PROXY (proxy)' failed
+dbus_g_proxy_add_signal: assertion `DBUS_IS_G_PROXY (proxy)' failed
+D-Bus support has been activated
+(Gtk) gtk_list_store_clear: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_append: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_set_valist: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_append: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_set_valist: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_append: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_set_valist: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_append: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_set_valist: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_append: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_set_valist: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_append: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_set_valist: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_append: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_list_store_set_valist: assertion `GTK_IS_LIST_STORE (list_store)' failed
+(Gtk) gtk_tree_selection_select_iter: assertion `selection->tree_view->priv->model != NULL' failed
+(Gtk) gtk_tree_model_get_path: assertion `GTK_IS_TREE_MODEL (tree_model)' failed
+(Gtk) gtk_tree_view_scroll_to_cell: assertion `tree_view->priv->model != NULL' failed
+Shutting down plugin system
+(Gtk) gtk_widget_destroy: assertion `GTK_IS_WIDGET (widget)' failed
+(Gtk) gtk_widget_destroy: assertion `GTK_IS_WIDGET (widget)' failed
+
+** LOGGING STOPPED AT Wed Mar  5 20:40:10 2008
+

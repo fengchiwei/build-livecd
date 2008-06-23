@@ -1,0 +1,99 @@
+<!ENTITY gs.removefromq.label "Retirer de la file d&apos;attente">
+<!ENTITY gs.upload.label "Uploader">
+<!ENTITY gs.createdirectory.label "Créer un répertoire">
+<!ENTITY gs.delete.label "Supprimer">
+<!ENTITY gs.download.label "Télécharger">
+<!ENTITY gs.gid.label "Identifiant Gmail :">
+<!ENTITY gs.gpwd.label "Mot de passe :">
+<!ENTITY gs.glogin.label "Se connecter">
+<!ENTITY gs.glogout.label "Se déconnecter">
+<!ENTITY gs.gbrowse.label "Parcourir">
+<!ENTITY gs.refreshfolder.tip "Rafraîchir le dossier">
+<!ENTITY gs.updirectory.tip "Monter d&apos;un répertoire">
+<!ENTITY gs.filesless.tip "Voir uniquement les fichiers inférieurs à 20 Mo">
+<!ENTITY gs.clear.tip "Effacer">
+<!ENTITY gs.gstatus.label "État :">
+<!ENTITY gs.usedspace.label "Espace Gmail utilisé :">
+<!ENTITY gs.totalspace.label "Espace Gmail total :">
+<!ENTITY gs.treefilename.label "Nom de fichier">
+<!ENTITY gs.treefilesize.label "Taille (Ko)">
+<!ENTITY gs.treemodifiedtime.label "Modifié le">
+<!ENTITY gs.treeuploadtime.label "Uploadé le">
+<!ENTITY gs.treetype.label "Type">
+<!ENTITY gs.treefrom.label "De">
+<!ENTITY gs.treeto.label "Vers">
+<!ENTITY gs.treeprogress.label "Progression">
+<!ENTITY gs.treestatus.label "État">
+<!ENTITY gs.gegid.label "(ex. id@gmail.com, id@googlemail.com)">
+<!ENTITY gs.gid.tip "utilisateurs googlemail.com suivi de @googlemail.com (ex. votre_id@googlemail.com)">
+<!ENTITY gs.gremember.label "Se rappeler">
+<!ENTITY gs.imagepanel.tooltip "Montrer le panneau Image">
+<!ENTITY gs.attachsize.label "Taille de la pièce jointe en Mo">
+<!ENTITY gs.attachsizenote.label "(Mettez une valeur haute si vous avez un bon débit réseau)">
+<!ENTITY gs.harmfulext.label "Suffixes de fichiers nuisibles">
+<!ENTITY gs.imageext.label "Formats des fichiers images">
+<!ENTITY gs.csv.label "(Liste avec virgule comme séparateur)">
+<!ENTITY gs.preferences.label "Préférences">
+<!ENTITY gs.opengspace.label "Ouvrir l&apos;espace de stockage Gmail">
+<!ENTITY gs.toolbaricon.label "Montrer l&apos;icône dans la barre d&apos;outils (nécessite un redémarrage)">
+<!ENTITY gs.sendto.label "Envoyé vers">
+<!ENTITY gs.cut.label "Couper">
+<!ENTITY gs.copy.label "Copier">
+<!ENTITY gs.rename.label "Renommer">
+<!ENTITY gs.paste.label "Coller">
+<!ENTITY gs.properties.label "Propriétés">
+<!ENTITY gs.addtoplaylist.label "Ajouter à la liste de lecture">
+<!ENTITY gs.filetransfer.label "Mode transfer de fichiers">
+<!ENTITY gs.player.label "Mode lecteur audio">
+<!ENTITY gs.photo.label "Mode visualisation d&apos;images">
+<!ENTITY gs.previous.label "Précédent">
+<!ENTITY gs.play.label "Lecture">
+<!ENTITY gs.next.label "Suivant">
+<!ENTITY gs.remotepath.label "Chemin distant">
+<!ENTITY gs.logged.in.user.name "Connecté avec le nom : ">
+<!ENTITY gs.gmaildrivemode.label "Mode Gmail Drive">
+<!ENTITY gs.preview "Prévisualisation">
+<!ENTITY gs.manageaccounts "Gestion de comptes">
+<!ENTITY gs.from "Par">
+<!ENTITY gs.accountmanager.title "Gestionnaire de comptes Gspace">
+<!ENTITY gs.accountpreferences.label "Préférences pour comptes Gspace">
+<!ENTITY gs.gmailid.label "Utilisateur Gmail : ">
+<!ENTITY gs.password.label "Mot de passe : ">
+<!ENTITY gs.rememberpassword.label "Se rappeler le mot de passe">
+<!ENTITY gs.add.label "Ajouter">
+<!ENTITY gs.remove.label "Retirer">
+<!ENTITY gs.clear.label "Supprimer">
+<!ENTITY gs.hint.label "Astuce : cliquer sur le bouton &apos;Supprimer&apos; pour ajouter un nouveau compte">
+<!ENTITY gs.note.label "Note : Il faut être sûr que vous utilisez bien un nom de domaine correct">
+<!ENTITY gs.useremail.label "Adresse courriel">
+<!ENTITY gs.overwrite.options "Options de remplacement pour les fichiers existant déjà">
+<!ENTITY gs.overwrite.del "remplacer et supprimer l&apos;ancien fichier">
+<!ENTITY gs.overwrite.all "remplacer tout et supprimer tous les anciens fichiers">
+<!ENTITY gs.overwrite.save "remplacer mais sauvegarder l&apos;ancien fichier (recommandé)">
+<!ENTITY gs.overwrite.saveall "remplacer tout mais sauvegarder les anciens fichiers (recommandé)">
+<!ENTITY gs.skip "Sauter">
+<!ENTITY gs.skipall "Sauter tout">
+<!ENTITY gs.gspace.preferences "Préférences pour Gspace">
+<!ENTITY gs.clickproperties.label "Montre les dates des fichiers/dossiers lorsque sélectionné (Non recommandé pour les utilisateurs avec un réseau bas débit)">
+<!ENTITY gs.gspath.label "Chemin du fichier pour le premier fichier *_gs :">
+<!ENTITY gs.browse.label "Parcourir">
+<!ENTITY gs.join.label "Re-combiner">
+<!ENTITY gs.joinhint.label "Utile lorsque vous voulez explicitement télécharger des fractions de fichiers venant de Gmail">
+<!ENTITY gs.thumbnails.label "Montrer les vignettes en mode visualisation d&apos;images (Réseau haut débit recommandé)">
+<!ENTITY gs.gspace.help "Aide">
+<!ENTITY gs.gmaillocale.tip "Mettre dans les options de Gmail, le langage à &apos;english&apos; (faire cela si vous avez des problèmes)">
+<!ENTITY gs.gmaillocale.label "Français">
+<!ENTITY gs.openinbox.label "Boite mail">
+<!ENTITY gs.openinbox.tooltip "Ouvrir la boite aux lettres Gmail dans une nouvelle fenêtre">
+<!ENTITY gs.showstatusicon.label "Montrer l&apos;icône dans la barre d&apos;état (recommandé, sera effectif lorsque vous ouvrirez une nouvelle fenêtre)">
+<!ENTITY gs.downloadto.label "Télécharger dans ...">
+<!ENTITY gs.makereadonly.label "Mettre en lecture seule">
+<!ENTITY gs.remoteview.label "Vue distante">
+<!ENTITY gs.transferview.label "Vue des transferts">
+<!ENTITY gs.opengspacepanel.tooltip "Ouvrir le panneau Gspace">
+<!ENTITY gs.ok.label "Ok">
+<!ENTITY gs.opencredits.label "Crédits">
+<!ENTITY gs.iface.mycomputer.label "Mon ordinateur">
+<!ENTITY gs.iface.mygspace.label "Mon Gspace">
+<!ENTITY gs.iface.mytransfers.label "Transferts">
+<!ENTITY gs.iface.mystatus.label "Statut">
