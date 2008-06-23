@@ -1,0 +1,19 @@
+overlay chrome://browser/content/browser.xul chrome://dwhelper/content/dwhelper.xul
+content dwhelper    jar:chrome/dwhelper.jar!/content/
+skin    dwhelper classic/1.0 jar:chrome/dwhelper.jar!/skin/classic/
+locale  dwhelper en-US jar:chrome/dwhelper.jar!/locale/en-US/
+locale  dwhelper fr-FR jar:chrome/dwhelper.jar!/locale/fr-FR/
+locale  dwhelper nl-NL jar:chrome/dwhelper.jar!/locale/nl-NL/
+locale  dwhelper de-DE jar:chrome/dwhelper.jar!/locale/de-DE/
+locale  dwhelper es-ES jar:chrome/dwhelper.jar!/locale/es-ES/
+locale  dwhelper it-IT jar:chrome/dwhelper.jar!/locale/it-IT/
+locale  dwhelper pt-BR jar:chrome/dwhelper.jar!/locale/pt-BR/
+locale  dwhelper sk-SK jar:chrome/dwhelper.jar!/locale/sk-SK/
+locale  dwhelper zh-CN jar:chrome/dwhelper.jar!/locale/zh-CN/
+locale  dwhelper pl-PL jar:chrome/dwhelper.jar!/locale/pl-PL/
+locale  dwhelper tr-TR jar:chrome/dwhelper.jar!/locale/tr-TR/
+locale  dwhelper ja-JP jar:chrome/dwhelper.jar!/locale/ja-JP/
+locale  dwhelper fi-FI jar:chrome/dwhelper.jar!/locale/fi-FI/
+locale  dwhelper zh-TW jar:chrome/dwhelper.jar!/locale/zh-TW/
+locale  dwhelper ko-KR jar:chrome/dwhelper.jar!/locale/ko-KR/
+style   chrome://global/content/customizeToolbar.xul    chrome://dwhelper/skin/classic/dwhelper.css

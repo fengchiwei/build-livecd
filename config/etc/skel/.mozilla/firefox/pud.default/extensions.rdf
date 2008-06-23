@@ -1,0 +1,330 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:NS1="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="rdf:#$T5M0C2"
+                   NS1:id="dlm@emusic.com"
+                   NS1:minVersion="1.0a4"
+                   NS1:maxVersion="1.0.0.*" />
+  <RDF:Description RDF:about="urn:mozilla:item:firegestures@xuldev.org"
+                   NS1:installLocation="app-global"
+                   NS1:version="1.1.2"
+                   NS1:optionsURL="chrome://firegestures/content/prefs.xul"
+                   NS1:iconURL="chrome://firegestures/skin/icon.png"
+                   NS1:name="FireGestures"
+                   NS1:description="Executes various commands with mouse gestures."
+                   NS1:creator="Gomita"
+                   NS1:homepageURL="http://www.xuldev.org/firegestures/"
+                   NS1:contributor="tsukkee (testing with Mac OS X)">
+    <NS1:type NC:parseType="Integer">2</NS1:type>
+    <NS1:translator>Quicksilver tears (ru-RU)</NS1:translator>
+    <NS1:translator>myahoo (fr-FR)</NS1:translator>
+    <NS1:translator>Cye3s (zh-CN)</NS1:translator>
+    <NS1:translator>teo, Wacław Jacek (pl-PL)</NS1:translator>
+    <NS1:translator>josesun, Nelson (zh-TW)</NS1:translator>
+    <NS1:translator>Indigo (it-IT)</NS1:translator>
+    <NS1:translator>PAB (de-DE)</NS1:translator>
+    <NS1:translator>Alberto Eidh (pt-BR)</NS1:translator>
+    <NS1:translator>villepyry (fi-FI)</NS1:translator>
+    <NS1:translator>wtspout (ko-KR)</NS1:translator>
+    <NS1:translator>MartinZubek (cs-CZ)</NS1:translator>
+    <NS1:translator>gandhi2 (nb-NO)</NS1:translator>
+    <NS1:translator>kami (hu-HU)</NS1:translator>
+    <NS1:targetApplication RDF:resource="rdf:#$o8M0C2"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$S5M0C2"
+                   NS1:id="{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+                   NS1:minVersion="1.0"
+                   NS1:maxVersion="3.0a2pre" />
+  <RDF:Description RDF:about="urn:mozilla:item:{B9C8BE50-7105-4ec6-8FB4-4935C0671648}"
+                   NS1:installLocation="app-global"
+                   NS1:version="0.5.94"
+                   NS1:optionsURL="chrome://gspace/content/options.xul"
+                   NS1:iconURL="chrome://gspace/skin/icon.png"
+                   NS1:name="Gmail Space"
+                   NS1:description="Gspace"
+                   NS1:creator="Rahul Jonna"
+                   NS1:homepageURL="http://www.getgspace.com/"
+                   NS1:developer="FON Labs"
+                   NS1:contributor="http://www.babelzilla.org/">
+    <NS1:type NC:parseType="Integer">2</NS1:type>
+    <NS1:targetApplication RDF:resource="rdf:#$z6M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$A6M0C2"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$n7M0C2"
+                   NS1:id="dlm@emusic.com"
+                   NS1:minVersion="1.0"
+                   NS1:maxVersion="1.0.0.*" />
+  <RDF:Description RDF:about="rdf:#$z6M0C2"
+                   NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   NS1:minVersion="1.5"
+                   NS1:maxVersion="3.0.*" />
+  <RDF:Description RDF:about="urn:mozilla:item:{dc572301-7619-498c-a57d-39143191b318}"
+                   NS1:installLocation="app-global"
+                   NS1:version="0.3.6.1.080416"
+                   NS1:updateURL="http://tmp.garyr.net/updates-dev.rdf"
+                   NS1:optionsURL="chrome://tabmixplus/content/pref/pref-tabmix.xul"
+                   NS1:aboutURL="chrome://tabmixplus/content/about.xul"
+                   NS1:iconURL="chrome://tabmixplus/skin/tmp.png"
+                   NS1:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDmemitmxKFPUxOApIk0IiE9MTdDpoLpEEZpVIeeE5apzQcRPvq2ZoL9SAi1/nwVmGGa+jenml0dU6iDA42b8NkbcoFAruED77AUWfB4OKDtZ7oBpzTbcNmeWsJQkQuff2Kj0upIvzQ5ZU8lZn5YI9NQYXIDMtBWhG7N5Pqw27bMQIDAQAB"
+                   NS1:name="Tab Mix Plus"
+                   NS1:description="Tab browsing with an added boost."
+                   NS1:homepageURL="http://tmp.garyr.net">
+    <NS1:type NC:parseType="Integer">2</NS1:type>
+    <NS1:targetApplication RDF:resource="rdf:#$J7M0C2"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$D8M0C2"
+                   NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   NS1:minVersion="3.0"
+                   NS1:maxVersion="3.0" />
+  <RDF:Description RDF:about="rdf:#$x5X5Z2"
+                   NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   NS1:minVersion="1.5"
+                   NS1:maxVersion="3.0.*" />
+  <RDF:Description RDF:about="rdf:#$Q5M0C2"
+                   NS1:id="{86c18b42-e466-45a9-ae7a-9b95ba6f5640}"
+                   NS1:minVersion="1.7"
+                   NS1:maxVersion="1.8+" />
+  <RDF:Description RDF:about="rdf:#$y6M0C2"
+                   NS1:id="{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+                   NS1:minVersion="1.0"
+                   NS1:maxVersion="2.0.0.*" />
+  <RDF:Description RDF:about="urn:mozilla:item:{d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}"
+                   NS1:installLocation="app-global"
+                   NS1:version="0.7.5.5"
+                   NS1:optionsURL="chrome://adblockplus/content/settings.xul"
+                   NS1:aboutURL="chrome://adblockplus/content/about.xul"
+                   NS1:iconURL="chrome://adblockplus/skin/adblockplus.png"
+                   NS1:name="Adblock Plus"
+                   NS1:description="Ads were yesterday!"
+                   NS1:creator="Wladimir Palant"
+                   NS1:homepageURL="http://adblockplus.org/">
+    <NS1:type NC:parseType="Integer">2</NS1:type>
+    <NS1:targetApplication RDF:resource="rdf:#$h7M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$i7M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$j7M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$k7M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$l7M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$m7M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$n7M0C2"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$m7M0C2"
+                   NS1:id="{aa5ca914-c309-495d-91cf-3141bbb04115}"
+                   NS1:minVersion="0.2"
+                   NS1:maxVersion="0.3" />
+  <RDF:Description RDF:about="rdf:#$k7M0C2"
+                   NS1:id="{a463f10c-3994-11da-9945-000d60ca027b}"
+                   NS1:minVersion="0.5"
+                   NS1:maxVersion="1.0+" />
+  <RDF:Description RDF:about="rdf:#$l7M0C2"
+                   NS1:id="songbird@songbirdnest.com"
+                   NS1:minVersion="0.5"
+                   NS1:maxVersion="0.6.*" />
+  <RDF:Description RDF:about="rdf:#$i7M0C2"
+                   NS1:id="{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+                   NS1:minVersion="1.0"
+                   NS1:maxVersion="2.0a1" />
+  <RDF:Description RDF:about="rdf:#$J7M0C2"
+                   NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   NS1:minVersion="1.0"
+                   NS1:maxVersion="3.0" />
+  <RDF:Description RDF:about="rdf:#$A6M0C2"
+                   NS1:id="{a463f10c-3994-11da-9945-000d60ca027b}"
+                   NS1:minVersion="0.4"
+                   NS1:maxVersion="0.8" />
+  <RDF:Description RDF:about="rdf:#$R5M0C2"
+                   NS1:id="{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+                   NS1:minVersion="1.0"
+                   NS1:maxVersion="2.0a1" />
+  <RDF:Description RDF:about="urn:mozilla:item:{972ce4c6-7e08-4474-a285-3208198ce6fd}"
+                   NS1:installLocation="gre-global"
+                   NS1:version="3.0"
+                   NS1:internalName="classic/1.0"
+                   NS1:locked="true"
+                   NS1:appManaged="true"
+                   NS1:name="Default"
+                   NS1:description="The default theme."
+                   NS1:creator="Mozilla"
+                   NS1:contributor="Mozilla Contributors">
+    <NS1:type NC:parseType="Integer">4</NS1:type>
+    <NS1:targetApplication RDF:resource="rdf:#$D8M0C2"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$P5M0C2"
+                   NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   NS1:minVersion="1.5"
+                   NS1:maxVersion="3.1a1pre" />
+  <RDF:Description RDF:about="rdf:#$x6M0C2"
+                   NS1:id="{a463f10c-3994-11da-9945-000d60ca027b}"
+                   NS1:minVersion="0.4"
+                   NS1:maxVersion="1.0" />
+  <RDF:Description RDF:about="rdf:#$w6M0C2"
+                   NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   NS1:minVersion="0.8"
+                   NS1:maxVersion="3.0.*" />
+  <RDF:Description RDF:about="urn:mozilla:item:{19503e42-ca3c-4c27-b1e2-9cdb2170ee34}"
+                   NS1:installLocation="app-global"
+                   NS1:version="1.0.4.2"
+                   NS1:optionsURL="chrome://flashgot/content/flashgotOptions.xul"
+                   NS1:aboutURL="chrome://flashgot/content/about.xul"
+                   NS1:iconURL="chrome://flashgot/skin/icon32.png"
+                   NS1:name="FlashGot"
+                   NS1:description="Enables Firefox, Mozilla Suite, Netscape and Thunderbird to handle single and massive (&quot;all&quot; and &quot;selection&quot;) downloads using the most popular external download managers for Windows, Mac OS X, Linux and FreeBSD (dozens currently supported, see Extension's Home Page for details). FlashGot offers also a Build Gallery functionality which helps to synthetize full media galleries in one page, from serial contents originally scattered on several pages, for easy and fast &quot;download all&quot;."
+                   NS1:creator="Giorgio Maone"
+                   NS1:homepageURL="http://flashgot.net">
+    <NS1:type NC:parseType="Integer">2</NS1:type>
+    <NS1:contributor>Ahmad Zhafir (Malay translation)</NS1:contributor>
+    <NS1:contributor>Alexander "Hawksthorne" Kirilov and Kalin "splt-rmx" Takev  (Bulgarian translation)</NS1:contributor>
+    <NS1:contributor>Drive DRKA (Belarusian translation)</NS1:contributor>
+    <NS1:contributor>Anthony L. Bryan and Darius Liktorius (Metalink support)</NS1:contributor>
+    <NS1:contributor>Artek Działek, Bartosz Piec and Piotr Konieczny (Polish translation)</NS1:contributor>
+    <NS1:contributor>Axel Zechner (KGet support)</NS1:contributor>
+    <NS1:contributor>Bálint Farkas and Henriett Peller (Hungarian translation)</NS1:contributor>
+    <NS1:contributor>Basem Narmok (Arabic translation)</NS1:contributor>
+    <NS1:contributor>BDNT (Indonesian translation)</NS1:contributor>
+    <NS1:contributor>Besmir Godole (Albanian translation)</NS1:contributor>
+    <NS1:contributor>Bigbigbomb, Blackdire, Charlie Chen and George C. Tsoi (Simplified Chinese translation)</NS1:contributor>
+    <NS1:contributor>Cola99 (Traditional Chinese translation)</NS1:contributor>
+    <NS1:contributor>Diogo Mafra(Portuguese translation)</NS1:contributor>
+    <NS1:contributor>Duriel (Simplified Chinese translation)</NS1:contributor>
+    <NS1:contributor>Emilio Malaman, Tulio Padilha and Pesty (Portuguese translation)</NS1:contributor>
+    <NS1:contributor>Engin Yazılan (Turkish translation)</NS1:contributor>
+    <NS1:contributor>Frantisek Augusztin(KGet support)</NS1:contributor>
+    <NS1:contributor>Frackounet and Yann Bill (French translation)</NS1:contributor>
+    <NS1:contributor>Gaspar Alomar Trías (Catalan translation)</NS1:contributor>
+    <NS1:contributor>Gomyoung Kim (Korean translation)</NS1:contributor>
+    <NS1:contributor>Greener(Traditional Chinese translation)</NS1:contributor>
+    <NS1:contributor>Hadakadenkyu (Japanese translation)</NS1:contributor>
+    <NS1:contributor>HU Tian-Lei (Thunder hints)</NS1:contributor>
+    <NS1:contributor>iLogik (Romanian translation)</NS1:contributor>
+    <NS1:contributor>Jacques Letellier, Yann Bill and Calimero988 (French translation)</NS1:contributor>
+    <NS1:contributor>Jan Janssen (Gwget support)</NS1:contributor>
+    <NS1:contributor>Jarol and Nameless (Spanish translation)</NS1:contributor>
+    <NS1:contributor>Jonathan Avraham (Hebrew translation)</NS1:contributor>
+    <NS1:contributor>Jouko Saarinen (Finnish translation)</NS1:contributor>
+    <NS1:contributor>Jure Osredkar and Miles (Slovenian translation)</NS1:contributor>
+    <NS1:contributor>Kesisidis  Dimitrios and Rookie (Greek translation)</NS1:contributor>
+    <NS1:contributor>Krcko (Croatian translation)</NS1:contributor>
+    <NS1:contributor>Kostas Papadimas (Greek translation)</NS1:contributor>
+    <NS1:contributor>Tomas Kordik (Czech translation)</NS1:contributor>
+    <NS1:contributor>Leif Larsson (Swedish translation)</NS1:contributor>
+    <NS1:contributor>Levent Karakas (Turkish translation)</NS1:contributor>
+    <NS1:contributor>Luca Pedrazzi (Italian translation)</NS1:contributor>
+    <NS1:contributor>Max Velasques (wxDownload Fast support)</NS1:contributor>
+    <NS1:contributor>M. Agras and Urko (Spanish translation)</NS1:contributor>
+    <NS1:contributor>Marius Navickas (Lithuanian translation)</NS1:contributor>
+    <NS1:contributor>Martin Joné (Norwegian Bokmål translation)</NS1:contributor>
+    <NS1:contributor>Martin Harder (Danish translation)</NS1:contributor>
+    <NS1:contributor>Michal Duda (Czech translation)</NS1:contributor>
+    <NS1:contributor>Mohsen Qorbani (Persian translation)</NS1:contributor>
+    <NS1:contributor>Ömer Fadıl USTA (Turkish translation)</NS1:contributor>
+    <NS1:contributor>Patipat Susumpow (Thai translation)</NS1:contributor>
+    <NS1:contributor>Pshadow (Traditional Chinese translation)</NS1:contributor>
+    <NS1:contributor>Ragnaar (Russian translation)</NS1:contributor>
+    <NS1:contributor>ReinekeFux and Thomas Weber (German translation)</NS1:contributor>
+    <NS1:contributor>Robert Setiadi (Indonesian translation)</NS1:contributor>
+    <NS1:contributor>Raryel Costa Souza- Brazil (Portuguese/Brazil translation)</NS1:contributor>
+    <NS1:contributor>Sergey Khoruzhin (Ukrainian translation)</NS1:contributor>
+    <NS1:contributor>Steven Hemelaere and Alf (Dutch translation)</NS1:contributor>
+    <NS1:contributor>Unghost (Russian translation)</NS1:contributor>
+    <NS1:contributor>Wladow (Slovak translation)</NS1:contributor>
+    <NS1:contributor>Љубиша Радовановић (Serbian translation)</NS1:contributor>
+    <NS1:contributor>YuanHongYe (new Thunder support)</NS1:contributor>
+    <NS1:contributor>Zhang Ji (BitComet support)</NS1:contributor>
+    <NS1:targetApplication RDF:resource="rdf:#$P5M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$Q5M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$R5M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$S5M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$T5M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$U5M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$V5M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$W5M0C2"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$W5M0C2"
+                   NS1:id="{a463f10c-3994-11da-9945-000d60ca027b}"
+                   NS1:minVersion="0.4"
+                   NS1:maxVersion="1.0.*" />
+  <RDF:Description RDF:about="rdf:#$h7M0C2"
+                   NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   NS1:minVersion="1.5"
+                   NS1:maxVersion="3.0.*" />
+  <RDF:Description RDF:about="rdf:#$X7M0C2"
+                   NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   NS1:minVersion="2.0"
+                   NS1:maxVersion="3.0.*" />
+  <RDF:Description RDF:about="rdf:#$V5M0C2"
+                   NS1:id="songbird@songbirdnest.com"
+                   NS1:minVersion="0.5"
+                   NS1:maxVersion="0.7pre" />
+  <RDF:Seq RDF:about="urn:mozilla:item:root">
+    <RDF:li RDF:resource="urn:mozilla:item:{d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}"/>
+    <RDF:li RDF:resource="urn:mozilla:item:{DD43485F-44CC-4452-A6C6-69356A7E33DA}"/>
+    <RDF:li RDF:resource="urn:mozilla:item:{972ce4c6-7e08-4474-a285-3208198ce6fd}"/>
+    <RDF:li RDF:resource="urn:mozilla:item:{b9db16a4-6edc-47ec-a1f4-b86292ed211d}"/>
+    <RDF:li RDF:resource="urn:mozilla:item:firegestures@xuldev.org"/>
+    <RDF:li RDF:resource="urn:mozilla:item:{19503e42-ca3c-4c27-b1e2-9cdb2170ee34}"/>
+    <RDF:li RDF:resource="urn:mozilla:item:{B9C8BE50-7105-4ec6-8FB4-4935C0671648}"/>
+    <RDF:li RDF:resource="urn:mozilla:item:{dc572301-7619-498c-a57d-39143191b318}"/>
+    <RDF:li RDF:resource="urn:mozilla:item:{22870005-adef-4c9d-ae36-d0e1f2f27e5a}"/>
+  </RDF:Seq>
+  <RDF:Description RDF:about="rdf:#$y5X5Z2"
+                   NS1:id="{a463f10c-3994-11da-9945-000d60ca027b}"
+                   NS1:minVersion="0.4+"
+                   NS1:maxVersion="1.5+" />
+  <RDF:Description RDF:about="urn:mozilla:item:{DD43485F-44CC-4452-A6C6-69356A7E33DA}"
+                   NS1:installLocation="app-global"
+                   NS1:version="1.2"
+                   NS1:optionsURL="chrome://autohide/content/ahPref.xul"
+                   NS1:iconURL="chrome://autohide/skin/icon.png"
+                   NS1:name="Autohide"
+                   NS1:description="Tweaks for Full Screen. Eala Frya Fresena!"
+                   NS1:creator="Jochen"
+                   NS1:homepageURL="http://www.krickelkrackel.de/autohide/">
+    <NS1:type NC:parseType="Integer">2</NS1:type>
+    <NS1:targetApplication RDF:resource="rdf:#$X7M0C2"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$U5M0C2"
+                   NS1:id="toolkit@mozilla.org"
+                   NS1:minVersion="1.9a3"
+                   NS1:maxVersion="1.9" />
+  <RDF:Description RDF:about="rdf:#$o8M0C2"
+                   NS1:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   NS1:minVersion="2.0"
+                   NS1:maxVersion="3.0.*" />
+  <RDF:Description RDF:about="urn:mozilla:item:{b9db16a4-6edc-47ec-a1f4-b86292ed211d}"
+                   NS1:installLocation="app-global"
+                   NS1:version="3.0.4"
+                   NS1:optionsURL="chrome://dwhelper/content/preferences.xul"
+                   NS1:iconURL="chrome://dwhelper/skin/logo-32x32.png"
+                   NS1:name="DownloadHelper"
+                   NS1:description="Download videos and images from many sites"
+                   NS1:creator="Michel Gutierrez"
+                   NS1:homepageURL="http://www.downloadhelper.net">
+    <NS1:type NC:parseType="Integer">2</NS1:type>
+    <NS1:targetApplication RDF:resource="rdf:#$x5X5Z2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$y5X5Z2"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$j7M0C2"
+                   NS1:id="{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+                   NS1:minVersion="1.5"
+                   NS1:maxVersion="3.0a1" />
+  <RDF:Description RDF:about="urn:mozilla:item:{22870005-adef-4c9d-ae36-d0e1f2f27e5a}"
+                   NS1:installLocation="app-global"
+                   NS1:version="0.3.9"
+                   NS1:optionsURL="chrome://tongwen/content/settings/settings.xul"
+                   NS1:iconURL="chrome://tongwen/skin/images/tongwen-icon.png"
+                   NS1:name="新同文堂 (New Tong Wen Tang)"
+                   NS1:description="中文繁簡轉換 (Chinese Simplified&lt;-&gt;Traditional switcher)"
+                   NS1:creator="passerby, softcup"
+                   NS1:homepageURL="http://rt.openfoundry.org/Foundry/Project/?Queue=333">
+    <NS1:type NC:parseType="Integer">2</NS1:type>
+    <NS1:contributor>哈少 (hashao)</NS1:contributor>
+    <NS1:contributor>Hemiola SUN</NS1:contributor>
+    <NS1:contributor>vertex</NS1:contributor>
+    <NS1:contributor>josesun</NS1:contributor>
+    <NS1:contributor>得翼科技</NS1:contributor>
+    <NS1:contributor>可愛の人型姬</NS1:contributor>
+    <NS1:targetApplication RDF:resource="rdf:#$w6M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$x6M0C2"/>
+    <NS1:targetApplication RDF:resource="rdf:#$y6M0C2"/>
+  </RDF:Description>
+</RDF:RDF>

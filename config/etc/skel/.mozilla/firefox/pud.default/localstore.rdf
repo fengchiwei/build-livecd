@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul">
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#main-window"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#sidebar-box"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#sidebar-title"/>
+    <NC:persist RDF:resource="chrome://browser/content/browser.xul#tongwen-toolbar"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#main-window"
+                   width="994"
+                   screenY="0"
+                   height="747"
+                   sizemode="normal"
+                   screenX="141" />
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#tongwen-toolbar"
+                   collapsed="true" />
+  <RDF:Description RDF:about="chrome://mozapps/content/extensions/extensions.xul#extensionsManager"
+                   width="520"
+                   height="380"
+                   sizemode="normal"
+                   screenX="665"
+                   screenY="225" />
+  <RDF:Description RDF:about="chrome://mozapps/content/extensions/extensions.xul#viewGroup"
+                   last-selected="extensions" />
+  <RDF:Description RDF:about="chrome://tabmixplus/content/session/promptservice.xul#prompt-tabmix"
+                   screenX="312"
+                   screenY="327" />
+  <RDF:Description RDF:about="chrome://tabmixplus/content/session/promptservice.xul">
+    <NC:persist RDF:resource="chrome://tabmixplus/content/session/promptservice.xul#prompt-tabmix"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="chrome://browser/content/browser.xul#sidebar-title"
+                   value="" />
+  <RDF:Description RDF:about="chrome://mozapps/content/extensions/extensions.xul#extensions-view"
+                   last-selected="urn:mozilla:item:{b9db16a4-6edc-47ec-a1f4-b86292ed211d}"
+                   selected="true" />
+  <RDF:Description RDF:about="chrome://mozapps/content/extensions/extensions.xul#search-view"
+                   last-selected="urn:mozilla:addons:search:https://addons.mozilla.org/downloads/file/28257/digg_firefox_extension-0.6.2-fx.xpi" />
+  <RDF:Description RDF:about="chrome://mozapps/content/extensions/extensions.xul">
+    <NC:persist RDF:resource="chrome://mozapps/content/extensions/extensions.xul#search-view"/>
+    <NC:persist RDF:resource="chrome://mozapps/content/extensions/extensions.xul#viewGroup"/>
+    <NC:persist RDF:resource="chrome://mozapps/content/extensions/extensions.xul#extensionsManager"/>
+    <NC:persist RDF:resource="chrome://mozapps/content/extensions/extensions.xul#extensions-view"/>
+  </RDF:Description>
+</RDF:RDF>

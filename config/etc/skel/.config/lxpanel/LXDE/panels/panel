@@ -56,7 +56,7 @@ Plugin {
             id=xfce4-terminal.desktop
         }
         Button {
-            id=firefox-2.desktop
+            id=firefox.desktop
         }
     }
 }
