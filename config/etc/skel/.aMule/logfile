@@ -1,0 +1,24 @@
+2008-03-09 12:34:58: ClientCreditsList.cpp(315): 文件 'crytkey.dat' 未找到，正在創建。
+2008-03-09 12:34:58: ClientCreditsList.cpp(279): Credits: Created new RSA keypair
+2008-03-09 12:34:58: IPFilter.cpp(109): 正在載入IP過濾文件 'ipfilter.dat' and 'ipfilter_static.dat'。
+2008-03-09 12:34:58: IPFilter.cpp(334): 載入 0 個IP段自 /home/ubuntu/.aMule/ipfilter.dat，丟棄了 0 行錯誤數據。
+2008-03-09 12:34:58: IPFilter.cpp(334): 載入 0 個IP段自 /home/ubuntu/.aMule/ipfilter_static.dat，丟棄了 0 行錯誤數據。
+2008-03-09 12:34:58: amuleDlg.cpp(216): 
+2008-03-09 12:34:58: amuleDlg.cpp(218):  - 這是aMule SVN using wxGTK2 v2.8.7 (Snapshot: Mon Feb 18 07:02:15 CET 2008) (基于 eMule)
+2008-03-09 12:34:58: amuleDlg.cpp(220):    運行于 Linux 2.6.24-11-generic i686
+2008-03-09 12:34:58: amuleDlg.cpp(222):  - 請訪問 http://www.amule.org 以下載最新版本
+2008-03-09 12:34:58: amuleDlg.cpp(223): 
+2008-03-09 12:34:58: IP2Country.cpp(73): 248個國旗圖片已載入。
+2008-03-09 12:34:58: ServerList.cpp(83): 正在載入 server.met 文件: /home/ubuntu/.aMule/server.met
+2008-03-09 12:34:58: ServerList.cpp(88): 找不到server.met 文件
+2008-03-09 12:34:58: DownloadQueue.cpp(173): 沒有找到 part 檔案
+2008-03-09 12:34:58: ExternalConn.cpp(169): 配置文件禁止外部連接
+2008-03-09 12:34:58: MuleUDPSocket.cpp(78): Created Server UDP-Socket at port 4665
+2008-03-09 12:34:58: MuleUDPSocket.cpp(78): Created Client UDP-Socket at port 4672
+2008-03-09 12:34:58: SharedFileList.cpp(353): 發現 0 已知分享的檔案
+2008-03-09 12:35:00: amule.cpp(783): 正在連線
+2008-03-09 12:35:00: ServerConnect.cpp(124): 伺服器清單中沒有有效伺服器可供連線
+2008-03-09 12:35:00: ThreadScheduler.cpp(308): ThreadScheduler: Completed task 'AICH Syncronizing', 0 tasks remaining.
+2008-03-09 12:35:03: ServerList.cpp(83): 正在載入 server.met 文件: /home/ubuntu/.aMule/server.met.download
+2008-03-09 12:35:03: ServerList.cpp(168): server.met 中有 17 個伺服器
+2008-03-09 12:35:03: ServerList.cpp(804): 從http://gruk.org/server.met.gz下載服務器列表完成
