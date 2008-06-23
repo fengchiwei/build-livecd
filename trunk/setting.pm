@@ -19,7 +19,8 @@ $VAR{'CDROM-TEMP'} 	= 'cdrom';
 $VAR{'CASPER'} 		= $VAR{'CDROM'}.'/casper';
 $VAR{'GRUB'}		= $VAR{'CDROM'}.'/boot/grub';
 $VAR{'CORENAME'}	= "hardy"; # core name of ubuntu
-$VAR{'REPOURL'}		= "http://192.168.1.11/ubuntu/";
+$VAR{'REPOURL'}		= "http://tw.archive.ubuntu.com/ubuntu"
+#"http://192.168.1.11/ubuntu/";
 #"http://tw.archive.ubuntu.com/ubuntu"
 # this is the repository url of ubuntu, you can use urls below:
 # http://tw.archive.ubuntu.com/ubuntu
