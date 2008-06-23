@@ -6,7 +6,7 @@ $ENV{'LC_ALL'} = 'C';
 
 # user should modify here
 $project_name 		= "pud"; # your project name
-$code_name 		= "x5"; # used for build dir
+$code_name 		= "lxde"; # used for build dir
 $VAR{'TIME'} 		= sprintf("%s-%.4d%.2d%.2d-%.2d", $code_name, $y+1900, $m+1, $d, $h);
 $VAR{'TARGET_DIR'} 	= $opts{'d'} || '../'.$project_name.'_builddir/'.$VAR{'TIME'};
 $VAR{'SYSTEM'} 		= $VAR{'TARGET_DIR'}.'/system';
