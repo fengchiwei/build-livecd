@@ -1,0 +1,10 @@
+<search
+	method = "GET"
+	name = "Kimo Dictionary"
+	queryCharset = "utf8"
+	action = "http://tw.dictionary.yahoo.com/dictionary"
+>
+
+<input name = "s" user>
+
+</search>
