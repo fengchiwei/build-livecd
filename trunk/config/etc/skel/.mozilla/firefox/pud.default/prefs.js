@@ -25,7 +25,7 @@ user_pref("browser.places.updateRecentTagsUri", false);
 user_pref("browser.sessionstore.max_tabs_undo", 20);
 user_pref("browser.sessionstore.resume_from_crash", false);
 user_pref("browser.startup.homepage_override.mstone", "rv:1.9");
-user_pref("browser.startup.page", 1);
+user_pref("browser.startup.homepage", "file:///usr/share/ubuntu-artwork/home/firefox-index.html");
 user_pref("browser.tabs.forceHide", false);
 user_pref("browser.tabs.loadFolderAndReplace", false);
 user_pref("browser.tabs.selectOwnerOnClose", false);
