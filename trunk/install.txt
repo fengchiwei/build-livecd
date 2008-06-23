@@ -156,7 +156,7 @@ hibernate pm-utils uswsusp
 tightvncserver xtightvncviewer 
 openssh-server
 displayconfig-gtk
-squashfs-tools mkisofs grub debootstrap syslinux mtools
+squashfs-tools genisoimage grub debootstrap syslinux mtools
 #qemu
 subversion 
 xdialog 
