@@ -3,6 +3,8 @@
 deb http://ppa.launchpad.net/ubuntu-mobile/ubuntu hardy main
 deb-src http://ppa.launchpad.net/ubuntu-mobile/ubuntu hardy main
 
+deb http://ppa.launchpad.net/lxde/ubuntu hardy main
+deb-src http://ppa.launchpad.net/lxde/ubuntu hardy main
 
 ## Base
 deb http://tw.archive.ubuntu.com/ubuntu/ hardy universe main multiverse restricted
