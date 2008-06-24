@@ -10,11 +10,12 @@ xserver-xorg xserver-xorg-core xfonts-base
 discover1 hwdata xresprobe mdetect xdebconfigurator
 
 # window manager
-lxde=0.3.2.1-0ubuntu1
-lxde-common=0.3.2.1-0ubuntu1
-lxde-settings-daemon=0.3.2.1-0ubuntu1
+#lxde=0.3.2.1-0ubuntu1
+
+#lxde-common=0.3.2.1-0ubuntu1
+#lxde-settings-daemon=0.3.2.1-0ubuntu1
 lxpanel=0.3.5.4-1ubuntu1
-lxsession
+openbox pcmanfm lxde-settings-daemon lxde-common lxsession
 #gtk2-engines-sapwood
 #mas-server mas-utils
 #hildon-control-panel hildon-desktop hildon-theme-mobile-basic 
@@ -107,7 +108,6 @@ pcmanx-gtk2
 firefox
 
 gftp-gtk
-#pcmanfm
 thunar 
 #thunar-thumbnailers
 xarchive 
