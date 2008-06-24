@@ -68,11 +68,11 @@ debconf-utils
 gnome-system-tools
 #gwget gnome-mount gnome-ppp
 brasero
-gnome-icon-theme 
+#gnome-icon-theme 
 #gnome-themes-extras
 #streamtuner 
 #grsync
-#gparted
+gparted
 
 # application
 #openoffice.org-writer openoffice.org-impress openoffice.org-calc 
@@ -86,7 +86,8 @@ ubiquity popularity-contest
 ############### gnomebaker
 vlc mozilla-plugin-vlc
 #exaile=0.2.10+debian-1.1ubuntu2 python-cddb gstreamer0.10-fluendo-mp3 
-exaile python-gnome2-extras
+exaile gstreamer0.10-plugins-ugly
+#python-gnome2-extras
 #audacious audacious-plugins-extra
 
 #gxineplugin gxine
@@ -129,7 +130,7 @@ xfce4-terminal
 
 # bluetooth
 bluez-utils bluetooth bluez-pcmcia-support bluetooth-alsa
-#blueman
+blueman
 ##### test
 #xdebconfigurator
 #ucview
