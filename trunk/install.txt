@@ -70,6 +70,7 @@ gnome-system-tools
 #gwget gnome-mount gnome-ppp
 brasero
 #gnome-icon-theme 
+hicolor-icon-theme
 #gnome-themes-extras
 #streamtuner 
 #grsync
