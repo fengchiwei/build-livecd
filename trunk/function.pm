@@ -90,7 +90,7 @@ sub pud_lize {
 	# &do_chroot('rm -rf /etc/X11/ion3/');
 	# &do_chroot('rm -f /usr/share/ubuntu-artwork/home/index.html');
 	# &do_chroot('ln -s /usr/share/ubuntu-artwork/home/firefox-index.html /usr/share/ubuntu-artwork/home/index.html');
-	&do_chroot('rm -rf /usr/share/firefox/searchplugins/');
+	&do_chroot('rm -rf /usr/lib/firefox-addons/searchplugins/');
 	&do_chroot('rm -f /etc/init.d/hwclock.sh');
 	&do_chroot('rm -f /etc/rc*.d/*hw*');
 	&do_chroot('ln -fs /usr/lib/libesd.so.0 /usr/lib/libesd.so.1');
