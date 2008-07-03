@@ -14,7 +14,8 @@ discover1 hwdata xresprobe mdetect xdebconfigurator
 
 #lxde-common=0.3.2.1-0ubuntu1
 #lxde-settings-daemon=0.3.2.1-0ubuntu1
-lxpanel=0.3.5.4-1ubuntu1
+#lxpanel=0.3.5.4-1ubuntu1
+lxpanel
 openbox pcmanfm lxde-settings-daemon lxde-common lxsession
 #gtk2-engines-sapwood
 #mas-server mas-utils
