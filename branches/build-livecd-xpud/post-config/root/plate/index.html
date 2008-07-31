@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=big5" />
+
+<title>plate User Interface</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script type="text/javascript" src="plate.js"></script>
+<link rev="made" href="mailto:penkia@gmail.com" />
+</head>
+<body>
+
+<div class="panel">
+	<div id="plate" class="tab1"></div> 
+	
+	<div class="button_selected" id="tab1" 
+	onclick="toggle('tab1');free('tab2', 'tab3', 'tab4'); $('content').src ='template/info.html'">
+	<div class="label">
+	<img src="image/Eterm.png" /><br />
+	Home</div></div>
+
+	<div class="button" id="tab2" 
+	onclick="toggle('tab2'); free('tab1', 'tab3', 'tab4'); $('content').src ='template/app.html'; $('content').scrolling='auto'">
+	<div class="label">
+	<img src="image/browser.png" /><br />
+	Run</div></div>
+
+	<div class="button" id="tab3" 
+	onclick="toggle('tab3');free('tab1', 'tab2', 'tab4'); $('content').src ='template/open.html'; $('content').scrolling='auto'">
+	<div class="label">
+	<img src="image/kcmdevices.png" /><br />
+	Open</div></div>
+	
+	<div class="button" id="tab4" 
+	onclick="toggle('tab4');free('tab1', 'tab2', 'tab3'); $('content').src ='template/config.html'">
+	<div class="label">
+	<img src="image/advancedsettings.png" /><br />
+	Config</div></div>
+
+	<div class="slot"></div> 
+</div> <!-- End of panel -->
+
+<div class="main">
+<iframe id="content" frameborder="0" scrolling="no" src="template/info.html" style="position: absolute; top: 20px; left: 20px; height: 93%; width: 94%;">
+</iframe>
+</div>
+
+</body>
+</html>

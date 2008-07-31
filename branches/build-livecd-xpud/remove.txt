@@ -1,0 +1,15 @@
+/root/.bash_history 
+/usr/share/doc/
+/usr/share/doc-base/
+/usr/share/man/
+/var/cache/apt/pkgcache.bin
+/var/cache/apt/srcpkgcache.bin
+/var/cache/debconf/*-old
+/var/lib/dpkg/*-old
+/boot
+/usr/share/i18n/locales
+/usr/share/locale
+/usr/share/X11/locale
+/usr/lib/gconv/
+/usr/share/zoneinfo/
+/usr/share/sounds/

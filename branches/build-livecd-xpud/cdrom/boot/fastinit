@@ -1,0 +1,19 @@
+#!/bin/dash
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+/sbin/udevd --daemon
+/sbin/udevadm trigger --subsystem-match=misc --subsystem-match=input & 
+if ! grep nox /proc/cmdline 2>/dev/null; then
+    if grep eeepc /proc/cmdline 2>/dev/null; then
+    /usr/sbin/915resolution 30 1024 600 24
+    /usr/bin/Xvesa :0 -ac -shadow -screen 1024x600x24 &
+    else
+    /usr/bin/Xvesa :0 -ac -shadow -screen 1280x1024x24 -mouse /dev/psaux,5 &
+    fi
+    /sbin/session &
+fi 
+/bin/hostname xpud
+/bin/mount -a
+/sbin/udevadm trigger 
+/etc/init.d/alsa-utils start 
+/usr/local/bin/mount-disk.pl &
+/bin/bash

@@ -1,0 +1,6 @@
+deb http://tw.archive.ubuntu.com/ubuntu/ hardy main universe restricted multiverse
+deb http://tw.archive.ubuntu.com/ubuntu/ hardy-updates main universe restricted multiverse
+deb http://tw.archive.ubuntu.com/ubuntu/ hardy-security main universe restricted multiverse
+deb http://tw.archive.ubuntu.com/ubuntu/ hardy-backports main universe restricted multiverse
+deb http://packages.medibuntu.org/ hardy free non-free
+deb http://ppa.launchpad.net/ubuntulite/ubuntu hardy main

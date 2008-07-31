@@ -1,0 +1,9 @@
+#!/bin/dash
+export DISPLAY=:0
+export GTK_IM_MODULE=scim
+/usr/lib/xulrunner-1.9.0.1/run-mozilla.sh /usr/lib/xulrunner-1.9.0.1/xulrunner-bin /usr/share/prism/application.ini -webapp plate.ui@prism.app & 
+/usr/bin/scim -d &
+if grep bootchart /proc/cmdline 2>/dev/null; then
+/usr/bin/sudo /usr/bin/killall bootchart-lite
+fi
+/usr/bin/matchbox-window-manager -use_titlebar no -use_desktop_mode plain

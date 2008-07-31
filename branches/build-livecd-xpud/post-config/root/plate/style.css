@@ -1,0 +1,244 @@
+a
+{
+    text-decoration: none;
+    color: rgb(92, 118, 132);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+body {
+    background: #2E598D; /*rgb(204, 0, 51);*/
+    font-family: dejavu sans; 
+	/*background: url(image/sunflower.jpg) top left no-repeat;*/
+}
+
+img {
+    margin-bottom: 20px; 
+    border: 0;
+	vertical-align: middle;
+}
+
+
+.banner {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+	height: 90px;
+	background: rgb(252, 254, 252);
+	-moz-border-radius: 12px;
+}
+
+.banner h1 {
+    color: rgb(92, 118, 132);
+}
+
+.bar {
+    position: absolute; 
+    width: 100px; top: 30%; height: 30px; right: 1px;
+	margin-right: 5px; padding: 5px;
+	border: 2px rgb(252, 254, 252) solid;
+	-moz-border-radius: 12px;
+}
+
+.bar img {
+    margin: 0;
+	margin-right: 10px;
+	float: left;
+}
+
+.bar p {
+    position: relative;
+	top: -10px;
+}
+
+.bar:hover {
+    border: 2px rgb(92, 118, 132) outset; 
+}
+
+.status {
+    background: rgb(226, 255, 222);
+	border: 1px rgb(148,226,164) solid;
+	margin: 20px;
+	margin-right: 80px;
+	margin-top: 15px;
+/*	width: 93%; */
+	height: 22%;
+	-moz-border-radius: 12px;
+	padding: 10px;
+	margin-bottom: 35px;
+}
+
+.main {
+    position: absolute;
+	left: 150px;
+	top: 10px;
+	/*top: 110px;*/
+    right: 10px;
+    bottom: 10px;
+	background: rgb(252, 254, 252);
+	-moz-border-radius: 12px;
+	
+	/*opacity: .8;
+	filter: alpha(opacity=80);*/
+}
+
+.main h1 {
+    color: rgb(92, 118, 132);
+}
+
+.task {
+    position: relative; 
+/*	top: -15px;
+    margin-left: 5%;
+	width: 32%;
+	height: 13%; */
+	padding: 5px;
+	padding-bottom: 0px;
+	height: 70px;
+/*	padding-top: 20px;
+	padding-left: 50px;
+	float: left;*/
+	border: 2px rgb(252, 254, 252) solid; 
+/*	background: rgb(252, 254, 252); */
+}
+
+.task strong { 
+    font-weight: 900; 
+	font-size: 120%; 
+/*	line-height: 1.8;*/
+}
+
+.task:hover {
+    border: 2px rgb(92, 118, 132) solid; 
+}
+
+.task p {
+    position: relative;
+	top: -20px;
+}
+
+.task img {
+/*    width: 35px;
+ */
+	margin-right: 15px;
+	float: left;
+	margin-bottom: 10px; 
+}
+
+
+.label {
+    position: absolute; 
+	text-align: center; 
+	font-size: 120%; 
+	margin: 10%; 
+	margin-left: 24%;
+	font-weight: bold;
+}
+
+.panel {
+    position: absolute;
+	top: 10px;
+/*	top: 110px;
+	bottom: 10px;
+ */
+        height: 440px;
+	width: 142px;
+	background: #2E598D; /*rgb(204, 0, 51);*/
+}
+
+.button {
+    position: relative;
+	background: #2E598D; /*rgb(204, 0, 51);*/
+	-moz-border-radius: 12px;
+	top: 0px;
+        left: 0px;
+	right: 0px; 
+	height: 130px;
+	color: white;
+	text-align: center;
+}
+
+.button img {
+	margin-top: 5%;
+    text-align: center;
+}
+.button_selected img {
+    margin-top: 5%;
+    text-align: center;
+}
+
+.button_selected {
+    position: relative;
+	background: rgb(252, 254, 252);
+	-moz-border-radius: 12px;
+	top: 0px;
+	left: 0px;
+	right: 0px; 
+	height: 130px;
+        text-align: center;
+	color: black; /* rgb(92, 118, 132);
+ */
+}
+
+.tab1 {
+    position: absolute;
+	top: 0px;
+	left: 10px;
+	right: -10px;
+	height: 160px;
+	background: rgb(252, 254, 252);
+}
+
+.tab2 {
+    position: absolute;
+	top: 120px;
+	left: 10px;
+	right: -10px;
+	height: 160px;
+	background: rgb(252, 254, 252);
+}
+
+.tab3 {
+    position: absolute;
+	top: 250px;
+	left: 10px;
+	right: -10px;
+	height: 160px;
+	background: rgb(252, 254, 252);
+}
+
+.tab4 {
+    position: absolute;
+	top: 380px;
+	left: 10px;
+	right: -10px;
+	height: 160px;
+	background: rgb(252, 254, 252);
+}
+
+.off {
+    display: none;
+}
+
+.slot {
+    position: absolute;
+	background: #2E598D; /*rgb(204, 0, 51);*/
+	-moz-border-radius: 20px;
+	top: 520px;
+	left: -10px;
+	right: -0px;
+	height: 50px;
+}
+
+.clock {
+	position: absolute; 
+	bottom: 10px; 
+	left: 30px; 
+	font-size: 120%; 
+	border: 0;
+	background: #2E598D; /*rgb(204, 0, 51);*/  
+	color: white;
+}
