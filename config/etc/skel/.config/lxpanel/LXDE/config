@@ -1,3 +1,0 @@
-[Command]
-FileManager=thunar %s
-Terminal=xfce4-terminal -e

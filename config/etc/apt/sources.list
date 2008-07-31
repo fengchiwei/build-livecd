@@ -1,59 +1,6 @@
-## Feisty Fawn - Officials Repos
-
-#deb http://tw.archive.ubuntu.com/ubuntu/ hardy universe main
-#deb http://tw.archive.ubuntu.com/ubuntu/ hardy-updates universe main
-#deb http://tw.archive.ubuntu.com/ubuntu/ hardy-security universe main
-#deb http://tw.archive.ubuntu.com/ubuntu/ hardy-backports universe main
-deb http://ppa.launchpad.net/ubuntu-mobile/ubuntu hardy main
-
-#deb http://192.168.1.11/ubuntu/ hardy universe main multiverse
-#deb http://192.168.1.11/ubuntu/ hardy-updates universe main
-#deb http://192.168.1.11/ubuntu/ hardy-security universe main
-#deb http://192.168.1.11/ubuntu/ hardy-backports universe main
-#deb http://192.168.1.11/ubuntu/ hardy-proposed universe main
-
-deb http://archive.ubuntu.com/ubuntu/ hardy universe main multiverse
-deb http://archive.ubuntu.com/ubuntu/ hardy-updates universe main multiverse
-deb http://archive.ubuntu.com/ubuntu/ hardy-security universe main
-deb http://archive.ubuntu.com/ubuntu/ hardy-backports universe main
-deb http://archive.ubuntu.com/ubuntu/ hardy-proposed universe main
-
-# LXDE repo 
-deb http://people.linux.org.tw/~pcman/ubuntu/ ./
-#deb http://people.linux.org.tw/~andrew/debian/lxde/ ./
-deb http://ppa.launchpad.net/lxde/ubuntu hardy main
-
-## Base
-#deb http://tw.archive.ubuntu.com/ubuntu/ hardy universe main multiverse # restricted
-#deb-src http://tw.archive.ubuntu.com/ubuntu/ hardy universe main multiverse restricted
-
-## Updates
-#deb http://tw.archive.ubuntu.com/ubuntu/ hardy-updates universe main # multiverse restricted
-#deb-src http://tw.archive.ubuntu.com/ubuntu/ hardy-updates universe main multiverse restricted
-
-## Security
-#deb http://tw.archive.ubuntu.com/ubuntu/ hardy-security universe main # restricted multiverse
-#deb-src http://tw.archive.ubuntu.com/ubuntu hardy-security main restricted universe multiverse
-
-## Backports
-#deb http://tw.archive.ubuntu.com/ubuntu/ hardy-backports universe main # multiverse restricted
-#deb-src http://tw.archive.ubuntu.com/ubuntu/ hardy-backports universe main multiverse restricted
-
-## Proposed
-#deb http://tw.archive.ubuntu.com/ubuntu/ hardy-proposed universe main # multiverse restricted
-#deb-src http://tw.archive.ubuntu.com/ubuntu/ hardy-proposed universe main multiverse restricted
-
-#deb http://people.linux.org.tw/~andrew/debian/lxde/ ./
-
-deb http://tw.archive.ubuntu.com/ubuntu/ gutsy main universe
-deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-security main universe
-deb http://tw.archive.ubuntu.com/ubuntu/ gutsy-updates universe main
-
-#deb http://192.168.1.11/ubuntu/ gutsy universe main multiverse
-#deb http://192.168.1.11/ubuntu/ gutsy-security universe main
-#deb http://192.168.1.11/ubuntu/ gutsy-updates universe main
-
-deb http://debian.o-hand.com gutsy/
-
-#deb http://tw.archive.ubuntu.com/ubuntu/ feisty universe main
-#deb http://unicap-imaging.org/packages gutsy main contrib
+deb http://tw.archive.ubuntu.com/ubuntu/ hardy main universe restricted multiverse
+deb http://tw.archive.ubuntu.com/ubuntu/ hardy-updates main universe restricted multiverse
+deb http://tw.archive.ubuntu.com/ubuntu/ hardy-security main universe restricted multiverse
+deb http://tw.archive.ubuntu.com/ubuntu/ hardy-backports main universe restricted multiverse
+deb http://packages.medibuntu.org/ hardy free non-free
+deb http://ppa.launchpad.net/ubuntulite/ubuntu hardy main

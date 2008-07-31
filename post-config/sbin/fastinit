@@ -1,0 +1,5 @@
+#!/bin/bash
+
+. /cdrom/boot/fastinit
+
+exit 0

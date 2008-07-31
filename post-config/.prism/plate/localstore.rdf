@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="chrome://webrunner/content/install-shortcut.xul#install-shortcut"
+                   screenX="137"
+                   screenY="114" />
+  <RDF:Description RDF:about="chrome://webrunner/content/install-shortcut.xul">
+    <NC:persist RDF:resource="chrome://webrunner/content/install-shortcut.xul#install-shortcut"/>
+  </RDF:Description>
+</RDF:RDF>

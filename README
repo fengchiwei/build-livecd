@@ -1,1 +1,19 @@
-perl build-livecd.pl 2>&1 | tee -a ../pud_builddir/livecd.log
+This is a binary-level build script 
+for xPUD project <http://xpud.org>
+
+USAGE:
+
+    sudo ./build-livecd.sh 2>&1 | tee -a build.log 
+
+STRUCTURE:
+
+	build-livecd-xpud/
+	|-- README 		- this file 
+	|-- build-livecd.sh	- build script 
+	|-- cdrom		- build result and kernel 
+	|-- config		- pre-install configurations 
+	|-- install.txt		- packages list 
+	|-- post-config		- post-install configurations
+	`-- remove.txt		- files to cleanup
+
+Pin-Shiun Chen (penkia) <penkia@gmail.com>

@@ -1,0 +1,67 @@
+Generated File. Do not edit.
+
+[HEADER]
+Version:0.09:$
+
+[PLUGINS]
+/root/.mozilla/plugins/libflashplayer.so:$
+:$
+1195543440000:1:5:$
+Shockwave Flash 9.0 r115:$
+Shockwave Flash:$
+2
+0:application/x-shockwave-flash:Shockwave Flash:swf:$
+1:application/futuresplash:FutureSplash Player:spl:$
+/root/.mozilla/plugins/libdiamondx.so:$
+:$
+1208993179000:1:5:$
+Plugin that tests XEmbed capabilities:$
+DiamondX Plugin:$
+1
+0:application/x-diamondx:Plugin to test browser XEmbed capabilities:diamondx:$
+/usr/lib/mozilla/plugins/libvlcplugin.so:$
+:$
+1204850138000:1:5:$
+Version 0.8.6d Janus, copyright 1996-2007 The VideoLAN Team<br><a href="http://www.videolan.org/">http://www.videolan.org/</a>:$
+VLC Multimedia Plugin:$
+26
+0:audio/mpeg:MPEG audio:mp2,mp3,mpga,mpega:$
+1:audio/x-mpeg:MPEG audio:mp2,mp3,mpga,mpega:$
+2:video/mpeg:MPEG video:mpg,mpeg,mpe:$
+3:video/x-mpeg:MPEG video:mpg,mpeg,mpe:$
+4:video/mpeg-system:MPEG video:mpg,mpeg,mpe,vob:$
+5:video/x-mpeg-system:MPEG video:mpg,mpeg,mpe,vob:$
+6:video/mpeg4:MPEG-4 video:mp4,mpg4:$
+7:audio/mpeg4:MPEG-4 audio:mp4,mpg4:$
+8:application/mpeg4-iod:MPEG-4 video:mp4,mpg4:$
+9:application/mpeg4-muxcodetable:MPEG-4 video:mp4,mpg4:$
+10:video/x-msvideo:AVI video:avi:$
+11:video/quicktime:QuickTime video:mov,qt:$
+12:application/x-ogg:Ogg stream:ogg:$
+13:application/ogg:Ogg stream:ogg:$
+14:application/x-vlc-plugin:VLC plugin:vlc:$
+15:video/x-ms-asf-plugin:Windows Media Video:asf,asx:$
+16:video/x-ms-asf:Windows Media Video:asf,asx:$
+17:application/x-mplayer2:Windows Media::$
+18:video/x-ms-wmv:Windows Media:wmv:$
+19:application/x-google-vlc-plugin:Google VLC plugin::$
+20:audio/wav:WAV audio:wav:$
+21:audio/x-wav:WAV audio:wav:$
+22:audio/3gpp:3GPP audio:3gp,3gpp:$
+23:video/3gpp:3GPP video:3gp,3gpp:$
+24:audio/3gpp2:3GPP2 audio:3g2,3gpp2:$
+25:video/3gpp2:3GPP2 video:3g2,3gpp2:$
+/usr/lib/xulrunner-addons/plugins/libunixprintplugin.so:$
+:$
+1213112997000:1:5:$
+The demo print plugin for unix.:$
+Demo Print Plugin for unix/linux:$
+1
+0:application/x-print-unix-nsplugin:Demo Print Plugin for Unix/Linux:.pnt:$
+/usr/lib/xulrunner-addons/plugins/libnullplugin.so:$
+:$
+1213112997000:1:5:$
+The default plugin handles plugin data for mimetypes and extensions that are not specified and facilitates downloading of new plugins.:$
+Default Plugin:$
+1
+0:*:All types:.*:$
