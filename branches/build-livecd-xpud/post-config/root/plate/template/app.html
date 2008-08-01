@@ -11,6 +11,7 @@ a:hover { text-decoration: none; }
 <script type="text/javascript" src="../plate.js" ></script>
 </head>
 <body style="margin-left: 10px; background: white; ">
+<div id="wrapper">
 
 <h2>Applications</h2>
 
@@ -18,40 +19,28 @@ a:hover { text-decoration: none; }
 <tr>
 <td style="width: 25%;">
 
-<a href="#" onclick="system('firefox -P xpud')">
+<a href="/root/plate/xpud.html'">
 <div class="task">
 <img src="../image/firefox4.png" width="64px" />
 <p><strong>Web Browser</strong><br />firefox</p>
 </div>
 </a>
-
 </td>
+
 <td style="width: 25%;">
 
-<a href="#" onclick="system('gmplayer')">
-<div class="task">
-<img src="../image/noatun.png" width="64px" />
-<p><strong>Media Player</strong><br />mplayer</p>
-</div>
-</a>
-
-</td>
-<td style="width: 25%;">
-
-<a href="#" onclick="system('lilyterm')">
+<a href="#" onclick="$('wrapper').innerHTML ='<embed src=/root/plate/utils/xterm.pud1 width=100% height=100% />'">
 <div class="task">
 <img src="../image/konsole.png" width="64px" />
-<p><strong>Terminal</strong><br />lilyterm</p>
+<p><strong>Terminal</strong><br />xterm</p>
 </div>
 </a>
 
 </td>
-</tr>
 
-<tr>
 <td style="width: 25%;">
 
-<a href="#" onclick="system('leafpad')">
+<a href="#" onclick="$('wrapper').innerHTML ='<embed src=/root/plate/utils/leafpad.pud2 width=100% height=100% />'">
 <div class="task">
 <img src="../image/kedit.png" width="64px" />
 <p><strong>Text Editor</strong><br />leafpad</p>
@@ -59,19 +48,8 @@ a:hover { text-decoration: none; }
 </a>
 
 </td>
-<td style="width: 25%;">
-
-
-</td>
-<td style="width: 25%;">
-
-
-</td>
 </tr>
 </table>
-
-<p style="position: absolute; right: 50px; margin-top: 50px;">...or get more from 
-<a href="http://pud-linux.sf.net/opt.en.html">here</a>.</p>
-
+</div>
 </body>
 </html>
