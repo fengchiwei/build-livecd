@@ -4,6 +4,7 @@ export LC_ALL=C
 export LANG=C
 dir=system
 
+mkdir -p ${dir}
 debootstrap --arch i386 hardy ${dir}/ http://tw.archive.ubuntu.com/ubuntu
 
 cp -ap config/* ${dir}/
