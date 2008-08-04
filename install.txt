@@ -7,3 +7,4 @@ matchbox-window-manager firefox mplayer prism
 leafpad libvte9
 lxtask hardinfo pm-utils gpicview
 x11-xserver-utils 915resolution
+m4 mozplugger
