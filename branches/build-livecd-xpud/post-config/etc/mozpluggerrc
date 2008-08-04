@@ -98,7 +98,7 @@ define(GV,[GV_FLAGS(): gv GV_OPTS() "$file"])
 ###################
 
 plate/pud1:pud1:xPUD wrapper file
-	repeat noisy swallow(xterm): xterm
+	repeat noisy swallow(lilyterm): lilyterm
 
 plate/pud2:pud2:xPUD wrapper file
 	repeat noisy swallow(leafpad): leafpad
