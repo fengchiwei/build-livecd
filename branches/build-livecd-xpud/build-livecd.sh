@@ -28,8 +28,8 @@ find ${dir}/usr/lib/python2.5/ -name *.py -exec rm -f {} \;
 rm -rf ${dir}/var/lib/apt/lists
 mkdir -p ${dir}/var/lib/apt/lists/partial
 
-rm -rf ${dir}/lib/modules/2.6*
-cp -r 2.6* ${dir}/lib/modules/
+#rm -rf ${dir}/lib/modules/2.6*
+#cp -r 2.6* ${dir}/lib/modules/
 
 for i in `cat remove.txt`; do 
 rm -rf ${dir}/$i
