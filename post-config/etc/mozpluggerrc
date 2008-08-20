@@ -103,6 +103,12 @@ plate/pud1:pud1:xPUD wrapper file
 plate/pud2:pud2:xPUD wrapper file
 	repeat noisy swallow(leafpad): leafpad
 
+plate/pud3:pud3:xPUD wrapper file
+	repeat noisy swallow(VLC): wxvlc
+
+plate/pud4:pud3:xPUD wrapper file
+	repeat noisy swallow(firefox): firefox
+
 ###################
 ### Video       ###
 ###################
