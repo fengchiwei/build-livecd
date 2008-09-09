@@ -1,10 +1,1 @@
-debconf-english
-alsa-base alsa-utils
-gtk2-engines gtk2-engines-pixbuf
-ntfs-3g pppoeconf linux-image-generic
-scim-chewing scim-gtk2-immodule
-matchbox-window-manager firefox mplayer prism
-leafpad libvte9
-lxtask hardinfo pm-utils gpicview
-x11-xserver-utils 915resolution
-m4 mozplugger
+debconf-english alsa-base alsa-utils gtk2-engines gtk2-engines-pixbuf ntfs-3g pppoeconf linux-image-generic scim-chewing scim-gtk2-immodule matchbox-window-manager firefox vlc prism leafpad libvte9 lxtask hardinfo pm-utils gpicview x11-xserver-utils 915resolution m4 mozplugger ndiswrapper-utils-1.9 stalonetray pcmanfm 
